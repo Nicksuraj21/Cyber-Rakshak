@@ -843,9 +843,335 @@
             color: #10b981;
         }
 
-        .btn-table-unblock:hover {
+        /* Risk Badges & Flow Formatting */
+        .eg-risk-normal { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+        .eg-risk-warning { background: rgba(245, 158, 11, 0.15); color: #d97706; }
+        .eg-risk-high { background: rgba(236, 72, 153, 0.15); color: #ec4899; }
+        .eg-risk-critical { background: #ef4444; color: #ffffff; }
+        .eg-risk {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border-radius: 9999px;
+            padding: 3px 9px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .eg-confidence {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-left: 5px;
+            font-weight: 600;
+        }
+        .eg-site {
+            max-width: 280px;
+            white-space: normal;
+            line-height: 1.3;
+        }
+        .eg-site-main {
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 12.5px;
+            word-break: break-all;
+        }
+        .eg-site-sub {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 2px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .eg-action-btn {
+            border: 1px solid var(--border);
+            background: var(--bg-surface);
+            color: var(--text-main);
+            border-radius: 8px;
+            padding: 5px 10px;
+            font-weight: 700;
+            font-size: 11px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+        .eg-action-btn:hover {
+            background: var(--bg-hover);
+        }
+        .eg-action-btn.block {
+            background: rgba(239, 68, 68, 0.12);
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+        .eg-action-btn.block:hover {
+            background: #ef4444;
+            color: #ffffff;
+        }
+        .eg-action-btn.unblock {
+            background: rgba(16, 185, 129, 0.12);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        .eg-action-btn.unblock:hover {
             background: #10b981;
             color: #ffffff;
+        }
+
+        /* Floating Network Control Button */
+        .floating-network-btn {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            z-index: 9998;
+            border: none;
+            border-radius: 9999px;
+            padding: 11px 18px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .floating-network-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(37, 99, 235, 0.45);
+        }
+        .floating-network-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Network Control Modal & Drawer */
+        .network-control-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(6px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: var(--transition-smooth);
+        }
+        .network-control-modal.open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        .network-control-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            width: 92%;
+            max-width: 520px;
+            max-height: 88vh;
+            box-shadow: var(--shadow-lg);
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            transform: scale(0.95);
+            transition: var(--transition-smooth);
+        }
+        .network-control-modal.open .network-control-box {
+            transform: scale(1);
+        }
+        .network-control-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+        .head-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .ctrl-icon-bubble {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: rgba(37, 99, 235, 0.12);
+            color: var(--brand-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .head-title-wrap h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 0;
+        }
+        .head-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin: 2px 0 0 0;
+        }
+        .btn-ctrl-close {
+            background: transparent;
+            border: none;
+            font-size: 17px;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+        }
+        .network-status-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            margin: 8px 0 14px 0;
+        }
+        .net-status-card {
+            padding: 9px 11px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--bg-surface-subtle);
+        }
+        .net-status-card b {
+            display: block;
+            font-size: 9.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+        .net-status-card span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .ctrl-input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .ctrl-field-row {
+            display: flex;
+            gap: 8px;
+        }
+        .ctrl-input-elem {
+            flex: 1;
+            min-width: 0;
+            padding: 9px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-surface-subtle);
+            color: var(--text-main);
+            font-size: 12.5px;
+            outline: none;
+        }
+        .ctrl-input-elem:focus {
+            border-color: var(--brand-primary);
+        }
+        .btn-ctrl-action {
+            padding: 9px 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+        .btn-ctrl-block {
+            background: #ef4444;
+            color: #ffffff;
+        }
+        .btn-ctrl-block:hover {
+            opacity: 0.92;
+        }
+        .ctrl-toggles-section {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 12px;
+            padding: 10px 12px;
+            background: var(--bg-surface-subtle);
+            border: 1px solid var(--border);
+            border-radius: 11px;
+        }
+        .ctrl-toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+        }
+        .toggle-txt-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+        .toggle-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .toggle-hint {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+        .btn-switch-pill {
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 10.5px;
+            font-weight: 800;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--bg-hover);
+            color: var(--text-muted);
+            transition: var(--transition-smooth);
+        }
+        .btn-switch-pill.active {
+            background: #10b981;
+            color: #ffffff;
+            border-color: #10b981;
+        }
+        .rules-scroll-area {
+            border-top: 1px solid var(--border);
+            padding-top: 10px;
+            margin-top: 6px;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+        .ctrl-row-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 12px;
+        }
+        .ctrl-footer-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            font-size: 10.5px;
+            color: var(--text-muted);
+            margin-top: 12px;
+            line-height: 1.4;
+        }
+        .ctrl-footer-note i {
+            color: var(--brand-primary);
+            margin-top: 2px;
+            flex-shrink: 0;
         }
 
         /* Table Pagination & Load More */
@@ -1664,7 +1990,7 @@
         </div>
     </div>
 
-    <!-- Summary KPI Cards (2x2 on Mobile, 4x1 on Desktop) -->
+    <!-- Summary KPI Cards (2x2 on Mobile, 5x1 on Desktop) -->
     <div class="kpi-grid">
         <div class="kpi-card">
             <div class="kpi-details">
@@ -1672,6 +1998,14 @@
                 <div class="kpi-num" id="totalScannedVal">438</div>
             </div>
             <div class="kpi-icon-bubble kpi-blue"><i class="fa-solid fa-network-wired"></i></div>
+        </div>
+        
+        <div class="kpi-card">
+            <div class="kpi-details">
+                <h4>Normal Flows</h4>
+                <div class="kpi-num" id="normalFlowsVal" style="color: #06b6d4;">420</div>
+            </div>
+            <div class="kpi-icon-bubble kpi-blue"><i class="fa-solid fa-circle-check"></i></div>
         </div>
         
         <div class="kpi-card">
@@ -1803,15 +2137,16 @@
                 <thead>
                     <tr>
                         <th>Timestamp</th>
-                        <th>IP Address</th>
-                        <th>CPU</th>
-                        <th>Memory</th>
-                        <th>Type</th>
+                        <th>Client IP</th>
+                        <th>Website / DNS</th>
+                        <th>Protocol</th>
+                        <th>Risk</th>
                         <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="liveActivityTbody">
-                    <tr><td colspan="6" class="empty-placeholder"><i class="fa-solid fa-spinner fa-spin"></i> Initializing network stream...</td></tr>
+                    <tr><td colspan="7" class="empty-placeholder"><i class="fa-solid fa-spinner fa-spin"></i> Initializing network stream...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -2092,6 +2427,98 @@
             <i class="fa-solid fa-bolt"></i>
             <span>Inject Threat Simulation</span>
         </button>
+    </div>
+</div>
+
+<!-- Floating Network Control Trigger Button -->
+<button class="floating-network-btn" id="crNetworkControlBtn" onclick="crToggleNetworkPanel()" title="Open Network Firewall Control">
+    <i class="fa-solid fa-shield-halved"></i>
+    <span>Network Control</span>
+</button>
+
+<!-- Network Control Modal -->
+<div class="network-control-modal" id="crNetworkPanel" onclick="if(event.target===this)crToggleNetworkPanel(false)">
+    <div class="network-control-box" onclick="event.stopPropagation()">
+        <div class="network-control-head">
+            <div class="head-title-wrap">
+                <div class="ctrl-icon-bubble">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div>
+                    <h3>Cyber Rakshak Network Control</h3>
+                    <p class="head-sub">Active Firewall & Inline Deep Packet Inspection Engine</p>
+                </div>
+            </div>
+            <button class="btn-ctrl-close" onclick="crToggleNetworkPanel(false)" aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Live Network Status Grid -->
+        <div class="network-status-grid" id="crNetworkStatus">
+            <div class="net-status-card">
+                <b>WAN Interface</b>
+                <span id="crWan">wlan0 (192.168.1.100)</span>
+            </div>
+            <div class="net-status-card">
+                <b>LAN Interface</b>
+                <span id="crLan">eth0 (10.0.0.1/24)</span>
+            </div>
+            <div class="net-status-card">
+                <b>Packet Capture</b>
+                <span id="crCapture">eth0 (Inline)</span>
+            </div>
+            <div class="net-status-card">
+                <b>IP Forwarding</b>
+                <span id="crForward" style="color: #10b981;">ON (Active)</span>
+            </div>
+        </div>
+
+        <!-- IP & Domain Blocking Input Form -->
+        <div class="ctrl-input-section">
+            <div class="ctrl-field-row">
+                <input id="crIpInput" class="ctrl-input-elem" placeholder="Block IP, e.g. 198.51.100.44">
+                <button class="btn-ctrl-action btn-ctrl-block" onclick="crBlockIp()">
+                    <i class="fa-solid fa-ban"></i> Block IP
+                </button>
+            </div>
+            <div class="ctrl-field-row">
+                <input id="crDomainInput" class="ctrl-input-elem" placeholder="Block Website / Domain, e.g. tracker.com">
+                <button class="btn-ctrl-action btn-ctrl-block" onclick="crBlockDomain()">
+                    <i class="fa-solid fa-globe"></i> Block Site
+                </button>
+            </div>
+        </div>
+
+        <!-- Firewall Feature Toggles -->
+        <div class="ctrl-toggles-section">
+            <div class="ctrl-toggle-row">
+                <div class="toggle-txt-group">
+                    <span class="toggle-label">Automatic Threat Blocking</span>
+                    <span class="toggle-hint">Auto-mitigate high/critical risk attacks instantly</span>
+                </div>
+                <button id="crAutoBtn" class="btn-switch-pill active" onclick="crToggleAutoBlock()">ON</button>
+            </div>
+            <div class="ctrl-toggle-row">
+                <div class="toggle-txt-group">
+                    <span class="toggle-label">Hardware-Level Ad & Tracker Blocker</span>
+                    <span class="toggle-hint">Inline DNS sinkhole for telemetries & ad servers</span>
+                </div>
+                <button id="crAdBtn" class="btn-switch-pill active" onclick="crToggleAdBlock()">ON</button>
+            </div>
+        </div>
+
+        <!-- Blocked Rules List -->
+        <div class="rules-scroll-area" id="crRules">
+            <div style="font-size: 11px; color: var(--text-muted); text-align: center; padding: 12px 0;">
+                <i class="fa-solid fa-spinner fa-spin"></i> Loading firewall rules...
+            </div>
+        </div>
+
+        <div class="ctrl-footer-note">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Enforcement acts as the inline gateway. Domain blocking resolves IPv4 addresses and prevents malicious outbound DNS/TCP/UDP connections.</span>
+        </div>
     </div>
 </div>
 
@@ -2722,20 +3149,44 @@
     let prevTotalThreats = 0;
     let isInitialSync = true;
 
+    function esc(v) {
+        return String(v ?? '').replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
+    }
+
+    function riskClass(r) {
+        r = String(r || 'Normal');
+        if (r === 'Critical Risk' || r === 'Critical') return 'eg-risk-critical';
+        if (r === 'High Risk' || r === 'High') return 'eg-risk-high';
+        if (r === 'Warning' || r === 'Medium') return 'eg-risk-warning';
+        return 'eg-risk-normal';
+    }
+
+    function siteFor(log) {
+        const url = log.full_url || log['Full URL'] || '';
+        const tls = log.tls_sni || log['TLS SNI'] || '';
+        const dns = log.dns_query || log['DNS Query'] || '';
+        const host = log.http_host || log['HTTP Host'] || '';
+        const domain = log.domain || log.Domain || '';
+        return {
+            main: url || host || tls || domain || dns || 'Unknown / encrypted traffic',
+            sub: (tls ? `TLS: ${tls}` : (dns ? `DNS: ${dns}` : (host ? `Host: ${host}` : 'No hostname metadata')))
+        };
+    }
+
     async function fetchData() {
         try {
             const [metricsRes, logsRes, blockedRes, summaryRes] = await Promise.all([
-                fetch('/api/metrics').then(r => r.ok ? r.json() : []).catch(() => []),
-                fetch('/api/logs').then(r => r.ok ? r.json() : []).catch(() => []),
-                fetch('/api/blocked').then(r => r.ok ? r.json() : []).catch(() => []),
-                fetch('/api/summary').then(r => r.ok ? r.json() : null).catch(() => null)
+                fetch('/api/metrics', { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []),
+                fetch('/api/logs', { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []),
+                fetch('/api/blocked', { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []),
+                fetch('/api/summary', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null)
             ]);
 
             // 1. Performance Graphs
             if (Array.isArray(metricsRes) && metricsRes.length > 0) {
-                const times = metricsRes.map(m => m.time);
-                const cpuArr = metricsRes.map(m => m.cpu);
-                const latArr = metricsRes.map(m => m.latency);
+                const times = metricsRes.map(m => m.time || '');
+                const cpuArr = metricsRes.map(m => Number(m.cpu) || 0);
+                const latArr = metricsRes.map(m => Number(m.latency) || 0);
 
                 cpuChart.data.labels = times;
                 cpuChart.data.datasets[0].data = cpuArr;
@@ -2750,10 +3201,10 @@
                 if (cpuBadge) {
                     if (latestCpu > 80) {
                         cpuBadge.className = 'status-pill-badge badge-red-pill';
-                        cpuBadge.textContent = 'High Load (' + latestCpu + '%)';
+                        cpuBadge.textContent = 'High Load (' + latestCpu.toFixed(1) + '%)';
                     } else {
                         cpuBadge.className = 'status-pill-badge badge-cyan-pill';
-                        cpuBadge.textContent = 'Normal (' + latestCpu + '%)';
+                        cpuBadge.textContent = 'Normal (' + latestCpu.toFixed(1) + '%)';
                     }
                 }
 
@@ -2764,25 +3215,39 @@
                 }
             }
 
-            // 2. Logs & Tables
-            if (Array.isArray(logsRes) && logsRes.length > 0) {
-                rawActivityLogs = logsRes;
-            }
-            if (Array.isArray(blockedRes) && blockedRes.length > 0) {
-                rawBlockedLogs = blockedRes;
+            // 2. Logs Normalization
+            rawActivityLogs = Array.isArray(logsRes)
+                ? logsRes
+                : (Array.isArray(logsRes?.live_logs) ? logsRes.live_logs : (Array.isArray(logsRes?.activity_logs) ? logsRes.activity_logs : (Array.isArray(logsRes?.logs) ? logsRes.logs : [])));
+
+            rawBlockedLogs = Array.isArray(blockedRes)
+                ? blockedRes
+                : (Array.isArray(blockedRes?.blocked_logs) ? blockedRes.blocked_logs : (Array.isArray(blockedRes?.logs) ? blockedRes.logs : (Array.isArray(blockedRes?.blocked) ? blockedRes.blocked : [])));
+
+            if (rawBlockedLogs.length === 0 && logsRes && !Array.isArray(logsRes) && Array.isArray(logsRes.blocked_logs)) {
+                rawBlockedLogs = logsRes.blocked_logs;
             }
 
-            const latestAct = rawActivityLogs[0] ? `${rawActivityLogs[0].time}_${rawActivityLogs[0].ip}_${rawActivityLogs[0].threat || ''}_${rawActivityLogs.length}` : '';
-            const latestBlk = rawBlockedLogs[0] ? `${rawBlockedLogs[0].time}_${rawBlockedLogs[0].ip}_${rawBlockedLogs[0].reason || ''}_${rawBlockedLogs.length}` : '';
-            const currentScanned = summaryRes ? (summaryRes.total_scanned || 0) : Math.max(430, rawActivityLogs.length * 15);
-            const currentThreats = summaryRes ? (summaryRes.threats_detected || 0) : rawBlockedLogs.length;
+            const uniqueBlockedIPs = new Set(rawBlockedLogs.map(x => x.ip || x.IP || x.source_ip || '').filter(Boolean));
+            const computedTotal = rawActivityLogs.length;
+            const computedThreats = rawBlockedLogs.length;
+            const computedNormal = Math.max(0, computedTotal - computedThreats);
+            const computedBlockedIPs = uniqueBlockedIPs.size;
 
-            // Trigger normal sound on every change in threats or network activity
+            const currentScanned = summaryRes ? Number(summaryRes.total_scanned ?? summaryRes.total_inspected ?? computedTotal) : Math.max(438, computedTotal);
+            const currentThreats = summaryRes ? Number(summaryRes.threats_detected ?? summaryRes.threat_count ?? computedThreats) : computedThreats;
+            const currentBlockedIPs = summaryRes ? Number(summaryRes.blocked_count ?? summaryRes.blocked_ips ?? computedBlockedIPs) : computedBlockedIPs;
+            const currentNormal = Math.max(0, currentScanned - currentThreats);
+
+            const latestAct = rawActivityLogs[0] ? `${rawActivityLogs[0].time || rawActivityLogs[0].timestamp || ''}_${rawActivityLogs[0].ip || ''}_${rawActivityLogs[0].threat || ''}_${rawActivityLogs.length}` : '';
+            const latestBlk = rawBlockedLogs[0] ? `${rawBlockedLogs[0].time || rawBlockedLogs[0].timestamp || ''}_${rawBlockedLogs[0].ip || ''}_${rawBlockedLogs[0].reason || ''}_${rawBlockedLogs.length}` : '';
+
+            // 3. Sound Feedback
             if (!isInitialSync) {
                 if (latestBlk !== prevLatestBlockedSig || currentThreats > prevTotalThreats) {
-                    playThreatAlert(); // Intercepted Threat Sound
+                    playThreatAlert();
                 } else if (latestAct !== prevLatestActivitySig || currentScanned > prevTotalScanned) {
-                    playNormalBeep(); // Normal Traffic Flow Sound
+                    playNormalBeep();
                 }
             } else {
                 isInitialSync = false;
@@ -2793,22 +3258,17 @@
             prevTotalScanned = currentScanned;
             prevTotalThreats = currentThreats;
 
+            // 4. Update Tables & Stats
             renderActivityTable();
             renderBlockedTable();
             updateThreatStats();
 
-            // 3. KPI Summaries
-            if (summaryRes) {
-                if (document.getElementById('totalScannedVal')) document.getElementById('totalScannedVal').textContent = summaryRes.total_scanned || rawActivityLogs.length;
-                if (document.getElementById('threatsCountVal')) document.getElementById('threatsCountVal').textContent = summaryRes.threats_detected || rawBlockedLogs.length;
-                if (document.getElementById('blockedCountVal')) document.getElementById('blockedCountVal').textContent = summaryRes.blocked_count || rawBlockedLogs.length;
-                if (document.getElementById('healthScoreVal')) document.getElementById('healthScoreVal').textContent = summaryRes.health_score || '99.8%';
-            } else {
-                if (document.getElementById('totalScannedVal')) document.getElementById('totalScannedVal').textContent = Math.max(430, rawActivityLogs.length * 15);
-                if (document.getElementById('threatsCountVal')) document.getElementById('threatsCountVal').textContent = rawBlockedLogs.length;
-                if (document.getElementById('blockedCountVal')) document.getElementById('blockedCountVal').textContent = rawBlockedLogs.length;
-                if (document.getElementById('healthScoreVal')) document.getElementById('healthScoreVal').textContent = '99.8%';
-            }
+            // 5. Update KPI Cards
+            if (document.getElementById('totalScannedVal')) document.getElementById('totalScannedVal').textContent = currentScanned;
+            if (document.getElementById('normalFlowsVal')) document.getElementById('normalFlowsVal').textContent = currentNormal;
+            if (document.getElementById('threatsCountVal')) document.getElementById('threatsCountVal').textContent = currentThreats;
+            if (document.getElementById('blockedCountVal')) document.getElementById('blockedCountVal').textContent = currentBlockedIPs;
+            if (document.getElementById('healthScoreVal')) document.getElementById('healthScoreVal').textContent = summaryRes?.health_score || '99.8%';
 
         } catch (e) {
             console.error('Polling error:', e);
@@ -2821,7 +3281,7 @@
         let zeroDays = 0;
 
         rawBlockedLogs.forEach(b => {
-            const reason = (b.reason || b.attack || '').toLowerCase();
+            const reason = String(b.reason || b.attack || b.threat || b.predicted_attack || '').toLowerCase();
             if (reason.includes('ddos') || reason.includes('syn') || reason.includes('slowloris')) counts['DDoS']++;
             else if (reason.includes('brute') || reason.includes('ssh')) counts['Brute Force']++;
             else if (reason.includes('sql')) counts['SQL Injection']++;
@@ -2829,7 +3289,7 @@
             else if (reason.includes('nmap') || reason.includes('scan')) counts['Port Scan']++;
             else counts['DDoS']++;
 
-            const sev = b.severity || 'High';
+            const sev = b.severity || b.Severity || 'High';
             if (sevCounts[sev] !== undefined) sevCounts[sev]++;
             else sevCounts['High']++;
         });
@@ -2846,7 +3306,16 @@
 
         // Update Zero Day Chart
         if (typeof zeroDayChart !== 'undefined' && zeroDayChart.data) {
-            zeroDayChart.data.datasets[0].data = [0, 0, 0, Math.max(0, zeroDays - 1), zeroDays];
+            const zeroDayEvents = rawBlockedLogs.filter(b => {
+                const r = String(b.reason || b.attack || b.threat || '').toLowerCase();
+                return r.includes('zero') || r.includes('anomaly');
+            }).slice(0, 5).reverse();
+
+            const zeroDayData = [0, 0, 0, 0, 0];
+            zeroDayEvents.forEach((_, i) => {
+                zeroDayData[5 - zeroDayEvents.length + i] = 1;
+            });
+            zeroDayChart.data.datasets[0].data = zeroDayData;
             zeroDayChart.update('none');
         }
         const zdBadge = document.getElementById('zeroDayBadge');
@@ -2860,19 +3329,20 @@
             severityChart.update('none');
         }
 
-        // Update Protocol Breakdown Chart dynamically
-        const protoCounts = { 'HTTP': 12, 'MQTT': 8, 'DNS': 6, 'SSH': 4, 'SSL/TLS': 5 };
+        // Update Protocol Breakdown Chart
+        const protoCounts = { 'HTTP': 0, 'MQTT': 0, 'DNS': 0, 'SSH': 0, 'SSL/TLS': 0 };
         rawActivityLogs.forEach(l => {
-            const t = (l.threat || l.request_type || '').toLowerCase();
-            if (t.includes('ssh')) protoCounts['SSH'] += 2;
-            else if (t.includes('sql') || t.includes('http') || t.includes('dos')) protoCounts['HTTP'] += 2;
-            else if (t.includes('mqtt')) protoCounts['MQTT'] += 2;
-            else if (t.includes('scan')) protoCounts['DNS'] += 2;
-            else protoCounts['SSL/TLS'] += 1;
+            const proto = String(l.protocol || l.proto || l.service || l.protocol_name || l.request_type || '').toLowerCase();
+            if (proto.includes('mqtt')) protoCounts['MQTT']++;
+            else if (proto.includes('dns')) protoCounts['DNS']++;
+            else if (proto.includes('ssh')) protoCounts['SSH']++;
+            else if (proto.includes('ssl') || proto.includes('tls') || proto.includes('https')) protoCounts['SSL/TLS']++;
+            else protoCounts['HTTP']++;
         });
+
         if (typeof protoChart !== 'undefined' && protoChart.data) {
             protoChart.data.datasets[0].data = [
-                protoCounts['HTTP'], protoCounts['MQTT'], protoCounts['DNS'], protoCounts['SSH'], protoCounts['SSL/TLS']
+                protoCounts['HTTP'] || 12, protoCounts['MQTT'] || 8, protoCounts['DNS'] || 6, protoCounts['SSH'] || 4, protoCounts['SSL/TLS'] || 5
             ];
             protoChart.update('none');
         }
@@ -2904,16 +3374,21 @@
 
     function renderActivityTable() {
         const tbody = document.getElementById('liveActivityTbody');
+        if (!tbody) return;
         const q = searchQuery.toLowerCase().trim();
         const filtered = rawActivityLogs.filter(log => {
-            if (!q) return true;
-            return (log.ip && log.ip.toLowerCase().includes(q)) ||
-                   (log.request_type && log.request_type.toLowerCase().includes(q)) ||
-                   (log.status && log.status.toLowerCase().includes(q));
+            const site = siteFor(log);
+            const blob = [
+                log.ip, log.IP, log.client_ip, log.peer_ip, log.dst_ip,
+                log.attack, log.threat, log.status, log.risk_level,
+                site.main, site.sub, log.request_type, log.proto, log.service
+            ].join(' ').toLowerCase();
+            return !q || blob.includes(q);
         });
 
         const displayedCount = Math.min(filtered.length, activityLimit);
-        document.getElementById('liveLogCount').textContent = displayedCount;
+        const countEl = document.getElementById('liveLogCount');
+        if (countEl) countEl.textContent = displayedCount;
 
         // Update Pagination Info & Buttons
         const footerInfo = document.getElementById('activityPaginationInfo');
@@ -2937,30 +3412,47 @@
         }
 
         if (filtered.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" class="empty-placeholder">No matching network activity records found.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" class="empty-placeholder">No matching network activity records found.</td></tr>';
             return;
         }
 
         tbody.innerHTML = filtered.slice(0, activityLimit).map(log => {
-            const req = log.request_type || 'GET';
-            let reqClass = 'm-get';
-            if (req === 'POST') reqClass = 'm-post';
-            else if (req === 'PUT') reqClass = 'm-put';
-            else if (req === 'DELETE') reqClass = 'm-delete';
+            const clientIp = log.client_ip || log.ip || log.IP || '—';
+            const peerIp = log.peer_ip || log.dst_ip || '';
+            const targetIp = peerIp || clientIp;
+            const site = siteFor(log);
+            const risk = log.risk_level || log.risk || 'Normal';
+            const status = log.status || log.Status || 'Normal';
+            const blocked = log.is_blocked === true || log.blocked === true || status === 'Blocked';
+            const proto = ((log.proto || 'tcp').toUpperCase() + '/' + (log.service || 'http')).replace('/-', '');
+            const conf = log.confidence != null ? `<span class="eg-confidence">${esc(log.confidence)}%</span>` : '';
 
-            const status = log.status || 'Normal';
-            let statusClass = 'status-tag-normal';
-            if (status === 'Suspicious') statusClass = 'status-tag-suspicious';
-            else if (status === 'Blocked') statusClass = 'status-tag-blocked';
+            let statusTagClass = 'status-tag-normal';
+            if (blocked) statusTagClass = 'status-tag-blocked';
+            else if (status === 'Detected' || status === 'Suspicious') statusTagClass = 'status-tag-suspicious';
 
             return `
                 <tr>
-                    <td class="mono-val">${log.time || ''}</td>
-                    <td class="mono-val" style="font-weight: 700;">${log.ip || '192.168.1.100'}</td>
-                    <td class="mono-val">${log.cpu || '2.5%'}</td>
-                    <td class="mono-val">${log.mem || '20.8MB'}</td>
-                    <td><span class="method-tag ${reqClass}">${req}</span></td>
-                    <td><span class="status-tag ${statusClass}"><span class="live-dot"></span>${status}</span></td>
+                    <td class="mono-val">${esc(log.time || log.timestamp || '')}</td>
+                    <td class="mono-val" style="font-weight: 700;">
+                        <div>Client: ${esc(clientIp)}</div>
+                        ${peerIp ? `<div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Peer: ${esc(peerIp)}</div>` : ''}
+                    </td>
+                    <td class="eg-site">
+                        <div class="eg-site-main">${esc(site.main)}</div>
+                        <div class="eg-site-sub">${esc(site.sub)}</div>
+                    </td>
+                    <td class="mono-val">${esc(proto)}</td>
+                    <td><span class="eg-risk ${riskClass(risk)}">${esc(risk)}</span>${conf}</td>
+                    <td><span class="status-tag ${statusTagClass}"><span class="live-dot"></span>${esc(status)}</span></td>
+                    <td>
+                        ${targetIp && targetIp !== '—' ? `
+                            <button class="eg-action-btn ${blocked ? 'unblock' : 'block'}" onclick="crToggleDetectedIP('${encodeURIComponent(targetIp)}', ${blocked})">
+                                <i class="fa-solid ${blocked ? 'fa-circle-check' : 'fa-ban'}"></i>
+                                ${blocked ? 'Unblock IP' : 'Block Destination'}
+                            </button>
+                        ` : '—'}
+                    </td>
                 </tr>
             `;
         }).join('');
@@ -2968,16 +3460,18 @@
 
     function renderBlockedTable() {
         const tbody = document.getElementById('blockedThreatsTbody');
+        if (!tbody) return;
         const q = searchQuery.toLowerCase().trim();
         const filtered = rawBlockedLogs.filter(log => {
             if (!q) return true;
-            return (log.ip && log.ip.toLowerCase().includes(q)) ||
-                   (log.severity && log.severity.toLowerCase().includes(q)) ||
-                   (log.reason && log.reason.toLowerCase().includes(q));
+            return ((log.ip || log.IP || '').toLowerCase().includes(q)) ||
+                   ((log.severity || log.Severity || '').toLowerCase().includes(q)) ||
+                   ((log.reason || log.Reason || log.attack || '').toLowerCase().includes(q));
         });
 
         const displayedCount = Math.min(filtered.length, blockedLimit);
-        document.getElementById('blockedThreatsCount').textContent = displayedCount;
+        const countEl = document.getElementById('blockedThreatsCount');
+        if (countEl) countEl.textContent = displayedCount;
 
         // Update Pagination Info & Buttons
         const footerInfo = document.getElementById('blockedPaginationInfo');
@@ -3006,13 +3500,13 @@
         }
 
         tbody.innerHTML = filtered.slice(0, blockedLimit).map(log => {
-            const req = log.request_type || 'POST';
+            const req = log.request_type || log['Request Type'] || 'POST';
             let reqClass = 'm-post';
             if (req === 'GET') reqClass = 'm-get';
             else if (req === 'PUT') reqClass = 'm-put';
             else if (req === 'DELETE') reqClass = 'm-delete';
 
-            const sev = log.severity || 'High';
+            const sev = log.severity || log.Severity || 'High';
             let sevClass = 'sev-high';
             if (sev === 'Critical') sevClass = 'sev-critical';
             else if (sev === 'Medium') sevClass = 'sev-medium';
@@ -3022,13 +3516,13 @@
 
             return `
                 <tr>
-                    <td class="mono-val">${log.time || ''}</td>
-                    <td class="mono-val" style="font-weight: 700; color: #ef4444;">${log.ip || ''}</td>
-                    <td><span class="method-tag ${reqClass}">${req}</span></td>
-                    <td><span class="sev-tag ${sevClass}">${sev}</span></td>
-                    <td style="font-weight: 600;">${log.reason || log.attack || 'Intrusion Vector'}</td>
+                    <td class="mono-val">${esc(log.time || log.timestamp || '')}</td>
+                    <td class="mono-val" style="font-weight: 700; color: #ef4444;">${esc(log.ip || log.IP || '')}</td>
+                    <td><span class="method-tag ${reqClass}">${esc(req)}</span></td>
+                    <td><span class="sev-tag ${sevClass}">${esc(sev)}</span></td>
+                    <td style="font-weight: 600;">${esc(log.reason || log.Reason || log.attack || 'Intrusion Vector')}</td>
                     <td>
-                        <button class="btn-table-block ${!isBlocked ? 'btn-table-unblock' : ''}" onclick="toggleBlock('${log.ip}', ${isBlocked})">
+                        <button class="btn-table-block ${!isBlocked ? 'btn-table-unblock' : ''}" onclick="toggleBlock('${esc(log.ip || log.IP || '')}', ${isBlocked})">
                             <i class="fa-solid ${isBlocked ? 'fa-ban' : 'fa-circle-check'}"></i>
                             ${isBlocked ? 'Permanent Block' : 'Unblocked'}
                         </button>
@@ -3055,6 +3549,7 @@
             const data = await res.json();
             showToast(data.message || 'IP rule updated successfully', 'fa-shield-halved');
             fetchData();
+            crRefreshRules();
         } catch (e) {
             showToast('Failed to change IP firewall rule', 'fa-triangle-exclamation');
         }
@@ -3145,6 +3640,206 @@
         window.location.href = '/';
     }
 
+    // ============================================================
+    // NETWORK CONTROL CONSOLE (FIREWALL, AD BLOCKER, DOMAIN RULES)
+    // ============================================================
+    async function crJson(url, opts = {}) {
+        const r = await fetch(url, { headers: { 'Content-Type': 'application/json' }, ...opts });
+        let d = {};
+        try { d = await r.json(); } catch(e) {}
+        if (!r.ok || d.ok === false) throw new Error(d.message || d.error || ('HTTP ' + r.status));
+        return d;
+    }
+
+    function crToggleNetworkPanel(forceState) {
+        const p = document.getElementById('crNetworkPanel');
+        if (!p) return;
+        const isOpen = typeof forceState === 'boolean' ? forceState : !p.classList.contains('open');
+        if (isOpen) {
+            p.classList.add('open');
+            crRefreshRules();
+            crNet();
+        } else {
+            p.classList.remove('open');
+        }
+    }
+
+    async function crBlockIp() {
+        const ip = (document.getElementById('crIpInput')?.value || '').trim();
+        if (!ip) return;
+        try {
+            const d = await crJson('/api/block_ip', { method: 'POST', body: JSON.stringify({ ip, direction: 'destination' }) });
+            showToast(d.message || `Blocked IP ${ip}`, 'fa-shield-halved');
+            if (document.getElementById('crIpInput')) document.getElementById('crIpInput').value = '';
+            crRefreshRules();
+            fetchData();
+        } catch(e) {
+            showToast(e.message, 'fa-triangle-exclamation');
+        }
+    }
+
+    async function crBlockDomain() {
+        const domain = (document.getElementById('crDomainInput')?.value || '').trim();
+        if (!domain) return;
+        try {
+            const d = await crJson('/api/block_domain', { method: 'POST', body: JSON.stringify({ domain }) });
+            showToast(d.message || `Blocked domain ${domain}`, 'fa-globe');
+            if (document.getElementById('crDomainInput')) document.getElementById('crDomainInput').value = '';
+            crRefreshRules();
+            fetchData();
+        } catch(e) {
+            showToast(e.message, 'fa-triangle-exclamation');
+        }
+    }
+
+    async function crUnblockIp(ip) {
+        try {
+            const d = await crJson('/api/unblock_ip', { method: 'POST', body: JSON.stringify({ ip }) });
+            showToast(d.message || `Unblocked IP ${ip}`, 'fa-circle-check');
+            crRefreshRules();
+            fetchData();
+        } catch(e) {
+            showToast(e.message, 'fa-triangle-exclamation');
+        }
+    }
+
+    async function crUnblockDomain(domain) {
+        try {
+            const d = await crJson('/api/unblock_domain', { method: 'POST', body: JSON.stringify({ domain }) });
+            showToast(d.message || `Unblocked domain ${domain}`, 'fa-circle-check');
+            crRefreshRules();
+            fetchData();
+        } catch(e) {
+            showToast(e.message, 'fa-triangle-exclamation');
+        }
+    }
+
+    async function crRecoverAll() {
+        if (!confirm('Recover and unblock all manually blocked destination IPs and domain rules?')) return;
+        try {
+            const d = await crJson('/api/firewall/recover_all', { method: 'POST' });
+            showToast(d.message || 'All firewall rules recovered', 'fa-shield-halved');
+            crRefreshRules();
+            fetchData();
+        } catch(e) {
+            showToast(e.message, 'fa-triangle-exclamation');
+        }
+    }
+
+    async function crToggleAutoBlock() {
+        try {
+            const s = await crJson('/api/firewall/status');
+            const next = !s.auto_block_enabled;
+            const d = await crJson('/api/firewall/auto_block', { method: 'POST', body: JSON.stringify({ enabled: next }) });
+            showToast(`Auto threat mitigation: ${next ? 'ENABLED' : 'DISABLED'}`, 'fa-bolt');
+            crRefreshRules();
+        } catch(e) {
+            showToast(e.message, 'fa-triangle-exclamation');
+        }
+    }
+
+    async function crToggleAdBlock() {
+        try {
+            const s = await crJson('/api/firewall/status');
+            const endpoint = s.adblock_enabled ? '/api/adblock/disable' : '/api/adblock/enable';
+            const d = await crJson(endpoint, { method: 'POST' });
+            showToast(d.message || 'Ad blocker updated', 'fa-shield-virus');
+            crRefreshRules();
+        } catch(e) {
+            showToast(e.message, 'fa-triangle-exclamation');
+        }
+    }
+
+    async function crRefreshRules() {
+        const rulesContainer = document.getElementById('crRules');
+        if (!rulesContainer) return;
+        try {
+            const [s, d] = await Promise.all([
+                crJson('/api/firewall/status'),
+                crJson('/api/blocked_domains')
+            ]);
+            
+            const autoBtn = document.getElementById('crAutoBtn');
+            if (autoBtn) {
+                autoBtn.textContent = s.auto_block_enabled ? 'ON' : 'OFF';
+                autoBtn.className = s.auto_block_enabled ? 'btn-switch-pill active' : 'btn-switch-pill';
+            }
+            
+            const adBtn = document.getElementById('crAdBtn');
+            if (adBtn) {
+                adBtn.textContent = s.adblock_enabled ? 'ON' : 'OFF';
+                adBtn.className = s.adblock_enabled ? 'btn-switch-pill active' : 'btn-switch-pill';
+            }
+            
+            let html = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.3px;">Blocked Destinations (IPs)</span>
+                    <button onclick="crRecoverAll()" style="background: var(--bg-hover); border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; color: var(--text-muted); cursor: pointer;"><i class="fa-solid fa-rotate-left"></i> Unblock All</button>
+                </div>
+            `;
+            
+            const ips = s.manual_blocked_ips || [];
+            if (ips.length === 0) {
+                html += `<div style="font-size: 11.5px; color: var(--text-muted); padding: 4px 0 8px 0;">No manually blocked destination IPs.</div>`;
+            } else {
+                for (const ip of ips) {
+                    html += `
+                        <div class="ctrl-row-item">
+                            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #ef4444;">${ip}</span>
+                            <button onclick="crUnblockIp('${ip}')" style="border: 1px solid var(--border); background: var(--bg-surface); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">Unblock</button>
+                        </div>
+                    `;
+                }
+            }
+            
+            html += `<div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.3px; margin: 12px 0 6px 0;">Blocked Domains & Ad Trackers</div>`;
+            const domains = d.domains || [];
+            if (domains.length === 0) {
+                html += `<div style="font-size: 11.5px; color: var(--text-muted); padding: 4px 0;">No active blocked domains.</div>`;
+            } else {
+                for (const dom of domains) {
+                    html += `
+                        <div class="ctrl-row-item">
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px;">${dom}</span>
+                            <button onclick="crUnblockDomain('${dom}')" style="border: 1px solid var(--border); background: var(--bg-surface); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">Unblock</button>
+                        </div>
+                    `;
+                }
+            }
+            rulesContainer.innerHTML = html;
+        } catch(e) {
+            rulesContainer.innerHTML = `<div style="font-size: 11px; color: #ef4444; padding: 6px 0;">Firewall API status unavailable: ${e.message}</div>`;
+        }
+    }
+
+    async function crNet() {
+        try {
+            const n = await crJson('/api/network');
+            if (document.getElementById('crWan')) document.getElementById('crWan').textContent = (n.wan_interface || 'wlan0') + ' (' + (n.wan_address || '192.168.1.100') + ')';
+            if (document.getElementById('crLan')) document.getElementById('crLan').textContent = (n.lan_interface || 'eth0') + ' (' + (n.lan_address || '10.0.0.1') + ')';
+            if (document.getElementById('crCapture')) document.getElementById('crCapture').textContent = (n.capture_interface || 'eth0') + ' (Inline DPI)';
+            if (document.getElementById('crForward')) {
+                document.getElementById('crForward').textContent = n.ip_forwarding ? 'ON (Active)' : 'OFF';
+                document.getElementById('crForward').style.color = n.ip_forwarding ? '#10b981' : '#ef4444';
+            }
+        } catch(e) {}
+    }
+
+    async function crToggleDetectedIP(encoded, blocked) {
+        const ip = decodeURIComponent(encoded);
+        const endpoint = blocked ? '/api/unblock_ip' : '/api/block_ip';
+        if (!blocked && !confirm(`Block destination ${ip}? Your local device network path will remain protected.`)) return;
+        try {
+            const payload = blocked ? { ip } : { ip, direction: 'destination' };
+            const d = await crJson(endpoint, { method: 'POST', body: JSON.stringify(payload) });
+            showToast(d.message || `Firewall rule updated for ${ip}`, 'fa-shield-halved');
+            fetchData();
+            crRefreshRules();
+        } catch(e) {
+            showToast(e.message, 'fa-triangle-exclamation');
+        }
+    }
+
     // Initial Load & Polling Interval
     applyTheme(currentTheme);
     updateDrawerControls();
@@ -3154,6 +3849,7 @@
     updateThreatStats();
     fetchData();
     setInterval(fetchData, 1800);
+    setInterval(crNet, 5000);
 </script>
 
 </body>

@@ -99,7 +99,10 @@ system_stats = []
 live_activity_logs = []
 blocked_threats = []
 blocked_ips = set()
-total_scanned_counter = 428
+blocked_domains = set(["doubleclick.net", "telemetry-track.io", "adservice.google.com"])
+auto_block_enabled = True
+adblock_enabled = True
+total_scanned_counter = 438
 total_threats_counter = 18
 
 _now = datetime.now()
@@ -113,18 +116,42 @@ for i in range(12, 0, -1):
         "latency": round(random.uniform(18.0, 42.0), 1)
     })
 
-# Pre-seed 15 recent flow logs
-sample_ips = ["192.168.1.102", "192.168.1.105", "192.168.1.114", "192.168.1.138", "192.168.1.174", "192.168.1.201", "10.0.4.12", "172.16.0.45"]
+# Pre-seed rich recent flow logs
+sample_clients = ["192.168.1.102", "192.168.1.105", "192.168.1.114", "192.168.1.138", "192.168.1.174", "192.168.1.201", "10.0.4.12", "172.16.0.45"]
+sample_site_catalogs = [
+    {"main": "https://github.com/session", "sub": "TLS: github.com", "domain": "github.com", "proto": "tcp", "service": "ssl", "risk": "Normal", "conf": 99.4, "peer": "140.82.121.4"},
+    {"main": "https://google.com/search?q=cybersecurity", "sub": "Host: google.com", "domain": "google.com", "proto": "tcp", "service": "http", "risk": "Normal", "conf": 99.8, "peer": "142.250.190.46"},
+    {"main": "https://aws.amazon.com/api/v2", "sub": "TLS: aws.amazon.com", "domain": "amazon.com", "proto": "tcp", "service": "ssl", "risk": "Normal", "conf": 98.9, "peer": "52.94.236.248"},
+    {"main": "dns.google (8.8.8.8)", "sub": "DNS: resolve a-record", "domain": "dns.google", "proto": "udp", "service": "dns", "risk": "Normal", "conf": 99.1, "peer": "8.8.8.8"},
+    {"main": "mqtt.iot-broker.local:1883", "sub": "MQTT: telemetry/publish", "domain": "iot-broker.local", "proto": "tcp", "service": "mqtt", "risk": "Normal", "conf": 97.6, "peer": "192.168.1.250"},
+    {"main": "http://198.51.100.44/login.php", "sub": "Host: 198.51.100.44", "domain": "198.51.100.44", "proto": "tcp", "service": "http", "risk": "High Risk", "conf": 99.2, "peer": "198.51.100.44"},
+    {"main": "http://45.33.32.156:80/flood", "sub": "Host: 45.33.32.156", "domain": "45.33.32.156", "proto": "tcp", "service": "http", "risk": "Critical Risk", "conf": 99.9, "peer": "45.33.32.156"},
+    {"main": "ssh://185.220.101.5:22", "sub": "SSH: Auth password probe", "domain": "185.220.101.5", "proto": "tcp", "service": "ssh", "risk": "High Risk", "conf": 98.5, "peer": "185.220.101.5"}
+]
+
 for i in range(15, 0, -1):
     _t_str = (_now - timedelta(seconds=i*3)).strftime("%I:%M:%S %p")
+    c_site = random.choice(sample_site_catalogs)
+    c_client = random.choice(sample_clients)
     live_activity_logs.append({
         "time": _t_str,
-        "ip": random.choice(sample_ips),
+        "client_ip": c_client,
+        "ip": c_client,
+        "peer_ip": c_site["peer"],
+        "full_url": c_site["main"],
+        "tls_sni": c_site["domain"],
+        "dns_query": c_site["domain"] if c_site["service"] == "dns" else "",
+        "http_host": c_site["domain"],
+        "proto": c_site["proto"],
+        "service": c_site["service"],
+        "risk_level": c_site["risk"],
+        "confidence": c_site["conf"],
         "cpu": f"{random.uniform(1.2, 6.5):.1f}%",
         "mem": f"{random.uniform(19.0, 22.5):.1f}MB",
         "request_type": random.choice(["GET", "POST", "PUT"]),
-        "status": "Normal",
-        "threat": "Normal"
+        "status": "Blocked" if "Risk" in c_site["risk"] else "Normal",
+        "threat": c_site["risk"],
+        "is_blocked": "Risk" in c_site["risk"]
     })
 
 # Pre-seed 4 blocked threats
@@ -192,21 +219,26 @@ def packet_sniffer():
     while True:
         try:
             total_scanned_counter += 1
-            ip_suffix = random.randint(1, 254)
-            source_ip = f"192.168.1.{ip_suffix}"
-            if random.random() < 0.3:
+            client_ip = f"192.168.1.{random.randint(100, 240)}"
+            c_site = random.choice(sample_site_catalogs)
+            source_ip = c_site["peer"]
+            if random.random() < 0.2:
                 source_ip = f"{random.randint(10, 220)}.{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}"
 
             method = random.choice(['GET', 'POST', 'PUT', 'DELETE'])
-            proto = random.choice(['tcp', 'udp', 'icmp'])
-            service = random.choice(normal_services)
-
+            proto = c_site["proto"]
+            service = c_site["service"]
             now_str = datetime.now().strftime("%I:%M:%S %p")
 
-            if source_ip in blocked_ips:
+            is_domain_blocked = any(d in c_site["domain"] for d in blocked_domains)
+            is_ip_blocked = source_ip in blocked_ips or client_ip in blocked_ips
+
+            if is_domain_blocked or is_ip_blocked:
                 status = "Blocked"
-                threat_name = "Blacklisted IP Access"
+                threat_name = "Blacklisted Website/IP" if is_domain_blocked else "Blacklisted IP Access"
                 severity = "High"
+                risk_level = "High Risk"
+                conf_score = 99.8
                 total_threats_counter += 1
             else:
                 sim_choice = random.choice(attack_simulation_pool)
@@ -214,6 +246,8 @@ def packet_sniffer():
                     status = "Normal"
                     threat_name = "Normal"
                     severity = "Low"
+                    risk_level = "Normal"
+                    conf_score = round(random.uniform(97.5, 99.9), 1)
                 else:
                     total_threats_counter += 1
                     urg = random.randint(1, 4) if "DOS" in sim_choice or "DDOS" in sim_choice else 0
@@ -231,8 +265,10 @@ def packet_sniffer():
                     )
                     threat_name = sim_choice if sim_choice in ['SQL Injection', 'Zero-Day'] else predicted
                     severity = SEVERITY_MAP.get(threat_name, 'Medium')
+                    risk_level = "Critical Risk" if severity == 'Critical' else ("High Risk" if severity == 'High' else "Warning")
+                    conf_score = round(random.uniform(96.0, 99.9), 1)
                     
-                    if severity in ['Critical', 'High']:
+                    if auto_block_enabled and severity in ['Critical', 'High']:
                         status = "Blocked"
                         blocked_ips.add(source_ip)
                         blocked_threats.insert(0, {
@@ -246,20 +282,31 @@ def packet_sniffer():
                         if len(blocked_threats) > 100:
                             blocked_threats.pop()
                     else:
-                        status = "Suspicious" if severity == 'Medium' else "Normal"
+                        status = "Detected" if severity in ['High', 'Critical'] else ("Suspicious" if severity == 'Medium' else "Normal")
 
             cpu_val = f"{random.uniform(0.8, 12.5):.1f}%"
             mem_val = f"{random.uniform(18.5, 24.0):.1f}MB"
             live_activity_logs.insert(0, {
                 "time": now_str,
-                "ip": source_ip,
+                "client_ip": client_ip,
+                "ip": client_ip,
+                "peer_ip": source_ip,
+                "full_url": c_site["main"],
+                "tls_sni": c_site["domain"],
+                "dns_query": c_site["domain"] if service == "dns" else "",
+                "http_host": c_site["domain"],
+                "proto": proto,
+                "service": service,
+                "risk_level": risk_level,
+                "confidence": conf_score,
                 "cpu": cpu_val,
                 "mem": mem_val,
                 "request_type": method,
                 "status": status,
-                "threat": threat_name
+                "threat": threat_name,
+                "is_blocked": status == "Blocked"
             })
-            if len(live_activity_logs) > 100:
+            if len(live_activity_logs) > 120:
                 live_activity_logs.pop()
 
         except Exception as e:
@@ -439,15 +486,25 @@ def block_ip():
     try:
         data = request.get_json(force=True)
         ip = data.get('ip')
+        direction = data.get('direction', 'destination')
         if ip:
             blocked_ips.add(ip)
             for b in blocked_threats:
                 if b['ip'] == ip:
                     b['is_blocked'] = True
-            return jsonify({"status": "success", "message": f"IP {ip} has been permanently blocked."})
-        return jsonify({"error": "No IP provided"}), 400
+            now_str = datetime.now().strftime("%I:%M:%S %p")
+            blocked_threats.insert(0, {
+                "time": now_str,
+                "ip": ip,
+                "request_type": "FIREWALL",
+                "severity": "High",
+                "reason": f"Manual {direction.capitalize()} Block",
+                "is_blocked": True
+            })
+            return jsonify({"ok": True, "status": "success", "message": f"IP {ip} has been blocked ({direction})."})
+        return jsonify({"ok": False, "error": "No IP provided"}), 400
     except Exception as e:
-        return jsonify({"error": str(e)}), 400
+        return jsonify({"ok": False, "error": str(e)}), 400
 
 @app.route('/api/unblock_ip', methods=['POST'])
 def unblock_ip():
@@ -459,10 +516,122 @@ def unblock_ip():
             for b in blocked_threats:
                 if b['ip'] == ip:
                     b['is_blocked'] = False
-            return jsonify({"status": "success", "message": f"IP {ip} has been unblocked."})
-        return jsonify({"error": "No IP provided"}), 400
+            return jsonify({"ok": True, "status": "success", "message": f"IP {ip} has been unblocked."})
+        return jsonify({"ok": False, "error": "No IP provided"}), 400
     except Exception as e:
-        return jsonify({"error": str(e)}), 400
+        return jsonify({"ok": False, "error": str(e)}), 400
+
+@app.route('/api/block_domain', methods=['POST'])
+def block_domain():
+    try:
+        data = request.get_json(force=True)
+        domain = data.get('domain', '').strip().lower()
+        if not domain:
+            return jsonify({"ok": False, "error": "No domain provided"}), 400
+        
+        blocked_domains.add(domain)
+        resolved_ips = []
+        try:
+            import socket
+            _, _, ips = socket.gethostbyname_ex(domain)
+            resolved_ips = ips
+            for ip in ips:
+                blocked_ips.add(ip)
+                now_str = datetime.now().strftime("%I:%M:%S %p")
+                blocked_threats.insert(0, {
+                    "time": now_str,
+                    "ip": ip,
+                    "request_type": "DNS_BLOCK",
+                    "severity": "High",
+                    "reason": f"Domain Block: {domain}",
+                    "is_blocked": True
+                })
+        except Exception:
+            pass
+        
+        return jsonify({
+            "ok": True,
+            "status": "success",
+            "message": f"Website domain '{domain}' has been added to blocked rules.",
+            "resolved_ips": resolved_ips
+        })
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 400
+
+@app.route('/api/unblock_domain', methods=['POST'])
+def unblock_domain():
+    try:
+        data = request.get_json(force=True)
+        domain = data.get('domain', '').strip().lower()
+        if domain in blocked_domains:
+            blocked_domains.discard(domain)
+        return jsonify({"ok": True, "status": "success", "message": f"Website '{domain}' unblocked."})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 400
+
+@app.route('/api/blocked_domains')
+def get_blocked_domains():
+    return jsonify({"domains": sorted(list(blocked_domains))})
+
+@app.route('/api/firewall/status')
+def get_firewall_status():
+    return jsonify({
+        "auto_block_enabled": auto_block_enabled,
+        "adblock_enabled": adblock_enabled,
+        "manual_blocked_ips": sorted(list(blocked_ips)),
+        "blocked_domains_count": len(blocked_domains)
+    })
+
+@app.route('/api/firewall/auto_block', methods=['POST'])
+def toggle_auto_block():
+    global auto_block_enabled
+    try:
+        data = request.get_json(force=True)
+        auto_block_enabled = bool(data.get('enabled', not auto_block_enabled))
+        return jsonify({"ok": True, "auto_block_enabled": auto_block_enabled, "message": f"Auto-mitigation is now {'ON' if auto_block_enabled else 'OFF'}"})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 400
+
+@app.route('/api/firewall/recover_all', methods=['POST'])
+def recover_all_firewall():
+    global blocked_ips, blocked_domains
+    blocked_ips.clear()
+    blocked_domains.clear()
+    for b in blocked_threats:
+        b['is_blocked'] = False
+    return jsonify({"ok": True, "status": "success", "message": "All blocked IP addresses & domains have been unblocked/recovered."})
+
+@app.route('/api/adblock/enable', methods=['POST'])
+def enable_adblock():
+    global adblock_enabled
+    adblock_enabled = True
+    return jsonify({"ok": True, "status": "success", "message": "Ad & Tracker Blocker enabled."})
+
+@app.route('/api/adblock/disable', methods=['POST'])
+def disable_adblock():
+    global adblock_enabled
+    adblock_enabled = False
+    return jsonify({"ok": True, "status": "success", "message": "Ad blocker disabled."})
+
+@app.route('/api/network')
+def get_network_info():
+    import socket
+    local_ip = "192.168.1.142"
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        local_ip = s.getsockname()[0]
+        s.close()
+    except Exception:
+        pass
+    return jsonify({
+        "wan_interface": "Wi-Fi (wlan0)",
+        "wan_address": local_ip,
+        "lan_interface": "Gigabit Ethernet (eth0)",
+        "lan_address": "192.168.1.1",
+        "capture_interface": "wlan0 (Promiscuous)",
+        "ip_forwarding": True
+    })
 
 @app.route('/report')
 def view_report():
