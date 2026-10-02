@@ -28,7 +28,7 @@
     <div class="ambient-glow-aura"></div>
 
     <!-- ========================================================
-         TOP NAVIGATION BAR (Clean Minimalist - Exact Reference Match)
+         TOP NAVIGATION BAR (Exact Match to User Design Reference)
          ======================================================== -->
     <header class="site-header" id="topNav">
         <div class="container header-container">
@@ -39,41 +39,21 @@
 
             <!-- Center Menu Links -->
             <nav class="nav-menu-center">
-                <div class="nav-item-dropdown">
-                    <a href="#services" class="nav-link">Services <i class="fa-solid fa-chevron-down nav-chevron"></i></a>
-                    <div class="dropdown-panel">
-                        <a href="#services" class="drop-link"><i class="fa-solid fa-shield-halved text-blue"></i> Security Services</a>
-                        <a href="#segmentation" class="drop-link"><i class="fa-solid fa-network-wired text-purple"></i> Dynamic VLAN Segmentation</a>
-                        <a href="#traffic-mgmt" class="drop-link"><i class="fa-solid fa-sliders text-green"></i> Smart Queue Management (SQM)</a>
-                        <a href="#wifi-wisp" class="drop-link"><i class="fa-solid fa-wifi text-amber"></i> Wi-Fi &amp; WISP Failover</a>
-                    </div>
-                </div>
-
-                <div class="nav-item-dropdown">
-                    <a href="#hardware" class="nav-link">Hardware <i class="fa-solid fa-chevron-down nav-chevron"></i></a>
-                    <div class="dropdown-panel">
-                        <a href="#hardware" class="drop-link"><i class="fa-solid fa-microchip text-blue"></i> Architecture &amp; PCB</a>
-                        <a href="#install-modes" class="drop-link"><i class="fa-solid fa-diagram-project text-green"></i> 3 Deployment Modes</a>
-                    </div>
-                </div>
-
-                <div class="nav-item-dropdown">
-                    <a href="#scenarios" class="nav-link">Threat Lab</a>
-                </div>
-
-                <div class="nav-item-dropdown">
-                    <a href="#pricing" class="nav-link">Pricing</a>
-                </div>
-
-                <div class="nav-item-dropdown">
-                    <a href="#faq" class="nav-link">FAQ</a>
-                </div>
+                <a href="#hero" class="nav-pill-link active">Home</a>
+                <a href="#services" class="nav-pill-link">Services</a>
+                <a href="#hardware" class="nav-pill-link">Hardware</a>
+                <a href="#scenarios" class="nav-pill-link">Threat Lab</a>
+                <a href="#pricing" class="nav-pill-link">Pricing</a>
+                <a href="#faq" class="nav-pill-link">FAQ</a>
             </nav>
 
-            <!-- Right CTA Button -->
+            <!-- Right Actions: Theme Toggle & Get Started CTA -->
             <div class="header-right-actions">
+                <button type="button" class="btn-theme-round" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <i class="fa-regular fa-sun" id="themeIcon"></i>
+                </button>
                 <div id="googleHeaderBtn" style="min-height: 40px; display: inline-flex; align-items: center;"></div>
-                <button type="button" class="btn-clean-cta" onclick="triggerRealGoogleAuth()">Get Started</button>
+                <button type="button" class="btn-clean-cta" onclick="triggerRealGoogleAuth()">Get Started &rarr;</button>
                 <button class="btn-mobile-hamburger" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
                     <i class="fa-solid fa-bars"></i>
                 </button>
@@ -91,32 +71,25 @@
             <button class="btn-close-drawer" onclick="toggleMobileMenu(false)" aria-label="Close Menu"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="mob-links">
-            <div class="mob-group-title">SERVICES &amp; PROTECTION</div>
-            <a href="#services" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-shield-halved text-blue"></i> Enterprise Security Services</a>
-            <a href="#segmentation" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-network-wired text-purple"></i> Dynamic VLAN Segmentation</a>
-            <a href="#traffic-mgmt" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-sliders text-green"></i> Smart Queue Management (SQM)</a>
-            <a href="#wifi-wisp" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-wifi text-amber"></i> Wi-Fi &amp; WISP Failover</a>
-
-            <div class="mob-group-title">HARDWARE &amp; DEPLOYMENT</div>
-            <a href="#hardware" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-microchip text-blue"></i> Silicon &amp; Architecture</a>
-            <a href="#install-modes" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-diagram-project text-green"></i> 3 Deployment Modes</a>
-
-            <div class="mob-group-title">THREAT LAB &amp; PRICING</div>
-            <a href="#scenarios" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-flask text-purple"></i> 84-Metric Threat Lab</a>
-            <a href="#pricing" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-tag text-green"></i> Lifetime Pricing</a>
+            <div class="mob-group-title">NAVIGATION</div>
+            <a href="#hero" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-house text-blue"></i> Home</a>
+            <a href="#services" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-shield-halved text-blue"></i> Services</a>
+            <a href="#hardware" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-microchip text-purple"></i> Hardware</a>
+            <a href="#scenarios" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-flask text-green"></i> Threat Lab</a>
+            <a href="#pricing" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-tag text-amber"></i> Pricing</a>
             <a href="#faq" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-circle-question text-muted"></i> FAQ</a>
 
             <div style="margin-top: 18px; display: flex; flex-direction: column; gap: 10px;">
                 <div id="googleDrawerBtn" style="display: flex; justify-content: center; width: 100%; min-height: 44px;"></div>
                 <button type="button" class="btn-clean-cta" onclick="triggerRealGoogleAuth(); toggleMobileMenu(false);" style="width: 100%; justify-content: center; padding: 12px;">
-                    Get Started (Live Dashboard)
+                    Get Started &rarr;
                 </button>
             </div>
         </div>
     </div>
 
     <!-- ========================================================
-         HERO SECTION: ULTRA-CLEAN ENTERPRISE EDGE AI DEFENSE
+         HERO SECTION (Exact Match to User Reference Design)
          ======================================================== -->
     <section class="hero-stage-section" id="hero">
         <div class="container">
@@ -124,149 +97,180 @@
             <!-- 2-Column Side-by-Side Hero Stage -->
             <div class="hero-split-grid">
                 
-                <!-- Left Column: Copy, Metrics & Actions -->
+                <!-- Left Column: Copy, Actions & 4 Micro Cards -->
                 <div class="hero-left-col">
                     
-                    <!-- Clean Pill Badge -->
-                    <div class="clean-hero-badge">
-                        <span class="badge-dot-live"></span>
-                        <span class="badge-pill-text">Edge-Native AI Intrusion Prevention</span>
-                        <span class="badge-pill-sep">/</span>
-                        <span class="badge-pill-stat">98.2% Accuracy • ~400ms Drop</span>
+                    <!-- Green Pill Badge -->
+                    <div class="hero-edge-badge">
+                        <span class="badge-dot-green"></span>
+                        <span class="badge-edge-text">EDGE-NATIVE SECURITY</span>
                     </div>
 
                     <!-- Main Headline -->
-                    <h1 class="hero-giant-title">
-                        Autonomous AI Defense.<br>
-                        <span class="hero-gradient-text">Engineered for the Edge.</span>
+                    <h1 class="hero-main-heading">
+                        Autonomous<br>
+                        <span class="hero-blue-text">AI Defense</span>
                     </h1>
 
                     <!-- Subtitle -->
-                    <p class="hero-subtitle">
-                        Cyber Rakshak deploys inline as a transparent bridge between your gateway router and switch on low-power <strong>Raspberry Pi 4</strong>. Powered by <strong>Dual-Engine ML</strong> (Random Forest + Isolation Forest), it detects both known and novel zero-day threats, auto-blocking attackers in <strong>~400ms</strong> with zero cloud latency.
+                    <p class="hero-main-sub">
+                        Protect your network at the edge with real-time AI-driven intrusion detection and automatic threat blocking.
                     </p>
 
                     <!-- Hero Action Buttons -->
-                    <div class="hero-cta-group">
-                        <button type="button" onclick="triggerRealGoogleAuth()" class="btn-hero-start" style="cursor: pointer;">
-                            <i class="fa-solid fa-gauge-high"></i>
-                            Launch Live SOC Console
-                        </button>
-                        <a href="#hardware" class="btn-hero-learn">
-                            Architecture Specs &rarr;
+                    <div class="hero-main-btns">
+                        <a href="#hardware" class="btn-hero-primary-pill">
+                            Explore Hardware &rarr;
                         </a>
+                        <button type="button" onclick="triggerRealGoogleAuth()" class="btn-hero-demo-pill">
+                            <i class="fa-regular fa-circle-play"></i>
+                            Watch Demo
+                        </button>
                     </div>
 
-                    <!-- Clean Horizontal SecOps Metrics Strip -->
-                    <div class="hero-stats-strip">
-                        <div class="hero-stat-box">
-                            <span class="stat-number text-green">98.2%</span>
-                            <span class="stat-label">AI Accuracy</span>
+                    <!-- Row of 4 Feature Micro Cards -->
+                    <div class="hero-micro-row">
+                        
+                        <!-- Card 1: Real-time -->
+                        <div class="micro-stat-card">
+                            <div class="micro-icon text-blue">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div class="micro-txt">
+                                <div class="micro-head">Real-time</div>
+                                <div class="micro-desc">Threat Detection</div>
+                            </div>
                         </div>
-                        <div class="stat-divider"></div>
-                        <div class="hero-stat-box">
-                            <span class="stat-number text-blue">~400ms</span>
-                            <span class="stat-label">Auto-Mitigation</span>
-                        </div>
-                        <div class="stat-divider"></div>
-                        <div class="hero-stat-box">
-                            <span class="stat-number text-purple">100%</span>
-                            <span class="stat-label">Air-Gapped Privacy</span>
-                        </div>
-                        <div class="stat-divider"></div>
-                        <div class="hero-stat-box">
-                            <span class="stat-number text-amber">~$75</span>
-                            <span class="stat-label">RPi 4 Cost</span>
-                        </div>
-                    </div>
 
-                    <!-- 4-Stage Mini Stepper -->
-                    <div class="hero-pipeline-stepper-clean">
-                        <span class="stepper-title"><i class="fa-solid fa-route text-blue"></i> Pipeline:</span>
-                        <span class="step-chip"><strong>1</strong> BPF Capture</span>
-                        <span class="chip-arrow">&rsaquo;</span>
-                        <span class="step-chip"><strong>2</strong> 83 Features</span>
-                        <span class="chip-arrow">&rsaquo;</span>
-                        <span class="step-chip"><strong>3</strong> Hybrid RF+IF</span>
-                        <span class="chip-arrow">&rsaquo;</span>
-                        <span class="step-chip"><strong>4</strong> Auto iptables Drop</span>
+                        <!-- Card 2: Auto Block -->
+                        <div class="micro-stat-card">
+                            <div class="micro-icon text-blue">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                            <div class="micro-txt">
+                                <div class="micro-head">Auto Block</div>
+                                <div class="micro-desc">Zero-day Attacks</div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Edge Ready -->
+                        <div class="micro-stat-card">
+                            <div class="micro-icon text-blue">
+                                <i class="fa-solid fa-microchip"></i>
+                            </div>
+                            <div class="micro-txt">
+                                <div class="micro-head">Edge Ready</div>
+                                <div class="micro-desc">Raspberry Pi 4</div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Lightweight -->
+                        <div class="micro-stat-card">
+                            <div class="micro-icon text-blue">
+                                <i class="fa-solid fa-chart-simple"></i>
+                            </div>
+                            <div class="micro-txt">
+                                <div class="micro-head">Lightweight</div>
+                                <div class="micro-desc">High Accuracy</div>
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
 
-                <!-- Right Column: Clean Hardware Appliance Showcase -->
+                <!-- Right Column: 3D Hardware Showcase & Floating Glass Wave Card -->
                 <div class="hero-right-col">
-                    <div class="hero-device-stage-clean">
+                    <div class="hero-showcase-stage">
                         
-                        <!-- Top Floating Minimal Chip -->
-                        <div class="clean-device-chip top-chip">
-                            <span class="chip-dot-green"></span>
-                            <span>100 Mbps Line-Rate DPI</span>
-                        </div>
+                        <!-- Atmospheric Studio Glow -->
+                        <div class="stage-ambient-aura"></div>
+                        
+                        <!-- 3D Geometric Stepped Base -->
+                        <div class="stage-pedestal-base"></div>
+                        <div class="stage-pedestal-step"></div>
 
-                        <!-- Soft Studio Aurora Backdrop -->
-                        <div class="clean-studio-glow"></div>
-
-                        <!-- Hardware Product Image -->
-                        <img src="assets/cyber_rakshak_device.png" alt="Cyber Rakshak Edge AI Security Hardware Appliance" class="hero-appliance-img">
-
-                        <!-- Clean Floating Hardware Telemetry Console Dock -->
-                        <div class="device-status-dock">
-                            <div class="dock-status-dot"></div>
-                            <div class="dock-info">
-                                <span class="dock-headline">BRIDGE ACTIVE • eth0 &harr; eth1</span>
-                                <span class="dock-sub">RF + Isolation Forest • iptables Drop</span>
+                        <!-- Floating Glass Dashboard Live Card (Behind & Above Device) -->
+                        <div class="floating-telemetry-glass-card">
+                            <div class="glass-card-top">
+                                <div class="glass-card-title">
+                                    <i class="fa-solid fa-shield-halved text-blue"></i>
+                                    <span>Network Protected</span>
+                                </div>
+                                <span class="pill-live-tag">Live</span>
                             </div>
-                            <span class="dock-latency-badge">~400ms</span>
+                            <div class="glass-wave-area">
+                                <svg viewBox="0 0 280 75" preserveAspectRatio="none" class="wave-chart-svg">
+                                    <defs>
+                                        <linearGradient id="waveFillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" stop-color="rgba(0, 102, 255, 0.22)" />
+                                            <stop offset="100%" stop-color="rgba(0, 102, 255, 0.0)" />
+                                        </linearGradient>
+                                    </defs>
+                                    <path d="M 0 48 Q 25 18, 50 38 T 100 22 T 150 44 T 200 18 T 240 38 T 280 25 L 280 75 L 0 75 Z" fill="url(#waveFillGrad)"></path>
+                                    <path d="M 0 48 Q 25 18, 50 38 T 100 22 T 150 44 T 200 18 T 240 38 T 280 25" fill="none" stroke="#0070f3" stroke-width="2.5" stroke-linecap="round"></path>
+                                </svg>
+                            </div>
                         </div>
+
+                        <!-- Cyber Rakshak Hardware Appliance Image -->
+                        <img src="assets/cyber_rakshak_device.png" alt="Cyber Rakshak Autonomous AI Defense Hardware Appliance" class="stage-hardware-device-img">
 
                     </div>
                 </div>
 
             </div>
 
-            <!-- 3 Modern Bento Feature Cards Grid -->
-            <div class="hero-cards-grid">
+            <!-- Full-Width Bottom Stats Glass Banner (Exact Reference Match) -->
+            <div class="hero-bottom-stats-banner">
                 
-                <!-- Card 1: Hybrid ML Engine -->
-                <div class="geo-feature-card">
-                    <div class="geo-card-header">
-                        <div class="geo-icon-box">
-                            <i class="fa-solid fa-brain"></i>
-                        </div>
-                        <span class="geo-card-index">01 / DUAL AI ENGINE</span>
+                <!-- Stat 1: 98.2% Detection Accuracy -->
+                <div class="banner-stat-item">
+                    <div class="banner-icon-box icon-mint">
+                        <i class="fa-solid fa-shield-halved"></i>
                     </div>
-                    <div class="geo-card-text">
-                        <h3>Hybrid Supervised &amp; Anomaly AI</h3>
-                        <p>Supervised Random Forest (100 trees) classifies known threats, while unsupervised Isolation Forest detects novel zero-day attacks with decision logic: <code>(RF &gt; 0.5) &lor; (IF &gt; 0.85)</code>.</p>
+                    <div class="banner-stat-content">
+                        <div class="banner-stat-val">98.2%</div>
+                        <div class="banner-stat-lbl">Detection Accuracy</div>
                     </div>
                 </div>
 
-                <!-- Card 2: Transparent Inline Bridge -->
-                <div class="geo-feature-card">
-                    <div class="geo-card-header">
-                        <div class="geo-icon-box">
-                            <i class="fa-solid fa-network-wired text-blue"></i>
-                        </div>
-                        <span class="geo-card-index">02 / TRANSPARENT BRIDGE</span>
+                <div class="banner-divider"></div>
+
+                <!-- Stat 2: ~400ms Threat Block Time -->
+                <div class="banner-stat-item">
+                    <div class="banner-icon-box icon-electric">
+                        <i class="fa-solid fa-bolt"></i>
                     </div>
-                    <div class="geo-card-text">
-                        <h3>Inline Hardware Gateway</h3>
-                        <p>Deployed between router and switch with <code>tcpdump + BPF</code> 100 Mbps line-rate packet capture. Zero software agents or endpoint modifications required.</p>
+                    <div class="banner-stat-content">
+                        <div class="banner-stat-val">~400ms</div>
+                        <div class="banner-stat-lbl">Threat Block Time</div>
                     </div>
                 </div>
 
-                <!-- Card 3: Autonomous Mitigation -->
-                <div class="geo-feature-card">
-                    <div class="geo-card-header">
-                        <div class="geo-icon-box">
-                            <i class="fa-solid fa-bolt text-purple"></i>
-                        </div>
-                        <span class="geo-card-index">03 / SUB-SECOND DROP</span>
+                <div class="banner-divider"></div>
+
+                <!-- Stat 3: 100 Mbps Line-Rate DPI -->
+                <div class="banner-stat-item">
+                    <div class="banner-icon-box icon-electric">
+                        <i class="fa-solid fa-database"></i>
                     </div>
-                    <div class="geo-card-text">
-                        <h3>Dynamic iptables Auto-Mitigation</h3>
-                        <p>Instantaneous kernel firewall rule generation drops malicious IP traffic in ~400ms with real-time Flask SOC console visualization and audit logging.</p>
+                    <div class="banner-stat-content">
+                        <div class="banner-stat-val">100 Mbps</div>
+                        <div class="banner-stat-lbl">Line-Rate DPI</div>
+                    </div>
+                </div>
+
+                <div class="banner-divider"></div>
+
+                <!-- Stat 4: Low Power Raspberry Pi 4 -->
+                <div class="banner-stat-item">
+                    <div class="banner-icon-box icon-electric">
+                        <i class="fa-solid fa-cube"></i>
+                    </div>
+                    <div class="banner-stat-content">
+                        <div class="banner-stat-val">Low Power</div>
+                        <div class="banner-stat-lbl">Raspberry Pi 4</div>
                     </div>
                 </div>
 
@@ -274,6 +278,7 @@
 
         </div>
     </section>
+
 
 
     <!-- ========================================================
