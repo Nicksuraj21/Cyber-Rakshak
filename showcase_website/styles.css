@@ -594,15 +594,16 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
     animation: pulseGreen 2s infinite;
 }
 
-/* Main Heading: Autonomous AI Defense */
+/* Main Heading: Lightweight AI-Driven Network Intrusion Detection & Mitigation System */
 .hero-main-heading {
-    font-size: 66px;
-    font-weight: 900;
-    line-height: 1.05;
+    font-size: clamp(34px, 3.8vw, 48px);
+    font-weight: 800;
+    line-height: 1.15;
     color: #0b1528;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.035em;
     margin-bottom: 18px;
     font-family: 'Plus Jakarta Sans', sans-serif;
+    max-width: 590px;
 }
 
 [data-theme="dark"] .hero-main-heading {
@@ -611,7 +612,10 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 
 .hero-blue-text {
     color: #0066ff;
-    display: inline-block;
+    background: linear-gradient(135deg, #0066ff 0%, #00a6ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline;
 }
 
 /* Subtitle */
@@ -2788,8 +2792,8 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
     }
     
     .hero-main-heading {
-        font-size: 42px;
-        line-height: 1.1;
+        font-size: 32px;
+        line-height: 1.18;
     }
     
     .hero-edge-badge {
@@ -2874,7 +2878,8 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 
 @media (max-width: 480px) {
     .hero-main-heading {
-        font-size: 34px;
+        font-size: 26px;
+        line-height: 1.2;
     }
     
     .hero-micro-row {
