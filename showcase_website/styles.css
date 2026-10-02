@@ -602,14 +602,14 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 
 /* Main Heading: Lightweight AI-Driven Network Intrusion Detection & Mitigation System */
 .hero-main-heading {
-    font-size: clamp(32px, 3.6vw, 46px);
+    font-size: clamp(38px, 4.5vw, 58px);
     font-weight: 800;
-    line-height: 1.15;
+    line-height: 1.12;
     color: #0b1528;
-    letter-spacing: -0.035em;
-    margin-bottom: 18px;
+    letter-spacing: -0.038em;
+    margin-bottom: 20px;
     font-family: 'Plus Jakarta Sans', sans-serif;
-    max-width: 590px;
+    max-width: 650px;
 }
 
 [data-theme="dark"] .hero-main-heading {
@@ -626,11 +626,11 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 
 /* Subtitle */
 .hero-main-sub {
-    font-size: 17px;
+    font-size: 18px;
     color: #64748b;
-    line-height: 1.55;
-    max-width: 480px;
-    margin-bottom: 28px;
+    line-height: 1.58;
+    max-width: 520px;
+    margin-bottom: 30px;
 }
 
 [data-theme="dark"] .hero-main-sub {
@@ -2780,18 +2780,18 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
     100% { background-position: 38px 38px; }
 }
 
-/* Hardware Floating Animation */
+/* Hardware Floating Animation - Apple Style Smooth & Subtle */
 .stage-device-wrapper {
     position: relative;
     display: inline-block;
     z-index: 5;
-    animation: hardwareFloat 5.5s ease-in-out infinite;
+    animation: hardwareFloat 6s ease-in-out infinite;
     will-change: transform;
 }
 
 @keyframes hardwareFloat {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(0.4deg); }
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
 }
 
 /* Atmospheric Studio Glow */
@@ -2802,27 +2802,27 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
     transform: translate(-50%, -50%);
     width: 380px;
     height: 380px;
-    background: radial-gradient(circle, rgba(0, 102, 255, 0.28) 0%, rgba(0, 200, 255, 0.12) 45%, transparent 70%);
+    background: radial-gradient(circle, rgba(0, 102, 255, 0.22) 0%, rgba(0, 200, 255, 0.08) 45%, transparent 70%);
     filter: blur(40px);
     border-radius: 50%;
     z-index: 1;
     pointer-events: none;
-    animation: auraBreath 4s ease-in-out infinite alternate;
+    animation: auraBreath 5s ease-in-out infinite alternate;
 }
 
 @keyframes auraBreath {
-    0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.9); }
-    100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.95); }
+    100% { opacity: 0.85; transform: translate(-50%, -50%) scale(1.05); }
 }
 
-/* Animated Radar Pulse Rings */
+/* Subtle Ambient Radar Pulse */
 .stage-radar-ring {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.6);
     border-radius: 50%;
-    border: 1.5px solid rgba(0, 102, 255, 0.35);
+    border: 1px solid rgba(0, 102, 255, 0.2);
     pointer-events: none;
     z-index: 2;
     opacity: 0;
@@ -2831,50 +2831,27 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 .stage-radar-ring.ring-1 {
     width: 320px;
     height: 320px;
-    animation: radarRingPulse 3.6s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+    animation: radarRingPulse 4.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
 .stage-radar-ring.ring-2 {
-    width: 440px;
-    height: 440px;
-    animation: radarRingPulse 3.6s cubic-bezier(0.1, 0.8, 0.3, 1) infinite 1.8s;
+    width: 420px;
+    height: 420px;
+    animation: radarRingPulse 4.5s cubic-bezier(0.16, 1, 0.3, 1) infinite 2.25s;
 }
 
 @keyframes radarRingPulse {
     0% {
-        transform: translate(-50%, -50%) scale(0.4);
-        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(0.6);
+        opacity: 0.5;
     }
-    60% {
-        opacity: 0.3;
+    50% {
+        opacity: 0.2;
     }
     100% {
-        transform: translate(-50%, -50%) scale(1.15);
+        transform: translate(-50%, -50%) scale(1.1);
         opacity: 0;
     }
-}
-
-/* Laser Scanline Passing Through Appliance */
-.stage-scanline-beam {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, transparent 0%, rgba(0, 200, 255, 0.85) 50%, transparent 100%);
-    box-shadow: 0 0 14px rgba(0, 200, 255, 0.9), 0 0 4px #0066ff;
-    top: 15%;
-    opacity: 0.75;
-    z-index: 6;
-    pointer-events: none;
-    animation: laserScanPass 4s ease-in-out infinite;
-}
-
-@keyframes laserScanPass {
-    0%, 100% { top: 15%; opacity: 0; }
-    10% { opacity: 0.85; }
-    50% { top: 85%; opacity: 0.9; }
-    85% { opacity: 0.85; }
-    90% { top: 85%; opacity: 0; }
 }
 
 /* Micro Floating Security Chips */
