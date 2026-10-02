@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Rakshak IDS | AI Real-Time Cyberattack Mitigation Dashboard</title>
+    
+    <!-- Modern Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <style>
+        :root {
+            /* Light Theme Palette */
+            --bg-base: #f0f4f9;
+            --bg-surface: #ffffff;
+            --bg-surface-subtle: #f8fafc;
+            --bg-hover: #f1f5f9;
+            --border: #e2e8f0;
+            --border-highlight: #cbd5e1;
+            
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --text-faint: #94a3b8;
+            
+            --brand-primary: #2563eb;
+            --brand-primary-light: #eff6ff;
+            --brand-secondary: #06b6d4;
+            
+            --color-blue: #3b82f6;
+            --color-cyan: #06b6d4;
+            --color-purple: #8b5cf6;
+            --color-pink: #ec4899;
+            --color-amber: #f59e0b;
+            --color-red: #ef4444;
+            --color-emerald: #10b981;
+            
+            --table-header-bg: #3b82f6;
+            --table-header-text: #ffffff;
+            --table-alt-row: #f8fafc;
+            
+            --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-sm: 0 2px 6px rgba(0,0,0,0.06);
+            --shadow-md: 0 6px 18px -2px rgba(15, 23, 42, 0.08), 0 3px 6px -3px rgba(15, 23, 42, 0.04);
+            --shadow-lg: 0 12px 30px -4px rgba(15, 23, 42, 0.12);
+            --card-radius: 16px;
+            --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            /* Futuristic Cyber Dark Theme Palette */
+            --bg-base: #090d16;
+            --bg-surface: #111827;
+            --bg-surface-subtle: #182238;
+            --bg-hover: #1f2d4a;
+            --border: #1e293b;
+            --border-highlight: #334155;
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-faint: #64748b;
+            
+            --brand-primary: #38bdf8;
+            --brand-primary-light: #1e293b;
+            --brand-secondary: #22d3ee;
+            
+            --table-header-bg: #1e40af;
+            --table-header-text: #ffffff;
+            --table-alt-row: #141d30;
+            
+            --shadow-xs: 0 1px 3px rgba(0,0,0,0.4);
+            --shadow-sm: 0 3px 8px rgba(0,0,0,0.5);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.6);
+            --shadow-lg: 0 16px 36px rgba(0,0,0,0.7);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 24px 36px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .layout-wrap {
+            max-width: 1520px;
+            margin: 0 auto;
+        }
+
+        /* Top Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-brand-box {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .brand-logo-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon-shield {
+            font-size: 32px;
+            color: var(--brand-primary);
+            filter: drop-shadow(0 0 12px rgba(37, 99, 235, 0.3));
+        }
+
+        .main-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--brand-primary);
+        }
+
+        .sub-title {
+            font-size: 14.5px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .guard-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 16px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+            box-shadow: var(--shadow-xs);
+        }
+
+        .pulse-indicator {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--color-emerald);
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulseGlow 1.8s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 9px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .btn-theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 9999px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow-xs);
+            transition: var(--transition-smooth);
+        }
+
+        .btn-theme-toggle:hover {
+            border-color: var(--brand-primary);
+            transform: translateY(-1px);
+        }
+
+        /* Search & Action Bar */
+        .action-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .search-container {
+            position: relative;
+            flex: 1;
+            min-width: 340px;
+            max-width: 520px;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-faint);
+            font-size: 15px;
+        }
+
+        .search-input-field {
+            width: 100%;
+            padding: 13px 18px 13px 46px;
+            border-radius: 9999px;
+            border: 1px solid var(--border);
+            background: var(--bg-surface);
+            color: var(--text-main);
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            box-shadow: var(--shadow-xs);
+            transition: var(--transition-smooth);
+        }
+
+        .search-input-field:focus {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.15);
+        }
+
+        .action-buttons-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-modern {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 22px;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-simulate {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #ffffff;
+        }
+
+        .btn-export-pdf {
+            background: linear-gradient(135deg, #ec4899, #db2777);
+            color: #ffffff;
+        }
+
+        .btn-zero-day {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #ffffff;
+        }
+
+        .btn-sound {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 10px 16px;
+        }
+
+        /* KPI / Metric Counters */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .kpi-card {
+            background: var(--bg-surface);
+            border-radius: var(--card-radius);
+            padding: 20px 22px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-xs);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition-smooth);
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--border-highlight);
+        }
+
+        .kpi-details h4 {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 6px;
+        }
+
+        .kpi-details .kpi-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .kpi-icon-bubble {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .kpi-blue { background: rgba(37, 99, 235, 0.12); color: #2563eb; }
+        .kpi-pink { background: rgba(236, 72, 153, 0.12); color: #ec4899; }
+        .kpi-amber { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
+        .kpi-emerald { background: rgba(16, 185, 129, 0.12); color: #10b981; }
+
+        /* Main Charts Grid */
+        .charts-main-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 1080px) {
+            .charts-main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-box-card {
+            background: var(--bg-surface);
+            border-radius: var(--card-radius);
+            padding: 22px 24px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-xs);
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition-smooth);
+            min-height: 290px;
+        }
+
+        .chart-box-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--border-highlight);
+        }
+
+        .chart-card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .chart-card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--brand-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-pill-badge {
+            padding: 4px 14px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        .badge-cyan-pill { background: #06b6d4; color: #ffffff; }
+        .badge-pink-pill { background: #ec4899; color: #ffffff; }
+        .badge-amber-pill { background: #f59e0b; color: #ffffff; }
+        .badge-red-pill { background: #ef4444; color: #ffffff; }
+        .badge-emerald-pill { background: #10b981; color: #ffffff; }
+
+        .chart-canvas-wrapper {
+            position: relative;
+            flex: 1;
+            width: 100%;
+            height: 200px;
+        }
+
+        /* Secondary Charts Grid */
+        .charts-secondary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 22px;
+            margin-bottom: 32px;
+        }
+
+        /* Section Headings */
+        .table-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            margin-top: 28px;
+        }
+
+        .table-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 23px;
+            font-weight: 800;
+            color: var(--brand-primary);
+        }
+
+        .table-section-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--brand-primary);
+        }
+
+        /* Tables & Cards */
+        .table-container-card {
+            background: var(--bg-surface);
+            border-radius: var(--card-radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-xs);
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+
+        .table-scroll-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table.cyberrakshak-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        table.cyberrakshak-table thead {
+            background: var(--table-header-bg);
+            color: var(--table-header-text);
+        }
+
+        table.cyberrakshak-table th {
+            padding: 15px 22px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        table.cyberrakshak-table td {
+            padding: 14px 22px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-main);
+            white-space: nowrap;
+        }
+
+        table.cyberrakshak-table tbody tr:nth-child(even) {
+            background-color: var(--table-alt-row);
+        }
+
+        table.cyberrakshak-table tbody tr:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .mono-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+
+        /* Status & Badges */
+        .live-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .status-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status-tag-normal {
+            color: #0284c7;
+            background: #e0f2fe;
+        }
+        .status-tag-normal .live-dot { background: #0284c7; }
+
+        .status-tag-suspicious {
+            color: #d97706;
+            background: #fef3c7;
+        }
+        .status-tag-suspicious .live-dot { background: #d97706; }
+
+        .status-tag-blocked {
+            color: #0284c7;
+            background: #e0f2fe;
+        }
+        .status-tag-blocked .live-dot { background: #0284c7; }
+
+        .sev-tag {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .sev-critical { background: #ef4444; color: #ffffff; }
+        .sev-high { background: #ec4899; color: #ffffff; }
+        .sev-medium { background: #f59e0b; color: #ffffff; }
+        .sev-low { background: #3b82f6; color: #ffffff; }
+
+        .method-tag {
+            display: inline-block;
+            padding: 3px 9px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .m-get { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+        .m-post { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+        .m-put { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+        .m-delete { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+
+        .btn-table-block {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 15px;
+            border-radius: 9999px;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1.5px solid #3b82f6;
+            background: transparent;
+            color: #3b82f6;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-table-block:hover {
+            background: #3b82f6;
+            color: #ffffff;
+        }
+
+        .btn-table-unblock {
+            border-color: #10b981;
+            color: #10b981;
+        }
+
+        .btn-table-unblock:hover {
+            background: #10b981;
+            color: #ffffff;
+        }
+
+        /* Modal Simulation Dialog */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .modal-backdrop.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-box {
+            background: var(--bg-surface);
+            border-radius: var(--card-radius);
+            width: 92%;
+            max-width: 620px;
+            padding: 30px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            transform: scale(0.94);
+            transition: var(--transition-smooth);
+        }
+
+        .modal-backdrop.open .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .modal-head-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-modal-close {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .sim-quick-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-quick-attack {
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: var(--bg-surface-subtle);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-quick-attack:hover {
+            border-color: var(--brand-primary);
+            background: var(--brand-primary-light);
+            color: var(--brand-primary);
+        }
+
+        .form-row {
+            margin-bottom: 16px;
+        }
+
+        .form-label-txt {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .form-input-elem {
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg-surface-subtle);
+            color: var(--text-main);
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .form-input-elem:focus {
+            border-color: var(--brand-primary);
+        }
+
+        /* Toast Container */
+        .toast-shelf {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10000;
+        }
+
+        .toast-msg {
+            background: var(--bg-surface);
+            border-left: 4px solid var(--brand-primary);
+            padding: 14px 22px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+            border-top: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: toastPop 0.3s ease;
+        }
+
+        @keyframes toastPop {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .empty-placeholder {
+            text-align: center;
+            padding: 36px 16px;
+            color: var(--text-faint);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout-wrap">
+    <!-- Header -->
+    <header>
+        <div class="header-brand-box">
+            <div class="brand-logo-title">
+                <i class="fa-solid fa-shield-halved brand-icon-shield"></i>
+                <h1 class="main-title">Intrusion Detection System</h1>
+            </div>
+            <p class="sub-title">Real-time network security monitoring dashboard & Edge AI Mitigation</p>
+        </div>
+        
+        <div class="header-controls">
+            <div class="guard-badge">
+                <span class="pulse-indicator"></span>
+                <span>AI Guard: Active (<0.5s Latency)</span>
+            </div>
+            <button class="btn-modern btn-sound" id="soundToggleBtn" onclick="toggleAudio()" title="Toggle Threat Intercept Audio Alert">
+                <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+            </button>
+            <button class="btn-theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+                <span id="themeLabel">Dark Mode</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Toolbar -->
+    <div class="action-toolbar">
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" class="search-input-field" placeholder="Search logs by IP, attack type, or severity..." oninput="handleSearch()">
+        </div>
+        <div class="action-buttons-group">
+            <button class="btn-modern btn-simulate" onclick="openSimModal()">
+                <i class="fa-solid fa-bolt-lightning"></i>
+                <span>Simulate Attack</span>
+            </button>
+            <button class="btn-modern btn-export-pdf" onclick="exportFullReport()">
+                <i class="fa-solid fa-file-pdf"></i>
+                <span>Export Full Report</span>
+            </button>
+            <button class="btn-modern btn-zero-day" onclick="filterZeroDay()">
+                <i class="fa-solid fa-bug"></i>
+                <span>Zero-Day Report</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Summary KPI Cards -->
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-details">
+                <h4>Total Inspected Flows</h4>
+                <div class="kpi-num" id="totalScannedVal">0</div>
+            </div>
+            <div class="kpi-icon-bubble kpi-blue"><i class="fa-solid fa-network-wired"></i></div>
+        </div>
+        
+        <div class="kpi-card">
+            <div class="kpi-details">
+                <h4>Active Threats</h4>
+                <div class="kpi-num" id="threatsCountVal" style="color: #ec4899;">0</div>
+            </div>
+            <div class="kpi-icon-bubble kpi-pink"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        </div>
+        
+        <div class="kpi-card">
+            <div class="kpi-details">
+                <h4>Auto-Blocked IPs</h4>
+                <div class="kpi-num" id="blockedCountVal" style="color: #ef4444;">0</div>
+            </div>
+            <div class="kpi-icon-bubble kpi-amber"><i class="fa-solid fa-ban"></i></div>
+        </div>
+        
+        <div class="kpi-card">
+            <div class="kpi-details">
+                <h4>Edge Health Score</h4>
+                <div class="kpi-num" id="healthScoreVal" style="color: #10b981;">99.8%</div>
+            </div>
+            <div class="kpi-icon-bubble kpi-emerald"><i class="fa-solid fa-heart-pulse"></i></div>
+        </div>
+    </div>
+
+    <!-- 4 Main Performance & Threat Charts -->
+    <div class="charts-main-grid">
+        <!-- CPU Usage Chart -->
+        <div class="chart-box-card">
+            <div class="chart-card-head">
+                <div class="chart-card-title"><i class="fa-solid fa-microchip"></i> CPU Usage</div>
+                <span class="status-pill-badge badge-cyan-pill" id="cpuBadge">Normal</span>
+            </div>
+            <div class="chart-canvas-wrapper">
+                <canvas id="cpuChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Network Latency Chart -->
+        <div class="chart-box-card">
+            <div class="chart-card-head">
+                <div class="chart-card-title"><i class="fa-solid fa-gauge-high"></i> Network Latency</div>
+                <span class="status-pill-badge badge-cyan-pill" id="latencyBadge">Normal</span>
+            </div>
+            <div class="chart-canvas-wrapper">
+                <canvas id="latencyChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Attack Types Bar Chart -->
+        <div class="chart-box-card">
+            <div class="chart-card-head">
+                <div class="chart-card-title"><i class="fa-solid fa-shield-virus"></i> Attack Types</div>
+                <span class="status-pill-badge badge-pink-pill" id="attackTypesBadge">0 Threats</span>
+            </div>
+            <div class="chart-canvas-wrapper">
+                <canvas id="attackTypesChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Zero-Day Attacks Chart -->
+        <div class="chart-box-card">
+            <div class="chart-card-head">
+                <div class="chart-card-title"><i class="fa-solid fa-biohazard"></i> Zero-Day Attacks</div>
+                <span class="status-pill-badge badge-amber-pill" id="zeroDayBadge">0 Detected</span>
+            </div>
+            <div class="chart-canvas-wrapper">
+                <canvas id="zeroDayChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secondary Charts (Protocol Distribution & Threat Severity) -->
+    <div class="charts-secondary-grid">
+        <div class="chart-box-card" style="min-height: 260px;">
+            <div class="chart-card-head">
+                <div class="chart-card-title"><i class="fa-solid fa-diagram-project"></i> Protocol & Service Distribution</div>
+                <span class="status-pill-badge badge-emerald-pill">Real-time</span>
+            </div>
+            <div class="chart-canvas-wrapper" style="height: 180px;">
+                <canvas id="protoChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-box-card" style="min-height: 260px;">
+            <div class="chart-card-head">
+                <div class="chart-card-title"><i class="fa-solid fa-chart-pie"></i> Threat Severity Breakdown</div>
+                <span class="status-pill-badge badge-red-pill">Live Defense</span>
+            </div>
+            <div class="chart-canvas-wrapper" style="height: 180px;">
+                <canvas id="severityChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Network Activity Section -->
+    <div class="table-section-header">
+        <div class="table-title-wrap">
+            <h2 class="table-section-title">Live Network Activity</h2>
+            <span class="table-section-badge" id="liveLogCount">0</span>
+        </div>
+    </div>
+    
+    <div class="table-container-card">
+        <div class="table-scroll-wrapper">
+            <table class="cyberrakshak-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>IP Address</th>
+                        <th>CPU Usage</th>
+                        <th>Memory</th>
+                        <th>Request Type</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="liveActivityTbody">
+                    <tr><td colspan="6" class="empty-placeholder"><i class="fa-solid fa-spinner fa-spin"></i> Initializing network stream...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Blocked Threats Section -->
+    <div class="table-section-header">
+        <div class="table-title-wrap">
+            <h2 class="table-section-title">Blocked Threats</h2>
+            <span class="table-section-badge" id="blockedThreatsCount">0</span>
+        </div>
+    </div>
+    
+    <div class="table-container-card">
+        <div class="table-scroll-wrapper">
+            <table class="cyberrakshak-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>IP Address</th>
+                        <th>Request Type</th>
+                        <th>Severity</th>
+                        <th>Reason</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="blockedThreatsTbody">
+                    <tr><td colspan="6" class="empty-placeholder">No active blocked threats. Network is protected.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Attack Simulator Modal -->
+<div class="modal-backdrop" id="simModal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <h3 class="modal-head-title"><i class="fa-solid fa-shield-virus" style="color: #ef4444;"></i> Cyber Rakshak Attack Simulator</h3>
+            <button class="btn-modal-close" onclick="closeSimModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        
+        <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 16px;">
+            Quick launch synthetic adversarial vectors against Cyber Rakshak IDS ML inference engine:
+        </p>
+
+        <!-- Quick Launch Attack Buttons -->
+        <div class="sim-quick-grid">
+            <button type="button" class="btn-quick-attack" onclick="quickSimulate('DDOS_Slowloris', 'POST')">
+                <i class="fa-solid fa-water" style="color: #ec4899; margin-bottom: 4px; display: block; font-size: 16px;"></i> DDoS Slowloris
+            </button>
+            <button type="button" class="btn-quick-attack" onclick="quickSimulate('Metasploit_Brute_Force_SSH', 'POST')">
+                <i class="fa-solid fa-key" style="color: #f59e0b; margin-bottom: 4px; display: block; font-size: 16px;"></i> SSH Brute Force
+            </button>
+            <button type="button" class="btn-quick-attack" onclick="quickSimulate('DOS_SYN_Hping', 'POST')">
+                <i class="fa-solid fa-bolt" style="color: #ef4444; margin-bottom: 4px; display: block; font-size: 16px;"></i> SYN Flood
+            </button>
+            <button type="button" class="btn-quick-attack" onclick="quickSimulate('NMAP_TCP_scan', 'GET')">
+                <i class="fa-solid fa-radar" style="color: #06b6d4; margin-bottom: 4px; display: block; font-size: 16px;"></i> Nmap Port Scan
+            </button>
+            <button type="button" class="btn-quick-attack" onclick="quickSimulate('SQL Injection', 'POST')">
+                <i class="fa-solid fa-database" style="color: #8b5cf6; margin-bottom: 4px; display: block; font-size: 16px;"></i> SQL Injection
+            </button>
+            <button type="button" class="btn-quick-attack" onclick="quickSimulate('Zero-Day', 'DELETE')">
+                <i class="fa-solid fa-bug" style="color: #f43f5e; margin-bottom: 4px; display: block; font-size: 16px;"></i> Zero-Day Exploit
+            </button>
+        </div>
+
+        <form id="simForm" onsubmit="handleManualSimSubmit(event)">
+            <div class="form-row">
+                <label class="form-label-txt">Custom Attack Vector</label>
+                <select class="form-input-elem" id="simAttackSelect">
+                    <option value="DDOS_Slowloris">DDoS Slowloris Flood</option>
+                    <option value="Metasploit_Brute_Force_SSH">SSH Brute Force (Metasploit)</option>
+                    <option value="DOS_SYN_Hping">SYN Flood (hping3)</option>
+                    <option value="NMAP_TCP_scan">Nmap Stealth TCP Scan</option>
+                    <option value="NMAP_OS_DETECTION">Nmap OS Detection Recon</option>
+                    <option value="SQL Injection">SQL Injection Exploit</option>
+                    <option value="Zero-Day">Zero-Day Anomaly</option>
+                    <option value="Normal">Normal Legitimate Traffic Flow</option>
+                </select>
+            </div>
+            
+            <div class="form-row">
+                <label class="form-label-txt">Attacker Source IP</label>
+                <input type="text" class="form-input-elem mono-val" id="simIpInput" value="192.168.1.105">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;" class="form-row">
+                <div>
+                    <label class="form-label-txt">Transport Protocol</label>
+                    <select class="form-input-elem" id="simProtoSelect">
+                        <option value="tcp">TCP</option>
+                        <option value="udp">UDP</option>
+                        <option value="icmp">ICMP</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label-txt">HTTP / Method</label>
+                    <select class="form-input-elem" id="simMethodSelect">
+                        <option value="POST">POST</option>
+                        <option value="GET">GET</option>
+                        <option value="PUT">PUT</option>
+                        <option value="DELETE">DELETE</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px;">
+                <button type="button" class="btn-modern" style="background: var(--bg-surface-subtle); color: var(--text-main);" onclick="closeSimModal()">Close</button>
+                <button type="submit" class="btn-modern btn-simulate"><i class="fa-solid fa-paper-plane"></i> Launch Attack</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-shelf" id="toastShelf"></div>
+
+<script>
+    // State
+    let currentTheme = localStorage.getItem('cyberrakshak_theme') || 'light';
+    let audioEnabled = false;
+    let rawActivityLogs = [];
+    let rawBlockedLogs = [];
+    let searchQuery = '';
+    let audioCtx = null;
+
+    // Theme Switcher
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        const icon = document.getElementById('themeIcon');
+        const label = document.getElementById('themeLabel');
+        if (theme === 'dark') {
+            icon.className = 'fa-solid fa-sun';
+            label.textContent = 'Light Mode';
+        } else {
+            icon.className = 'fa-solid fa-moon';
+            label.textContent = 'Dark Mode';
+        }
+        localStorage.setItem('cyberrakshak_theme', theme);
+        updateChartTheme();
+    }
+
+    function toggleTheme() {
+        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+        applyTheme(currentTheme);
+    }
+
+    applyTheme(currentTheme);
+
+    // Audio Alert Synthesizer
+    function toggleAudio() {
+        audioEnabled = !audioEnabled;
+        const icon = document.getElementById('soundIcon');
+        if (audioEnabled) {
+            icon.className = 'fa-solid fa-volume-high';
+            icon.style.color = '#10b981';
+            playTone(880, 0.1);
+            showToast('Cyber Threat Audio Alerts Enabled', 'fa-volume-high');
+        } else {
+            icon.className = 'fa-solid fa-volume-xmark';
+            icon.style.color = '#ef4444';
+            showToast('Audio Alerts Muted', 'fa-volume-xmark');
+        }
+    }
+
+    function playTone(freq = 600, duration = 0.12) {
+        if (!audioEnabled) return;
+        try {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        } catch(e) {}
+    }
+
+    // Toast notifications
+    function showToast(msg, icon = 'fa-circle-info') {
+        const shelf = document.getElementById('toastShelf');
+        const toast = document.createElement('div');
+        toast.className = 'toast-msg';
+        toast.innerHTML = `<i class="fa-solid ${icon}" style="color: var(--brand-primary); font-size: 16px;"></i> <span>${msg}</span>`;
+        shelf.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, 3500);
+    }
+
+    // Chart Design System
+    const fontConfig = { family: "'Plus Jakarta Sans', sans-serif", size: 11, weight: '500' };
+
+    function getGridLineColor() {
+        return currentTheme === 'dark' ? 'rgba(255, 255, 255, 0.07)' : 'rgba(0, 0, 0, 0.05)';
+    }
+
+    function getTickTextColor() {
+        return currentTheme === 'dark' ? '#94a3b8' : '#64748b';
+    }
+
+    // 1. CPU Chart
+    const cpuCanvas = document.getElementById('cpuChart').getContext('2d');
+    const cpuGrad = cpuCanvas.createLinearGradient(0, 0, 0, 200);
+    cpuGrad.addColorStop(0, 'rgba(59, 130, 246, 0.5)');
+    cpuGrad.addColorStop(1, 'rgba(59, 130, 246, 0.02)');
+
+    const cpuChart = new Chart(cpuCanvas, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'CPU Usage %',
+                data: [],
+                borderColor: '#3b82f6',
+                backgroundColor: cpuGrad,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 2.5,
+                borderWidth: 2.5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 400 },
+            scales: {
+                y: { min: 0, max: 100, grid: { color: getGridLineColor() }, ticks: { color: getTickTextColor(), font: fontConfig } },
+                x: { grid: { display: false }, ticks: { color: getTickTextColor(), font: fontConfig, maxTicksLimit: 7 } }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // 2. Latency Chart
+    const latCanvas = document.getElementById('latencyChart').getContext('2d');
+    const latGrad = latCanvas.createLinearGradient(0, 0, 0, 200);
+    latGrad.addColorStop(0, 'rgba(6, 182, 212, 0.5)');
+    latGrad.addColorStop(1, 'rgba(6, 182, 212, 0.02)');
+
+    const latencyChart = new Chart(latCanvas, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Latency (ms)',
+                data: [],
+                borderColor: '#06b6d4',
+                backgroundColor: latGrad,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 2.5,
+                borderWidth: 2.5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 400 },
+            scales: {
+                y: { min: 0, grid: { color: getGridLineColor() }, ticks: { color: getTickTextColor(), font: fontConfig } },
+                x: { grid: { display: false }, ticks: { color: getTickTextColor(), font: fontConfig, maxTicksLimit: 7 } }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // 3. Attack Types Chart
+    const attackCanvas = document.getElementById('attackTypesChart').getContext('2d');
+    const attackTypesChart = new Chart(attackCanvas, {
+        type: 'bar',
+        data: {
+            labels: ['DDoS', 'Brute Force', 'SQL Injection', 'Zero-Day', 'Port Scan'],
+            datasets: [{
+                label: 'Threats Detected',
+                data: [0, 0, 0, 0, 0],
+                backgroundColor: ['#ec4899', '#f59e0b', '#8b5cf6', '#ef4444', '#06b6d4'],
+                borderRadius: 7
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { color: getGridLineColor() }, ticks: { stepSize: 1, color: getTickTextColor(), font: fontConfig } },
+                x: { grid: { display: false }, ticks: { color: getTickTextColor(), font: fontConfig } }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // 4. Zero-Day Chart
+    const zeroDayCanvas = document.getElementById('zeroDayChart').getContext('2d');
+    const zeroDayChart = new Chart(zeroDayCanvas, {
+        type: 'bar',
+        data: {
+            labels: ['T-4', 'T-3', 'T-2', 'T-1', 'Active Now'],
+            datasets: [{
+                label: 'Zero-Day Anomalies',
+                data: [0, 0, 0, 0, 0],
+                backgroundColor: '#f43f5e',
+                borderRadius: 7
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { color: getGridLineColor() }, ticks: { stepSize: 1, color: getTickTextColor(), font: fontConfig } },
+                x: { grid: { display: false }, ticks: { color: getTickTextColor(), font: fontConfig } }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // 5. Protocol Distribution Chart (Doughnut)
+    const protoCanvas = document.getElementById('protoChart').getContext('2d');
+    const protoChart = new Chart(protoCanvas, {
+        type: 'doughnut',
+        data: {
+            labels: ['HTTP', 'MQTT', 'DNS', 'SSH', 'SSL/TLS'],
+            datasets: [{
+                data: [42, 28, 14, 10, 6],
+                backgroundColor: ['#3b82f6', '#06b6d4', '#10b981', '#f59e0b', '#8b5cf6'],
+                borderWidth: 0,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'right', labels: { color: getTickTextColor(), font: fontConfig } }
+            },
+            cutout: '72%'
+        }
+    });
+
+    // 6. Threat Severity Breakdown (Doughnut / Polar)
+    const sevCanvas = document.getElementById('severityChart').getContext('2d');
+    const severityChart = new Chart(sevCanvas, {
+        type: 'doughnut',
+        data: {
+            labels: ['Critical', 'High', 'Medium', 'Low'],
+            datasets: [{
+                data: [5, 18, 12, 65],
+                backgroundColor: ['#ef4444', '#ec4899', '#f59e0b', '#3b82f6'],
+                borderWidth: 0,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'right', labels: { color: getTickTextColor(), font: fontConfig } }
+            },
+            cutout: '72%'
+        }
+    });
+
+    function updateChartTheme() {
+        const gridColor = getGridLineColor();
+        const textColor = getTickTextColor();
+        
+        [cpuChart, latencyChart, attackTypesChart, zeroDayChart].forEach(ch => {
+            if (ch && ch.options && ch.options.scales) {
+                if (ch.options.scales.y) {
+                    ch.options.scales.y.grid.color = gridColor;
+                    ch.options.scales.y.ticks.color = textColor;
+                }
+                if (ch.options.scales.x) {
+                    ch.options.scales.x.ticks.color = textColor;
+                }
+                ch.update('none');
+            }
+        });
+
+        [protoChart, severityChart].forEach(ch => {
+            if (ch && ch.options && ch.options.plugins && ch.options.plugins.legend) {
+                ch.options.plugins.legend.labels.color = textColor;
+                ch.update('none');
+            }
+        });
+    }
+
+    // Polling & Real-Time Sync
+    let prevBlockedCount = 0;
+
+    async function fetchData() {
+        try {
+            const [metricsRes, logsRes, blockedRes, summaryRes] = await Promise.all([
+                fetch('/api/metrics').then(r => r.json()),
+                fetch('/api/logs').then(r => r.json()),
+                fetch('/api/blocked').then(r => r.json()),
+                fetch('/api/summary').then(r => r.json()).catch(() => null)
+            ]);
+
+            // 1. Performance Graphs
+            if (Array.isArray(metricsRes) && metricsRes.length > 0) {
+                const times = metricsRes.map(m => m.time);
+                const cpuArr = metricsRes.map(m => m.cpu);
+                const latArr = metricsRes.map(m => m.latency);
+
+                cpuChart.data.labels = times;
+                cpuChart.data.datasets[0].data = cpuArr;
+                cpuChart.update();
+
+                latencyChart.data.labels = times;
+                latencyChart.data.datasets[0].data = latArr;
+                latencyChart.update();
+
+                const latestCpu = cpuArr[cpuArr.length - 1] || 0;
+                const cpuBadge = document.getElementById('cpuBadge');
+                if (latestCpu > 80) {
+                    cpuBadge.className = 'status-pill-badge badge-red-pill';
+                    cpuBadge.textContent = 'High Load (' + latestCpu + '%)';
+                } else {
+                    cpuBadge.className = 'status-pill-badge badge-cyan-pill';
+                    cpuBadge.textContent = 'Normal (' + latestCpu + '%)';
+                }
+
+                const latestLat = Math.round(latArr[latArr.length - 1] || 0);
+                document.getElementById('latencyBadge').textContent = latestLat + ' ms';
+            }
+
+            // 2. Logs & Tables
+            rawActivityLogs = logsRes || [];
+            rawBlockedLogs = blockedRes || [];
+
+            if (rawBlockedLogs.length > prevBlockedCount && prevBlockedCount !== 0) {
+                playTone(950, 0.2); // Beep on new threat detection
+            }
+            prevBlockedCount = rawBlockedLogs.length;
+
+            renderActivityTable();
+            renderBlockedTable();
+            updateThreatStats();
+
+            // 3. KPI Summaries
+            if (summaryRes) {
+                document.getElementById('totalScannedVal').textContent = summaryRes.total_scanned || rawActivityLogs.length;
+                document.getElementById('threatsCountVal').textContent = summaryRes.threats_detected || rawBlockedLogs.length;
+                document.getElementById('blockedCountVal').textContent = summaryRes.blocked_count || rawBlockedLogs.length;
+                document.getElementById('healthScoreVal').textContent = summaryRes.health_score || '99.8%';
+            }
+
+        } catch (e) {
+            console.error('Polling error:', e);
+        }
+    }
+
+    function updateThreatStats() {
+        const counts = { 'DDoS': 0, 'Brute Force': 0, 'SQL Injection': 0, 'Zero-Day': 0, 'Port Scan': 0 };
+        const sevCounts = { 'Critical': 0, 'High': 0, 'Medium': 0, 'Low': 0 };
+        let zeroDays = 0;
+
+        rawBlockedLogs.forEach(b => {
+            const reason = (b.reason || b.attack || '').toLowerCase();
+            if (reason.includes('ddos') || reason.includes('syn') || reason.includes('slowloris')) counts['DDoS']++;
+            else if (reason.includes('brute') || reason.includes('ssh')) counts['Brute Force']++;
+            else if (reason.includes('sql')) counts['SQL Injection']++;
+            else if (reason.includes('zero') || reason.includes('anomaly')) { counts['Zero-Day']++; zeroDays++; }
+            else if (reason.includes('nmap') || reason.includes('scan')) counts['Port Scan']++;
+            else counts['DDoS']++;
+
+            const sev = b.severity || 'High';
+            if (sevCounts[sev] !== undefined) sevCounts[sev]++;
+            else sevCounts['High']++;
+        });
+
+        // Update Attack Types Chart
+        attackTypesChart.data.datasets[0].data = [
+            counts['DDoS'], counts['Brute Force'], counts['SQL Injection'], counts['Zero-Day'], counts['Port Scan']
+        ];
+        attackTypesChart.update();
+        document.getElementById('attackTypesBadge').textContent = rawBlockedLogs.length + ' Threats';
+
+        // Update Zero Day Chart
+        zeroDayChart.data.datasets[0].data = [0, 0, 0, Math.max(0, zeroDays - 1), zeroDays];
+        zeroDayChart.update();
+        document.getElementById('zeroDayBadge').textContent = zeroDays + ' Detected';
+
+        // Update Severity Chart
+        severityChart.data.datasets[0].data = [
+            sevCounts['Critical'], sevCounts['High'], sevCounts['Medium'], Math.max(1, rawActivityLogs.length - rawBlockedLogs.length)
+        ];
+        severityChart.update();
+    }
+
+    function renderActivityTable() {
+        const tbody = document.getElementById('liveActivityTbody');
+        const q = searchQuery.toLowerCase().trim();
+        const filtered = rawActivityLogs.filter(log => {
+            if (!q) return true;
+            return (log.ip && log.ip.toLowerCase().includes(q)) ||
+                   (log.request_type && log.request_type.toLowerCase().includes(q)) ||
+                   (log.status && log.status.toLowerCase().includes(q));
+        });
+
+        document.getElementById('liveLogCount').textContent = filtered.length;
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="empty-placeholder">No matching network activity records found.</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = filtered.slice(0, 15).map(log => {
+            const req = log.request_type || 'GET';
+            let reqClass = 'm-get';
+            if (req === 'POST') reqClass = 'm-post';
+            else if (req === 'PUT') reqClass = 'm-put';
+            else if (req === 'DELETE') reqClass = 'm-delete';
+
+            const status = log.status || 'Normal';
+            let statusClass = 'status-tag-normal';
+            if (status === 'Suspicious') statusClass = 'status-tag-suspicious';
+            else if (status === 'Blocked') statusClass = 'status-tag-blocked';
+
+            return `
+                <tr>
+                    <td class="mono-val">${log.time || ''}</td>
+                    <td class="mono-val" style="font-weight: 700;">${log.ip || '192.168.1.100'}</td>
+                    <td class="mono-val">${log.cpu || '2.5%'}</td>
+                    <td class="mono-val">${log.mem || '20.8MB'}</td>
+                    <td><span class="method-tag ${reqClass}">${req}</span></td>
+                    <td><span class="status-tag ${statusClass}"><span class="live-dot"></span>${status}</span></td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    function renderBlockedTable() {
+        const tbody = document.getElementById('blockedThreatsTbody');
+        const q = searchQuery.toLowerCase().trim();
+        const filtered = rawBlockedLogs.filter(log => {
+            if (!q) return true;
+            return (log.ip && log.ip.toLowerCase().includes(q)) ||
+                   (log.severity && log.severity.toLowerCase().includes(q)) ||
+                   (log.reason && log.reason.toLowerCase().includes(q));
+        });
+
+        document.getElementById('blockedThreatsCount').textContent = filtered.length;
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="empty-placeholder">No active blocked threats. Network is protected.</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(log => {
+            const req = log.request_type || 'POST';
+            let reqClass = 'm-post';
+            if (req === 'GET') reqClass = 'm-get';
+            else if (req === 'PUT') reqClass = 'm-put';
+            else if (req === 'DELETE') reqClass = 'm-delete';
+
+            const sev = log.severity || 'High';
+            let sevClass = 'sev-high';
+            if (sev === 'Critical') sevClass = 'sev-critical';
+            else if (sev === 'Medium') sevClass = 'sev-medium';
+            else if (sev === 'Low') sevClass = 'sev-low';
+
+            const isBlocked = log.is_blocked !== false;
+
+            return `
+                <tr>
+                    <td class="mono-val">${log.time || ''}</td>
+                    <td class="mono-val" style="font-weight: 700; color: #ef4444;">${log.ip || ''}</td>
+                    <td><span class="method-tag ${reqClass}">${req}</span></td>
+                    <td><span class="sev-tag ${sevClass}">${sev}</span></td>
+                    <td style="font-weight: 600;">${log.reason || log.attack || 'Intrusion Vector'}</td>
+                    <td>
+                        <button class="btn-table-block ${!isBlocked ? 'btn-table-unblock' : ''}" onclick="toggleBlock('${log.ip}', ${isBlocked})">
+                            <i class="fa-solid ${isBlocked ? 'fa-ban' : 'fa-circle-check'}"></i>
+                            ${isBlocked ? 'Permanent Block' : 'Unblocked'}
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    function handleSearch() {
+        searchQuery = document.getElementById('searchInput').value;
+        renderActivityTable();
+        renderBlockedTable();
+    }
+
+    async function toggleBlock(ip, currentBlocked) {
+        try {
+            const endpoint = currentBlocked ? '/api/unblock_ip' : '/api/block_ip';
+            const res = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ip: ip })
+            });
+            const data = await res.json();
+            showToast(data.message || 'IP rule updated successfully', 'fa-shield-halved');
+            fetchData();
+        } catch (e) {
+            showToast('Failed to change IP firewall rule', 'fa-triangle-exclamation');
+        }
+    }
+
+    // Modal Simulation Actions
+    function openSimModal() {
+        document.getElementById('simModal').classList.add('open');
+    }
+
+    function closeSimModal() {
+        document.getElementById('simModal').classList.remove('open');
+    }
+
+    async function quickSimulate(attackType, method) {
+        const randomIp = `192.168.1.${Math.floor(Math.random() * 220 + 20)}`;
+        try {
+            const res = await fetch('/api/simulate_attack', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    attack_type: attackType,
+                    ip: randomIp,
+                    proto: 'tcp',
+                    method: method
+                })
+            });
+            const data = await res.json();
+            closeSimModal();
+            playTone(1100, 0.25);
+            showToast(`🚀 Intercepted ${data.predicted_attack || attackType} from ${randomIp}`, 'fa-bolt');
+            fetchData();
+        } catch (e) {
+            showToast('Simulation error: ' + e.message, 'fa-triangle-exclamation');
+        }
+    }
+
+    async function handleManualSimSubmit(e) {
+        e.preventDefault();
+        const attackType = document.getElementById('simAttackSelect').value;
+        const ip = document.getElementById('simIpInput').value;
+        const proto = document.getElementById('simProtoSelect').value;
+        const method = document.getElementById('simMethodSelect').value;
+
+        try {
+            const res = await fetch('/api/simulate_attack', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    attack_type: attackType,
+                    ip: ip,
+                    proto: proto,
+                    method: method
+                })
+            });
+            const data = await res.json();
+            closeSimModal();
+            playTone(1100, 0.25);
+            showToast(`🚀 Simulated: ${data.predicted_attack || attackType} from ${ip}`, 'fa-bolt');
+            fetchData();
+        } catch (e) {
+            showToast('Simulation error: ' + e.message, 'fa-triangle-exclamation');
+        }
+    }
+
+    function exportFullReport() {
+        window.open('/api/export', '_blank');
+        showToast('Exporting Cyber Rakshak Threat Defense Report...', 'fa-file-arrow-down');
+    }
+
+    function filterZeroDay() {
+        document.getElementById('searchInput').value = 'Zero-Day';
+        handleSearch();
+        showToast('Filtered for Zero-Day & critical threats', 'fa-bug');
+    }
+
+    // Polling Interval
+    fetchData();
+    setInterval(fetchData, 1800);
+</script>
+
+</body>
+</html>
