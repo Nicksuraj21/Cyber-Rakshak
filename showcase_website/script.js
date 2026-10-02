@@ -1,154 +1,388 @@
 /**
- * Cyber Rakshak IDS - Interactive Showcase Engine
+ * Cyber Rakshak IDS - 2026 Interactive Showcase & Animation Engine
+ * Autonomous Edge AI Intrusion Detection & Hardware Security Experience
  */
 
-// Theme toggle
-let currentTheme = localStorage.getItem('cyberrakshak_theme') || 'light';
+(function () {
+    'use strict';
 
-function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    const icon = document.getElementById('themeIcon');
-    if (icon) {
-        icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-    }
-    localStorage.setItem('cyberrakshak_theme', theme);
-}
+    // ========================================================
+    // 1. THEME ENGINE & PERSISTENCE
+    // ========================================================
+    let currentTheme = localStorage.getItem('cyberrakshak_theme') || 'light';
 
-function toggleTheme() {
-    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-    applyTheme(currentTheme);
-}
-
-applyTheme(currentTheme);
-
-
-// Navbar Scroll Elevation & ScrollSpy
-window.addEventListener('scroll', () => {
-    const header = document.getElementById('topNav');
-    if (header) {
-        if (window.scrollY > 15) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        const icon = document.getElementById('themeIcon');
+        if (icon) {
+            icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
         }
+        localStorage.setItem('cyberrakshak_theme', theme);
     }
-});
 
-// Mobile Drawer
-function toggleMobileMenu(force) {
-    const drawer = document.getElementById('mobDrawer');
-    const backdrop = document.getElementById('mobBackdrop');
-    if (!drawer || !backdrop) return;
-    
-    const isOpen = typeof force === 'boolean' ? force : !drawer.classList.contains('open');
-    if (isOpen) {
-        drawer.classList.add('open');
-        backdrop.classList.add('open');
-        document.body.style.overflow = 'hidden';
-    } else {
-        drawer.classList.remove('open');
-        backdrop.classList.remove('open');
-        document.body.style.overflow = '';
+    window.toggleTheme = function () {
+        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+        applyTheme(currentTheme);
+    };
+
+    applyTheme(currentTheme);
+
+    // ========================================================
+    // 2. NAVBAR SCROLL ELEVATION & SCROLLSPY
+    // ========================================================
+    const topNav = document.getElementById('topNav');
+    const navLinks = document.querySelectorAll('.nav-menu-center .nav-pill-link');
+    const sections = ['hero', 'services', 'hardware', 'scenarios', 'pricing', 'faq'];
+
+    function handleScroll() {
+        const scrollY = window.scrollY;
+
+        // Navbar shrink & glass elevation
+        if (topNav) {
+            if (scrollY > 20) {
+                topNav.classList.add('scrolled');
+            } else {
+                topNav.classList.remove('scrolled');
+            }
+        }
+
+        // Dynamic Scrollspy highlight
+        let currentSectionId = 'hero';
+        sections.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                const top = el.offsetTop - 120;
+                const height = el.offsetHeight;
+                if (scrollY >= top && scrollY < top + height) {
+                    currentSectionId = id;
+                }
+            }
+        });
+
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === '#' + currentSectionId) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
     }
-}
 
-// Hardware Media Switcher
-window.setHwMedia = function(src, btn) {
-    document.querySelectorAll('.hw-thumb-btn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-    
-    const img = document.getElementById('hwMainImg');
-    if (img) {
-        img.style.opacity = '0.3';
-        setTimeout(() => {
-            img.src = src;
-            img.style.opacity = '1';
-        }, 120);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    // ========================================================
+    // 3. STATS COUNT-UP NUMERICAL ANIMATION
+    // ========================================================
+    let statsAnimated = false;
+
+    function animateCountUp() {
+        if (statsAnimated) return;
+        const statElements = document.querySelectorAll('.counter-stat');
+
+        statElements.forEach(el => {
+            const target = parseFloat(el.getAttribute('data-target') || '0');
+            const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+            const prefix = el.getAttribute('data-prefix') || '';
+            const suffix = el.getAttribute('data-suffix') || '';
+            const duration = 1800; // ms
+            const startTime = performance.now();
+
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // EaseOutQuad easing
+                const easeProgress = 1 - (1 - progress) * (1 - progress);
+                const currentVal = (target * easeProgress).toFixed(decimals);
+
+                el.textContent = `${prefix}${currentVal}${suffix}`;
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    el.textContent = `${prefix}${target.toFixed(decimals)}${suffix}`;
+                }
+            }
+
+            requestAnimationFrame(updateCounter);
+        });
+
+        statsAnimated = true;
     }
-};
 
-// FAQ Accordion
-function toggleFaq(btn) {
-    const item = btn.parentElement;
-    const isActive = item.classList.contains('active');
-    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-    if (!isActive) item.classList.add('active');
-}
+    // ========================================================
+    // 4. SCROLL REVEAL INTERSECTION OBSERVER
+    // ========================================================
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
 
-// Oscilloscope Canvas Lab
-const canvas = document.getElementById('shieldOscCanvas');
-if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let width = canvas.width = canvas.parentElement.clientWidth || 550;
-    let height = canvas.height = 220;
-    let offset = 0;
-    let disrupted = false;
+                // Trigger count-up if banner is intersecting
+                if (entry.target.classList.contains('hero-bottom-stats-banner') || entry.target.querySelector('.counter-stat')) {
+                    animateCountUp();
+                }
 
-    window.addEventListener('resize', () => {
-        width = canvas.width = canvas.parentElement.clientWidth || 550;
-        height = canvas.height = 220;
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal-on-scroll, .services-grid-6 .service-box-clean, .modes-tri-grid .mode-card-item, .pricing-cards-grid .clean-price-card').forEach(el => {
+        el.classList.add('reveal-on-scroll');
+        revealObserver.observe(el);
     });
 
-    function draw() {
-        ctx.fillStyle = '#090d16';
-        ctx.fillRect(0, 0, width, height);
+    // ========================================================
+    // 5. HERO HARDWARE 3D MOUSE PARALLAX TILT
+    // ========================================================
+    const heroStage = document.getElementById('heroHardwareStage');
+    const heroSection = document.getElementById('hero');
+    const parallaxElements = document.querySelectorAll('[data-parallax]');
 
-        // Grid
-        ctx.strokeStyle = 'rgba(30, 41, 59, 0.5)';
-        ctx.lineWidth = 1;
-        const step = 20;
-        for (let x = 0; x < width; x += step) {
-            ctx.beginPath();
-            ctx.moveTo(x, 0);
-            ctx.lineTo(x, height);
-            ctx.stroke();
-        }
-        for (let y = 0; y < height; y += step) {
-            ctx.beginPath();
-            ctx.moveTo(0, y);
-            ctx.lineTo(width, y);
-            ctx.stroke();
-        }
+    if (heroSection && heroStage) {
+        heroSection.addEventListener('mousemove', (e) => {
+            const rect = heroSection.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left - rect.width / 2;
+            const mouseY = e.clientY - rect.top - rect.height / 2;
 
-        // Primary Blue Wave
-        ctx.strokeStyle = disrupted ? '#ef4444' : '#0080ff';
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        for (let x = 0; x < width; x += 4) {
-            const amp = disrupted ? 45 + Math.sin(x * 0.1) * 15 : 28;
-            const freq = disrupted ? 0.04 : 0.025;
-            const y = height / 2 + Math.sin((x + offset) * freq) * amp;
-            if (x === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
+            const tiltX = (mouseY / (rect.height / 2)) * -6; // max 6 deg
+            const tiltY = (mouseX / (rect.width / 2)) * 6;
 
-        offset += disrupted ? 5 : 2;
-        requestAnimationFrame(draw);
+            const devWrapper = document.getElementById('heroDeviceWrapper');
+            if (devWrapper) {
+                devWrapper.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg)`;
+            }
+
+            parallaxElements.forEach(el => {
+                const depth = parseFloat(el.getAttribute('data-parallax') || '0.02');
+                const transX = mouseX * depth;
+                const transY = mouseY * depth;
+                el.style.transform = `translate3d(${transX.toFixed(1)}px, ${transY.toFixed(1)}px, 0)`;
+            });
+        }, { passive: true });
+
+        heroSection.addEventListener('mouseleave', () => {
+            const devWrapper = document.getElementById('heroDeviceWrapper');
+            if (devWrapper) {
+                devWrapper.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+                devWrapper.style.transition = 'transform 0.6s ease';
+            }
+            parallaxElements.forEach(el => {
+                el.style.transform = 'translate3d(0, 0, 0)';
+                el.style.transition = 'transform 0.6s ease';
+            });
+        });
     }
 
-    draw();
+    // ========================================================
+    // 6. CONTINUOUS NETWORK PACKET JOURNEY & AI DECISION LOOP
+    // ========================================================
+    const stepBadgeText = document.getElementById('coreLiveStepText');
+    const hudDpi = document.getElementById('hudDpiStage');
+    const hudAi = document.getElementById('hudAiInference');
+    const hudPacket = document.getElementById('hudPacketStatus');
+    const hudMitigation = document.getElementById('hudMitigationStatus');
 
-    window.injectThreatVector = function() {
-        const sel = document.getElementById('attackSelect');
-        const val = sel ? sel.value : 'DDoS Slowloris Flood';
-        const feed = document.getElementById('attackFeed');
-
-        disrupted = true;
-        setTimeout(() => { disrupted = false; }, 1500);
-
-        const isClean = val.includes('Clean');
-        const randomIp = '198.51.100.' + Math.floor(Math.random() * 200 + 10);
-        const row = document.createElement('div');
-        row.className = 'feed-entry ' + (isClean ? 'clean' : 'blocked');
-        row.innerHTML = `
-            <span class="font-mono">${randomIp} &bull; ${val}</span>
-            <strong>${isClean ? 'CLEAN (0.08ms)' : 'QUARANTINED (0.12ms)'}</strong>
-        `;
-
-        if (feed) {
-            feed.insertBefore(row, feed.firstChild);
-            if (feed.children.length > 5) feed.removeChild(feed.lastChild);
+    const pipelineStages = [
+        {
+            step: '1. Traffic Captured',
+            dpi: 'Raw Socket Ingress • 84 Features',
+            ai: 'Kernel Buffer Stream • Active',
+            packet: 'Ingress: 192.168.1.108 (HTTPS)',
+            mitigation: 'In-Line Transparent Bridge'
+        },
+        {
+            step: '2. 84 Features Extracted',
+            dpi: 'IAT & Entropy Matrix Computed',
+            ai: 'Tensor Normalization • Complete',
+            packet: 'Flow Duration: 42ms • Flags: SYN-ACK',
+            mitigation: '0.04ms Parsing Window'
+        },
+        {
+            step: '3. Local AI Inference',
+            dpi: 'Edge XGBoost Classifier Engine',
+            ai: 'Probability Score: 0.001 (Safe)',
+            packet: 'Zero Malicious Signatures Found',
+            mitigation: 'Sub-0.08ms Execution'
+        },
+        {
+            step: '4. Decision: Allowed',
+            dpi: 'Fast-Path Kernel Forwarding',
+            ai: 'Session State: Verified Safe',
+            packet: 'Forwarded to Protected Endpoints',
+            mitigation: 'Zero Jitter • 100 Mbps Line-Rate'
         }
+    ];
+
+    let currentPipelineIndex = 0;
+
+    function runPipelineCycle() {
+        if (!stepBadgeText) return;
+        const current = pipelineStages[currentPipelineIndex];
+
+        stepBadgeText.textContent = current.step;
+        if (hudDpi) hudDpi.textContent = current.dpi;
+        if (hudAi) hudAi.textContent = current.ai;
+        if (hudPacket) hudPacket.textContent = current.packet;
+        if (hudMitigation) hudMitigation.textContent = current.mitigation;
+
+        currentPipelineIndex = (currentPipelineIndex + 1) % pipelineStages.length;
+    }
+
+    setInterval(runPipelineCycle, 2400);
+
+    // ========================================================
+    // 7. DYNAMIC AIR-GAP THREAT ISOLATION SIMULATOR
+    // ========================================================
+    window.triggerAirGapSim = function () {
+        const btn = document.getElementById('btnSimAirGap');
+        const threatNode = document.getElementById('threatDeviceNode');
+        const barrierBeam = document.getElementById('barrierBeam');
+        const barrierAction = document.getElementById('barrierAction');
+        const statusText = document.getElementById('airgapStatusText');
+        const log = document.getElementById('airgapSimLog');
+
+        if (btn) btn.disabled = true;
+
+        // Stage 1: Threat Detected
+        if (threatNode) threatNode.classList.add('active-threat');
+        if (barrierBeam) barrierBeam.classList.add('threat-blocked');
+        if (barrierAction) {
+            barrierAction.textContent = 'BLOCKING & ISOLATING';
+            barrierAction.style.color = '#ef4444';
+        }
+        if (statusText) {
+            statusText.textContent = 'LATERAL ATTACK DROPPED (0.07ms)';
+            statusText.style.color = '#ef4444';
+        }
+        if (log) {
+            log.innerHTML = '<span class="text-ruby font-mono" style="font-weight:700;"><i class="fa-solid fa-ban"></i> MALICIOUS LATERAL SCAN BLOCKED:</span> Malicious probe from IoT Plug quarantined. Enterprise VLAN 10 protected.';
+        }
+
+        // Stage 2: Restore Normal after 2.8s
+        setTimeout(() => {
+            if (threatNode) threatNode.classList.remove('active-threat');
+            if (barrierBeam) barrierBeam.classList.remove('threat-blocked');
+            if (barrierAction) {
+                barrierAction.textContent = 'Pass-Through Filtering';
+                barrierAction.style.color = '#10b981';
+            }
+            if (statusText) {
+                statusText.textContent = 'MICRO-SEGMENTATION ENFORCED';
+                statusText.style.color = '#10b981';
+            }
+            if (log) {
+                log.innerHTML = '<span class="text-green font-mono">&bull; Status:</span> All IoT device telemetry contained within isolated VLAN segment.';
+            }
+            if (btn) btn.disabled = false;
+        }, 2800);
     };
-}
+
+    // ========================================================
+    // 8. SCENARIO TABS CONTROLLER
+    // ========================================================
+    window.switchScenario = function (id, btn) {
+        document.querySelectorAll('.scenario-tab-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        document.querySelectorAll('.scenario-content-pane').forEach(p => p.classList.remove('active'));
+        const target = document.getElementById('pane-' + id);
+        if (target) target.classList.add('active');
+    };
+
+    // ========================================================
+    // 9. FAQ ACCORDION
+    // ========================================================
+    window.toggleFaq = function (btn) {
+        const item = btn.parentElement;
+        const isActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        if (!isActive) item.classList.add('active');
+    };
+
+    // ========================================================
+    // 10. REAL-TIME SIGNAL OSCILLOSCOPE & THREAT LAB
+    // ========================================================
+    const oscCanvas = document.getElementById('shieldOscCanvas');
+    if (oscCanvas) {
+        const ctx = oscCanvas.getContext('2d');
+        let width = oscCanvas.width = oscCanvas.parentElement.clientWidth || 550;
+        let height = oscCanvas.height = 220;
+        let offset = 0;
+        let disrupted = false;
+
+        window.addEventListener('resize', () => {
+            width = oscCanvas.width = oscCanvas.parentElement.clientWidth || 550;
+            height = oscCanvas.height = 220;
+        });
+
+        function drawOscilloscope() {
+            ctx.fillStyle = '#070a12';
+            ctx.fillRect(0, 0, width, height);
+
+            // Oscilloscope Grid
+            ctx.strokeStyle = 'rgba(30, 41, 59, 0.45)';
+            ctx.lineWidth = 1;
+            const step = 20;
+            for (let x = 0; x < width; x += step) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < height; y += step) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+
+            // Signal Wave
+            ctx.strokeStyle = disrupted ? '#ef4444' : '#0080ff';
+            ctx.shadowColor = disrupted ? 'rgba(239, 68, 68, 0.8)' : 'rgba(0, 128, 255, 0.8)';
+            ctx.shadowBlur = 10;
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+
+            for (let x = 0; x < width; x += 4) {
+                const amp = disrupted ? 42 + Math.sin(x * 0.12) * 16 : 28;
+                const freq = disrupted ? 0.045 : 0.024;
+                const y = height / 2 + Math.sin((x + offset) * freq) * amp;
+                if (x === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            ctx.shadowBlur = 0; // reset
+
+            offset += disrupted ? 5.5 : 2.2;
+            requestAnimationFrame(drawOscilloscope);
+        }
+
+        drawOscilloscope();
+
+        window.injectThreatVector = function () {
+            const sel = document.getElementById('attackSelect');
+            const val = sel ? sel.value : 'DDoS Slowloris Flood';
+            const feed = document.getElementById('attackFeed');
+
+            disrupted = true;
+            setTimeout(() => { disrupted = false; }, 1600);
+
+            const isClean = val.includes('Clean');
+            const randomIp = '198.51.100.' + Math.floor(Math.random() * 200 + 10);
+            const row = document.createElement('div');
+            row.className = 'feed-entry ' + (isClean ? 'clean' : 'blocked');
+            row.innerHTML = `
+                <span class="font-mono">${randomIp} &bull; ${val}</span>
+                <strong>${isClean ? 'CLEAN (0.04ms)' : 'QUARANTINED (0.09ms)'}</strong>
+            `;
+
+            if (feed) {
+                feed.insertBefore(row, feed.firstChild);
+                if (feed.children.length > 5) feed.removeChild(feed.lastChild);
+            }
+        };
+    }
+
+})();

@@ -94,13 +94,16 @@
          HERO SECTION (Exact Match to User Reference Design)
          ======================================================== -->
     <section class="hero-stage-section" id="hero">
+        <!-- Animated Cyber Matrix Grid Background -->
+        <div class="hero-cyber-grid-overlay"></div>
+        
         <div class="container">
             
             <!-- 2-Column Side-by-Side Hero Stage -->
             <div class="hero-split-grid">
                 
                 <!-- Left Column: Copy, Actions & 4 Micro Cards -->
-                <div class="hero-left-col">
+                <div class="hero-left-col reveal-hero-left">
                     
                     <!-- Green Pill Badge -->
                     <div class="hero-edge-badge">
@@ -122,7 +125,7 @@
 
                     <!-- Hero Action Buttons -->
                     <div class="hero-main-btns">
-                        <button type="button" onclick="triggerRealGoogleAuth()" class="btn-hero-primary-pill">
+                        <button type="button" onclick="triggerRealGoogleAuth()" class="btn-hero-primary-pill btn-magnetic">
                             Get Started &rarr;
                         </button>
                         <a href="#hardware" class="btn-hero-demo-pill">
@@ -182,12 +185,16 @@
                 </div>
 
                 <!-- Right Column: 3D Hardware Showcase & Floating Glass Telemetry Card -->
-                <div class="hero-right-col">
-                    <div class="hero-showcase-stage">
+                <div class="hero-right-col reveal-hero-right">
+                    <div class="hero-showcase-stage" id="heroHardwareStage">
                         
                         <!-- Atmospheric Studio Halo & Cyber Ring -->
                         <div class="stage-ambient-aura"></div>
                         <div class="stage-cyber-ring"></div>
+                        
+                        <!-- Animated Radar Pulse Rings -->
+                        <div class="stage-radar-ring ring-1"></div>
+                        <div class="stage-radar-ring ring-2"></div>
                         
                         <!-- 3D Geometric Platform Pedestal -->
                         <div class="stage-pedestal-platform">
@@ -196,7 +203,7 @@
                         </div>
 
                         <!-- Floating Frosted Glass Live Telemetry Card (Exact Mockup Match) -->
-                        <div class="floating-telemetry-glass-card">
+                        <div class="floating-telemetry-glass-card" id="heroMainGlassCard" data-parallax="0.035">
                             <div class="glass-card-top">
                                 <div class="glass-card-title">
                                     <div class="glass-shield-icon">
@@ -255,19 +262,32 @@
                             </div>
                         </div>
 
+                        <!-- Micro Floating Security Chips -->
+                        <div class="hero-float-chip chip-left" data-parallax="-0.03">
+                            <span class="chip-pulse-green"></span>
+                            <span>84-Feature DPI &bull; Active</span>
+                        </div>
+                        <div class="hero-float-chip chip-bottom" data-parallax="0.025">
+                            <i class="fa-solid fa-bolt text-blue"></i>
+                            <span>Sub-0.12ms In-Line Filter</span>
+                        </div>
+
                         <!-- Device Contact Drop Shadow -->
                         <div class="stage-device-shadow"></div>
 
-                        <!-- Cyber Rakshak Hardware Appliance Image -->
-                        <img src="assets/cyber_rakshak_device.png" alt="Cyber Rakshak Autonomous AI Defense Hardware Appliance" class="stage-hardware-device-img">
+                        <!-- Cyber Rakshak Hardware Appliance Image with Laser Scan Beam -->
+                        <div class="stage-device-wrapper" id="heroDeviceWrapper">
+                            <img src="assets/cyber_rakshak_device.png" alt="Cyber Rakshak Autonomous AI Defense Hardware Appliance" class="stage-hardware-device-img">
+                            <div class="stage-scanline-beam"></div>
+                        </div>
 
                     </div>
                 </div>
 
             </div>
 
-            <!-- Full-Width Bottom Stats Glass Banner (Exact Reference Match) -->
-            <div class="hero-bottom-stats-banner">
+            <!-- Full-Width Bottom Stats Glass Banner (Interactive Count-Up Counters) -->
+            <div class="hero-bottom-stats-banner reveal-on-scroll">
                 
                 <!-- Stat 1: 98.2% Detection Accuracy -->
                 <div class="banner-stat-item">
@@ -275,7 +295,7 @@
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
                     <div class="banner-stat-content">
-                        <div class="banner-stat-val">98.2%</div>
+                        <div class="banner-stat-val counter-stat" data-target="98.2" data-decimals="1" data-suffix="%">98.2%</div>
                         <div class="banner-stat-lbl">Detection Accuracy</div>
                     </div>
                 </div>
@@ -288,7 +308,7 @@
                         <i class="fa-solid fa-bolt"></i>
                     </div>
                     <div class="banner-stat-content">
-                        <div class="banner-stat-val">~400ms</div>
+                        <div class="banner-stat-val counter-stat" data-target="400" data-prefix="~" data-suffix="ms">~400ms</div>
                         <div class="banner-stat-lbl">Threat Block Time</div>
                     </div>
                 </div>
@@ -301,7 +321,7 @@
                         <i class="fa-solid fa-database"></i>
                     </div>
                     <div class="banner-stat-content">
-                        <div class="banner-stat-val">100 Mbps</div>
+                        <div class="banner-stat-val counter-stat" data-target="100" data-suffix=" Mbps">100 Mbps</div>
                         <div class="banner-stat-lbl">Line-Rate DPI</div>
                     </div>
                 </div>
@@ -314,7 +334,7 @@
                         <i class="fa-solid fa-cube"></i>
                     </div>
                     <div class="banner-stat-content">
-                        <div class="banner-stat-val">Low Power</div>
+                        <div class="banner-stat-val text-glow" data-text="Low Power">Low Power</div>
                         <div class="banner-stat-lbl">Raspberry Pi 4</div>
                     </div>
                 </div>
@@ -489,6 +509,108 @@
 
             </div>
 
+            <!-- Live Interactive In-Line Network Packet Journey Architecture -->
+            <div class="interactive-network-pipeline-container reveal-on-scroll">
+                <div class="pipeline-header">
+                    <div class="pipeline-title">
+                        <i class="fa-solid fa-diagram-project text-blue"></i>
+                        <span>Live In-Line Network Packet Flow &amp; AI Decision Journey</span>
+                    </div>
+                    <div class="pipeline-status">
+                        <span class="pulse-indicator-emerald"></span>
+                        <span class="font-mono">IN-LINE ACTIVE &bull; 100 Mbps LINE-RATE</span>
+                    </div>
+                </div>
+                
+                <div class="network-topology-flow">
+                    <!-- Node 1: Internet WAN -->
+                    <div class="topo-node" id="node-wan" title="Raw Incoming Packet Ingress">
+                        <div class="topo-icon-box"><i class="fa-solid fa-globe"></i></div>
+                        <div class="topo-label">Internet / WAN</div>
+                        <div class="topo-sub">Raw Ingress</div>
+                    </div>
+
+                    <!-- Cable 1 -->
+                    <div class="topo-cable">
+                        <div class="cable-line"></div>
+                        <div class="traveling-packet packet-1"></div>
+                    </div>
+
+                    <!-- Node 2: Gateway Router -->
+                    <div class="topo-node" id="node-router" title="Border Gateway">
+                        <div class="topo-icon-box"><i class="fa-solid fa-wifi"></i></div>
+                        <div class="topo-label">Gateway Router</div>
+                        <div class="topo-sub">Edge Entry</div>
+                    </div>
+
+                    <!-- Cable 2 -->
+                    <div class="topo-cable">
+                        <div class="cable-line"></div>
+                        <div class="traveling-packet packet-2"></div>
+                    </div>
+
+                    <!-- Node 3: CYBER RAKSHAK CORE APPLIANCE (Hero Node) -->
+                    <div class="topo-node topo-core-node" id="node-cyberrakshak" title="Cyber Rakshak Autonomous AI Engine">
+                        <div class="core-glow-aura"></div>
+                        <div class="topo-icon-box core-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="topo-label">Cyber Rakshak</div>
+                        <div class="topo-sub text-blue font-mono">XGBoost AI Core</div>
+                        
+                        <!-- Live Dynamic Step HUD -->
+                        <div class="core-step-badge" id="coreLiveStep">
+                            <span class="step-dot-pulse"></span>
+                            <span id="coreLiveStepText">1. Traffic Captured</span>
+                        </div>
+                    </div>
+
+                    <!-- Cable 3 -->
+                    <div class="topo-cable">
+                        <div class="cable-line"></div>
+                        <div class="traveling-packet packet-3"></div>
+                    </div>
+
+                    <!-- Node 4: Gigabit Switch / Mesh -->
+                    <div class="topo-node" id="node-switch" title="Internal LAN Switch">
+                        <div class="topo-icon-box"><i class="fa-solid fa-network-wired"></i></div>
+                        <div class="topo-label">Gigabit Switch</div>
+                        <div class="topo-sub">Protected Fabric</div>
+                    </div>
+
+                    <!-- Cable 4 -->
+                    <div class="topo-cable">
+                        <div class="cable-line"></div>
+                        <div class="traveling-packet packet-4"></div>
+                    </div>
+
+                    <!-- Node 5: Protected Endpoints & IoT -->
+                    <div class="topo-node" id="node-endpoints" title="Workstations, Laptops & IoT">
+                        <div class="topo-icon-box"><i class="fa-solid fa-laptop-code"></i></div>
+                        <div class="topo-label">Protected Endpoints</div>
+                        <div class="topo-sub text-green font-mono">Safe LAN (0 Threats)</div>
+                    </div>
+                </div>
+
+                <!-- Live Interactive Telemetry Terminal Bar -->
+                <div class="pipeline-hud-strip">
+                    <div class="hud-item">
+                        <span class="hud-label">DPI CAPTURE STAGE</span>
+                        <span class="hud-value font-mono" id="hudDpiStage">Raw Socket &bull; 84 Features</span>
+                    </div>
+                    <div class="hud-item">
+                        <span class="hud-label">LOCAL AI INFERENCE</span>
+                        <span class="hud-value font-mono text-blue" id="hudAiInference">XGBoost Edge &bull; 0.08ms</span>
+                    </div>
+                    <div class="hud-item">
+                        <span class="hud-label">LAST CLASSIFIED PACKET</span>
+                        <span class="hud-value font-mono text-green" id="hudPacketStatus">Allowed (Safe TCP Stream)</span>
+                    </div>
+                    <div class="hud-item">
+                        <span class="hud-label">DYNAMIC FIREWALL</span>
+                        <span class="hud-value font-mono text-green" id="hudMitigationStatus">Line-Rate Active &bull; Sub-0.12ms</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -639,6 +761,62 @@
                 </div>
             </div>
 
+            <!-- Dynamic Air-Gap & VLAN Threat Containment Simulator -->
+            <div class="interactive-airgap-visualizer reveal-on-scroll">
+                <div class="airgap-header">
+                    <div class="airgap-title">
+                        <i class="fa-solid fa-shield-virus text-purple"></i>
+                        <span>Dynamic Air-Gap Threat Isolation Simulation</span>
+                    </div>
+                    <div class="airgap-status-badge font-mono">
+                        <span class="airgap-indicator-dot"></span>
+                        <span id="airgapStatusText">MICRO-SEGMENTATION ENFORCED</span>
+                    </div>
+                </div>
+
+                <div class="airgap-zones-grid">
+                    <!-- Zone 1: Trusted Enterprise LAN -->
+                    <div class="airgap-zone trusted-zone">
+                        <div class="zone-badge"><i class="fa-solid fa-lock text-green"></i> Trusted VLAN 10</div>
+                        <div class="zone-devices">
+                            <div class="zone-device-node"><i class="fa-solid fa-laptop-code"></i> <span>Work Laptop</span></div>
+                            <div class="zone-device-node"><i class="fa-solid fa-server"></i> <span>NAS Storage</span></div>
+                        </div>
+                        <div class="zone-label text-green">Zero-Trust Protected</div>
+                    </div>
+
+                    <!-- Cyber Rakshak Dynamic Air-Gap Firewall Barrier -->
+                    <div class="airgap-barrier-node">
+                        <div class="barrier-shield-core">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div class="barrier-beam" id="barrierBeam"></div>
+                        <div class="barrier-label">Dynamic Kernel Barrier</div>
+                        <div class="barrier-action" id="barrierAction">Pass-Through Filtering</div>
+                    </div>
+
+                    <!-- Zone 2: Untrusted IoT & Guest Subnet -->
+                    <div class="airgap-zone untrusted-zone">
+                        <div class="zone-badge"><i class="fa-solid fa-triangle-exclamation text-amber"></i> Untrusted VLAN 30</div>
+                        <div class="zone-devices">
+                            <div class="zone-device-node"><i class="fa-solid fa-video"></i> <span>IP Camera</span></div>
+                            <div class="zone-device-node threat-node" id="threatDeviceNode"><i class="fa-solid fa-microchip"></i> <span>Infected IoT Plug</span></div>
+                        </div>
+                        <div class="zone-label text-amber">Isolated Sandbox</div>
+                    </div>
+                </div>
+
+                <div class="airgap-sim-controls">
+                    <span class="font-mono text-muted" style="font-size: 13px;">Live Defense Cycle:</span>
+                    <button type="button" class="btn-sim-trigger" id="btnSimAirGap" onclick="triggerAirGapSim()">
+                        <i class="fa-solid fa-bolt"></i> Simulate Lateral Attack Attempt
+                    </button>
+                    <div class="airgap-sim-log font-mono" id="airgapSimLog">
+                        <span class="text-green">&bull; Status:</span> All IoT device telemetry contained within isolated VLAN segment.
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -670,6 +848,60 @@
                 </div>
                 <div class="split-media-box">
                     <img src="assets/SmartTrafficManagement_ef5508f0-dd1b-4507-ba54-321b45ee6e07.png_v=1641816630.png" alt="Smart Traffic Management and SQM Queuing" class="asset-img-diagram">
+                </div>
+            </div>
+
+            <!-- Live 3-Lane SQM Interactive Traffic Visualizer -->
+            <div class="interactive-sqm-traffic-lanes reveal-on-scroll">
+                <div class="sqm-header">
+                    <div class="sqm-title">
+                        <i class="fa-solid fa-sliders text-green"></i>
+                        <span>Live FQ-CoDel Active Queue Management Visualizer</span>
+                    </div>
+                    <div class="sqm-metrics-pill font-mono">
+                        <span>BUFFERBLOAT RATING: <strong class="text-green">A+ (0.4ms Jitter)</strong></span>
+                    </div>
+                </div>
+
+                <div class="sqm-lanes-container">
+                    <!-- Lane 1: Ultra High Priority (Gaming & Realtime VoIP) -->
+                    <div class="sqm-lane priority-lane">
+                        <div class="lane-tag">
+                            <i class="fa-solid fa-headset text-green"></i>
+                            <span>Priority Lane: VoIP / Gaming</span>
+                        </div>
+                        <div class="lane-track">
+                            <div class="stream-particle stream-green p-1"></div>
+                            <div class="stream-particle stream-green p-2"></div>
+                            <div class="stream-particle stream-green p-3"></div>
+                        </div>
+                        <div class="lane-stat font-mono text-green">&lt; 1ms Latency</div>
+                    </div>
+
+                    <!-- Lane 2: Balanced Bulk (Streaming & HTTPS) -->
+                    <div class="sqm-lane balanced-lane">
+                        <div class="lane-tag">
+                            <i class="fa-solid fa-film text-blue"></i>
+                            <span>Standard Lane: 4K Video / Web</span>
+                        </div>
+                        <div class="lane-track">
+                            <div class="stream-particle stream-blue p-1"></div>
+                            <div class="stream-particle stream-blue p-2"></div>
+                        </div>
+                        <div class="lane-stat font-mono text-blue">Fair Share Bandwidth</div>
+                    </div>
+
+                    <!-- Lane 3: Anomalous Ingress (SYN Floods / Scans - Throttled & Dropped) -->
+                    <div class="sqm-lane throttled-lane">
+                        <div class="lane-tag">
+                            <i class="fa-solid fa-ban text-ruby"></i>
+                            <span>Anomalous Burst: Floods / Scans</span>
+                        </div>
+                        <div class="lane-track">
+                            <div class="stream-particle stream-ruby p-drop"></div>
+                        </div>
+                        <div class="lane-stat font-mono text-ruby">Dropped in Kernel Ring</div>
+                    </div>
                 </div>
             </div>
 
@@ -837,6 +1069,64 @@
                     </div>
                 </div>
 
+            </div>
+
+            <!-- Technical 84-Feature Processing Pipeline Visualizer -->
+            <div class="interactive-feature-pipeline reveal-on-scroll">
+                <div class="pipeline-flow-header">
+                    <div class="font-mono text-blue" style="font-size: 13px; font-weight: 700;">
+                        <i class="fa-solid fa-microchip"></i> 84-FEATURE DEEP PACKET EXTRACTION &amp; ML INFERENCE PIPELINE
+                    </div>
+                    <span class="font-mono text-muted" style="font-size: 12px;">SUB-0.08ms INFERENCE LATENCY</span>
+                </div>
+
+                <div class="pipeline-flow-steps">
+                    <!-- Step 1: Raw Packet -->
+                    <div class="flow-step-node">
+                        <div class="flow-step-icon"><i class="fa-solid fa-cube"></i></div>
+                        <div class="flow-step-label">1. Raw Packet</div>
+                        <div class="flow-step-sub">Layer 2-7 Capture</div>
+                    </div>
+                    <div class="flow-step-arrow"><i class="fa-solid fa-arrow-right-long"></i></div>
+
+                    <!-- Step 2: Flow Assembly -->
+                    <div class="flow-step-node">
+                        <div class="flow-step-icon"><i class="fa-solid fa-layer-group"></i></div>
+                        <div class="flow-step-label">2. Flow Assembly</div>
+                        <div class="flow-step-sub">5-Tuple Bi-Direction</div>
+                    </div>
+                    <div class="flow-step-arrow"><i class="fa-solid fa-arrow-right-long"></i></div>
+
+                    <!-- Step 3: Feature Extraction -->
+                    <div class="flow-step-node active-step">
+                        <div class="flow-step-icon core-icon"><i class="fa-solid fa-network-wired"></i></div>
+                        <div class="flow-step-label">3. 84 Features</div>
+                        <div class="flow-step-sub">Entropy / IAT / Flags</div>
+                    </div>
+                    <div class="flow-step-arrow"><i class="fa-solid fa-arrow-right-long"></i></div>
+
+                    <!-- Step 4: Normalization -->
+                    <div class="flow-step-node">
+                        <div class="flow-step-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <div class="flow-step-label">4. Normalization</div>
+                        <div class="flow-step-sub">Standard Scaler Tensor</div>
+                    </div>
+                    <div class="flow-step-arrow"><i class="fa-solid fa-arrow-right-long"></i></div>
+
+                    <!-- Step 5: XGBoost Model -->
+                    <div class="flow-step-node success-step">
+                        <div class="flow-step-icon"><i class="fa-solid fa-bolt"></i></div>
+                        <div class="flow-step-label">5. XGBoost AI</div>
+                        <div class="flow-step-sub text-green font-mono">Kernel Decision: Drop/Pass</div>
+                    </div>
+                </div>
+
+                <div class="feature-metrics-ticker">
+                    <span class="ticker-tag font-mono">EXTRACTED METRICS:</span>
+                    <div class="ticker-scroll-content font-mono">
+                        <span>Flow Duration &bull; Tot Fwd Pkts &bull; Tot Bwd Pkts &bull; Flow Byts/s &bull; Flow Pkts/s &bull; Flow IAT Mean &bull; Flow IAT Std &bull; Fwd PSH Flags &bull; Bwd PSH Flags &bull; FIN Flag Cnt &bull; SYN Flag Cnt &bull; RST Flag Cnt &bull; ACK Flag Cnt &bull; URG Flag Cnt &bull; Down/Up Ratio &bull; Init Win bytes &bull; Active Mean</span>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -1588,5 +1878,7 @@
         </div>
     </div>
 
+    <!-- External Interactive Showcase & Animation Engine -->
+    <script src="script.js"></script>
 </body>
 </html>
