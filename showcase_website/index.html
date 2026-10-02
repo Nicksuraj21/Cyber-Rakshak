@@ -1585,9 +1585,13 @@
         // Show Success Toast
         showAuthSuccessToast(userSession);
 
-        // Smooth redirect to Dashboard
+        // Smooth redirect to Dashboard (Environment Agnostic)
         setTimeout(() => {
-            window.location.href = window.location.origin + '/dashboard';
+            if (window.location.protocol === 'file:') {
+                window.location.href = '../templates/dashboard.html';
+            } else {
+                window.location.href = '/dashboard';
+            }
         }, 700);
     }
 
