@@ -564,6 +564,176 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
     color: var(--primary-blue);
 }
 
+/* ========================================================
+   HERO HARDWARE DEVICE SPOTLIGHT SHOWCASE
+   ======================================================== */
+.hero-device-spotlight-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 10px auto 40px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-device-stage-card {
+    position: relative;
+    width: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(0, 180, 255, 0.09) 0%, rgba(255, 255, 255, 0.98) 75%);
+    border: 1px solid rgba(0, 128, 255, 0.2);
+    border-radius: 28px;
+    padding: 38px 24px 26px 24px;
+    box-shadow: 0 20px 50px rgba(0, 128, 255, 0.12), 0 4px 16px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] .hero-device-stage-card {
+    background: radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.14) 0%, rgba(13, 18, 30, 0.95) 75%);
+    border-color: rgba(0, 240, 255, 0.28);
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.6), 0 0 35px rgba(0, 240, 255, 0.18);
+}
+
+.hero-device-stage-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 28px 65px rgba(0, 128, 255, 0.2), 0 0 45px rgba(0, 200, 255, 0.22);
+    border-color: rgba(0, 128, 255, 0.4);
+}
+
+.hero-device-img-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-device-img {
+    width: 100%;
+    max-height: 380px;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 36px rgba(0, 0, 0, 0.24));
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: floatDevice 6s ease-in-out infinite;
+}
+
+@keyframes floatDevice {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-7px); }
+}
+
+.hero-device-stage-card:hover .hero-device-img {
+    transform: scale(1.03) translateY(-4px);
+    filter: drop-shadow(0 28px 48px rgba(0, 128, 255, 0.3));
+}
+
+/* Floating Telemetry Badges */
+.floating-telemetry-pill {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 128, 255, 0.22);
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-black);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    z-index: 5;
+    pointer-events: none;
+}
+
+[data-theme="dark"] .floating-telemetry-pill {
+    background: rgba(15, 23, 42, 0.9);
+    border-color: rgba(0, 240, 255, 0.35);
+    color: #f8fafc;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.pill-top-left {
+    top: -10px;
+    left: -12px;
+    animation: floatPill1 5s ease-in-out infinite;
+}
+
+.pill-top-right {
+    top: -10px;
+    right: -12px;
+    animation: floatPill2 5.5s ease-in-out infinite;
+}
+
+.pill-bottom-left {
+    bottom: 22px;
+    left: -16px;
+    animation: floatPill2 6s ease-in-out infinite;
+}
+
+.pill-bottom-right {
+    bottom: 22px;
+    right: -16px;
+    animation: floatPill1 6.5s ease-in-out infinite;
+}
+
+@keyframes floatPill1 {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes floatPill2 {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+}
+
+.hero-device-footer-bar {
+    margin-top: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.hero-device-footer-bar span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.live-pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseGreen {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
 /* 3 Geometric Cards Grid */
 .hero-cards-grid {
     display: grid;

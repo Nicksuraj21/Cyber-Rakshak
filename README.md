@@ -108,6 +108,23 @@ Cyber Rakshak is organized into four strictly segregated operational layers:
 ```
 > **Key Architecture Feature:** Deployed as a transparent bridge between the gateway router and the internal switch. No client devices or endpoints require software modification, proxy configuration, or agent installation.
 
+### 📦 Cyber Rakshak Hardware Security Appliance
+
+<div align="center">
+  <br>
+  <table align="center" style="border: none; background: transparent;">
+    <tr>
+      <td bgcolor="#0f172a" align="center" style="background: #0f172a; border-radius: 16px; padding: 24px; border: 1px solid #00f0ff; box-shadow: 0 8px 32px rgba(0, 240, 255, 0.2);">
+        <img src="./cyber_rakshak_device.png" alt="Cyber Rakshak Autonomous Hardware Security Gateway Appliance" width="560" style="display: block; margin: 0 auto; border-radius: 8px;" />
+        <p style="margin-top: 12px; color: #00f0ff; font-size: 13px; font-weight: 600;">
+          🔒 Fanless In-Line Edge Security Gateway &bull; Dual Gigabit Ethernet (WAN/LAN) &bull; Sub-0.12ms Kernel Mitigation
+        </p>
+      </td>
+    </tr>
+  </table>
+  <br>
+</div>
+
 ---
 
 ## 🔬 Feature Engineering & Normalization
