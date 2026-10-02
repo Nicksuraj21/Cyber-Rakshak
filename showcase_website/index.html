@@ -1516,7 +1516,7 @@
 
             <div class="auth-modal-body">
                 <!-- Santosh Singh Verified Account Card -->
-                <div class="auth-account-select-card selected" id="santoshAccountCard" onclick="selectGoogleAccount('santoshsingh740444@gmail.com', 'Santosh Singh')">
+                <div class="auth-account-select-card selected" id="santoshAccountCard" onclick="selectGoogleAccount('santoshsingh740444@gmail.com', 'Santosh Singh'); authenticateAndLogin();" title="Click to sign in instantly as Santosh Singh">
                     <div class="auth-avatar" style="background: linear-gradient(135deg, #4285F4, #0080ff);">S</div>
                     <div class="auth-account-info">
                         <div class="auth-account-name">
@@ -1525,23 +1525,32 @@
                         </div>
                         <div class="auth-account-email">santoshsingh740444@gmail.com</div>
                     </div>
+                    <div style="color: #0080ff; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 4px;">
+                        <span>Continue</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
                 </div>
 
                 <!-- Custom Account Option -->
                 <div style="margin-bottom: 18px;">
                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                        <span style="font-size: 12px; font-weight: 600; color: #64748b;">Or use another Google account:</span>
+                        <span style="font-size: 12px; font-weight: 600; color: #64748b;">Or sign in with another Google account:</span>
                     </div>
-                    <input type="email" id="customGoogleEmail" placeholder="yourname@gmail.com" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13.5px; background: #f8fafc; color: #0f172a; outline: none; font-family: inherit; box-sizing: border-box;" onfocus="onCustomEmailFocus()">
+                    <div style="position: relative;">
+                        <input type="email" id="customGoogleEmail" placeholder="Enter your Gmail address..." style="width: 100%; padding: 11px 40px 11px 14px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-size: 13.5px; background: #f8fafc; color: #0f172a; outline: none; font-family: inherit; box-sizing: border-box; transition: border-color 0.2s ease;" onfocus="onCustomEmailFocus()" onkeydown="if(event.key==='Enter') authenticateAndLogin()">
+                        <button type="button" onclick="authenticateAndLogin()" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: #0080ff; color: #ffffff; border-radius: 6px; padding: 5px 10px; font-size: 12px; font-weight: 700;">
+                            Go &rarr;
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Primary Action Button -->
                 <button type="button" class="btn-continue-google" id="btnContinueGoogle" onclick="authenticateAndLogin()">
-                    <svg width="20" height="20" viewBox="0 0 24 24">
-                        <path fill="#ffffff" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
-                        <path fill="#ffffff" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
-                        <path fill="#ffffff" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
-                        <path fill="#ffffff" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                    <svg width="20" height="20" viewBox="0 0 24 24" style="background: white; border-radius: 50%; padding: 2px;">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
                     </svg>
                     <span>Sign in with Google</span>
                 </button>
