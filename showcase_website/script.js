@@ -7,25 +7,12 @@
     'use strict';
 
     // ========================================================
-    // 1. THEME ENGINE & PERSISTENCE
+    // 1. DEFAULT LIGHT THEME ENFORCEMENT
     // ========================================================
-    let currentTheme = localStorage.getItem('cyberrakshak_theme') || 'light';
-
-    function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        const icon = document.getElementById('themeIcon');
-        if (icon) {
-            icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-        }
-        localStorage.setItem('cyberrakshak_theme', theme);
-    }
-
-    window.toggleTheme = function () {
-        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-        applyTheme(currentTheme);
-    };
-
-    applyTheme(currentTheme);
+    try {
+        localStorage.removeItem('cyberrakshak_theme');
+    } catch (e) {}
+    document.documentElement.setAttribute('data-theme', 'light');
 
     // ========================================================
     // 2. NAVBAR SCROLL ELEVATION & SCROLLSPY
