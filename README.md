@@ -1,11 +1,14 @@
 <div align="center">
 
 <br>
-<img src="./cyber_rakshak_brand.png" alt="Cyber Rakshak Logo" width="640" />
-<br><br>
-
-<!-- Futuristic Cyber Header Banner -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0a0e17,30:161b2e,70:00f0ff,100:ff007f&height=220&section=header&text=CYBER%20RAKSHAK%20IDS&fontSize=42&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=AI-Driven%20Intrusion%20Detection%20%7C%20Real-Time%20Edge%20Mitigation%20%7C%20Zero-Cloud%20IoT%20Defense&descSize=13&descAlignY=58&descColor=00f0ff" width="100%" />
+<table align="center" style="border: none; background: transparent;">
+  <tr>
+    <td bgcolor="#ffffff" align="center" style="background: #ffffff; border-radius: 16px; padding: 20px 36px; border: 1px solid #e1e4e8; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+      <img src="./cyber_rakshak_brand_white.png" alt="Cyber Rakshak Logo" width="560" style="display: block; margin: 0 auto;" />
+    </td>
+  </tr>
+</table>
+<br>
 
 <!-- Tech Stack Badges -->
 <p align="center">
