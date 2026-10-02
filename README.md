@@ -4,7 +4,7 @@
 <table align="center" style="border: none; background: transparent;">
   <tr>
     <td bgcolor="#ffffff" align="center" style="background: #ffffff; border-radius: 16px; padding: 20px 36px; border: 1px solid #e1e4e8; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
-      <img src="./cyber_rakshak_brand_white.png" alt="Cyber Rakshak Logo" width="560" style="display: block; margin: 0 auto;" />
+      <img src="https://drive.google.com/uc?id=1mfm1QIVQ8yXiE9QZMVimhO6u6XgnABFr" alt="Cyber Rakshak Logo" width="560" style="display: block; margin: 0 auto;" />
     </td>
   </tr>
 </table>
