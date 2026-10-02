@@ -1669,7 +1669,7 @@
         <div class="kpi-card">
             <div class="kpi-details">
                 <h4>Total Scanned</h4>
-                <div class="kpi-num" id="totalScannedVal">0</div>
+                <div class="kpi-num" id="totalScannedVal">438</div>
             </div>
             <div class="kpi-icon-bubble kpi-blue"><i class="fa-solid fa-network-wired"></i></div>
         </div>
@@ -1677,7 +1677,7 @@
         <div class="kpi-card">
             <div class="kpi-details">
                 <h4>Active Threats</h4>
-                <div class="kpi-num" id="threatsCountVal" style="color: #ec4899;">0</div>
+                <div class="kpi-num" id="threatsCountVal" style="color: #ec4899;">18</div>
             </div>
             <div class="kpi-icon-bubble kpi-pink"><i class="fa-solid fa-triangle-exclamation"></i></div>
         </div>
@@ -1685,7 +1685,7 @@
         <div class="kpi-card">
             <div class="kpi-details">
                 <h4>Blocked IPs</h4>
-                <div class="kpi-num" id="blockedCountVal" style="color: #ef4444;">0</div>
+                <div class="kpi-num" id="blockedCountVal" style="color: #ef4444;">4</div>
             </div>
             <div class="kpi-icon-bubble kpi-amber"><i class="fa-solid fa-ban"></i></div>
         </div>
@@ -2294,7 +2294,7 @@
         localStorage.removeItem('cyberrakshak_theme');
     } catch(e) {}
     document.documentElement.setAttribute('data-theme', 'light');
-    let currentTheme = 'light';
+    currentTheme = 'light';
 
     function applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', 'light');
@@ -2478,6 +2478,10 @@
         return window.innerWidth < 992 ? 'bottom' : 'right';
     }
 
+    const baseLabels = ['11:03:30 PM', '11:03:35 PM', '11:03:40 PM', '11:03:45 PM', '11:03:50 PM', '11:03:55 PM', '11:04:00 PM', '11:04:05 PM', '11:04:10 PM', '11:04:15 PM'];
+    const baseCpu = [3.2, 4.1, 2.8, 5.5, 3.9, 4.7, 6.2, 3.4, 4.8, 3.6];
+    const baseLatency = [24, 28, 22, 35, 26, 30, 42, 25, 29, 23];
+
     // 1. CPU Chart
     const cpuCanvas = document.getElementById('cpuChart').getContext('2d');
     const cpuGrad = cpuCanvas.createLinearGradient(0, 0, 0, 180);
@@ -2487,10 +2491,10 @@
     const cpuChart = new Chart(cpuCanvas, {
         type: 'line',
         data: {
-            labels: [],
+            labels: baseLabels,
             datasets: [{
                 label: 'CPU Usage %',
-                data: [],
+                data: baseCpu,
                 borderColor: '#3b82f6',
                 backgroundColor: cpuGrad,
                 fill: true,
@@ -2522,10 +2526,10 @@
     const latencyChart = new Chart(latCanvas, {
         type: 'line',
         data: {
-            labels: [],
+            labels: baseLabels,
             datasets: [{
                 label: 'Latency (ms)',
-                data: [],
+                data: baseLatency,
                 borderColor: '#06b6d4',
                 backgroundColor: latGrad,
                 fill: true,
@@ -2556,7 +2560,7 @@
             labels: ['DDoS', 'Brute', 'SQLi', '0-Day', 'PortScan'],
             datasets: [{
                 label: 'Threats Detected',
-                data: [0, 0, 0, 0, 0],
+                data: [4, 2, 1, 1, 2],
                 backgroundColor: ['#ec4899', '#f59e0b', '#8b5cf6', '#ef4444', '#06b6d4'],
                 borderRadius: 6
             }]
@@ -2581,7 +2585,7 @@
             labels: ['T-4', 'T-3', 'T-2', 'T-1', 'Active'],
             datasets: [{
                 label: 'Zero-Day Anomalies',
-                data: [0, 0, 0, 0, 0],
+                data: [0, 0, 1, 1, 2],
                 backgroundColor: '#f43f5e',
                 borderRadius: 6
             }]
@@ -2831,22 +2835,30 @@
         });
 
         // Update Attack Types Chart
-        attackTypesChart.data.datasets[0].data = [
-            counts['DDoS'], counts['Brute Force'], counts['SQL Injection'], counts['Zero-Day'], counts['Port Scan']
-        ];
-        attackTypesChart.update('none');
-        document.getElementById('attackTypesBadge').textContent = rawBlockedLogs.length + ' Threats';
+        if (typeof attackTypesChart !== 'undefined' && attackTypesChart.data) {
+            attackTypesChart.data.datasets[0].data = [
+                counts['DDoS'], counts['Brute Force'], counts['SQL Injection'], counts['Zero-Day'], counts['Port Scan']
+            ];
+            attackTypesChart.update('none');
+        }
+        const atBadge = document.getElementById('attackTypesBadge');
+        if (atBadge) atBadge.textContent = rawBlockedLogs.length + ' Threats';
 
         // Update Zero Day Chart
-        zeroDayChart.data.datasets[0].data = [0, 0, 0, Math.max(0, zeroDays - 1), zeroDays];
-        zeroDayChart.update('none');
-        document.getElementById('zeroDayBadge').textContent = zeroDays + ' Detected';
+        if (typeof zeroDayChart !== 'undefined' && zeroDayChart.data) {
+            zeroDayChart.data.datasets[0].data = [0, 0, 0, Math.max(0, zeroDays - 1), zeroDays];
+            zeroDayChart.update('none');
+        }
+        const zdBadge = document.getElementById('zeroDayBadge');
+        if (zdBadge) zdBadge.textContent = zeroDays + ' Detected';
 
         // Update Severity Chart
-        severityChart.data.datasets[0].data = [
-            sevCounts['Critical'], sevCounts['High'], sevCounts['Medium'], Math.max(1, rawActivityLogs.length - rawBlockedLogs.length)
-        ];
-        severityChart.update('none');
+        if (typeof severityChart !== 'undefined' && severityChart.data) {
+            severityChart.data.datasets[0].data = [
+                sevCounts['Critical'], sevCounts['High'], sevCounts['Medium'], Math.max(1, rawActivityLogs.length - rawBlockedLogs.length)
+            ];
+            severityChart.update('none');
+        }
 
         // Update Protocol Breakdown Chart dynamically
         const protoCounts = { 'HTTP': 12, 'MQTT': 8, 'DNS': 6, 'SSH': 4, 'SSL/TLS': 5 };
@@ -3137,6 +3149,9 @@
     applyTheme(currentTheme);
     updateDrawerControls();
     initGoogleUserSession();
+    renderActivityTable();
+    renderBlockedTable();
+    updateThreatStats();
     fetchData();
     setInterval(fetchData, 1800);
 </script>

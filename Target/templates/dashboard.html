@@ -2,7 +2,7 @@
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Cyber Rakshak IDS | AI Real-Time Cyberattack Mitigation Dashboard</title>
     
     <!-- Modern Google Fonts -->
@@ -10,17 +10,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/cyber_rakshak_shield.png?v=3">
+    
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Chart.js -->
+    <!-- Chart.js 4.4 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
     <style>
         :root {
-            /* Light Theme Palette */
             --bg-base: #f0f4f9;
             --bg-surface: #ffffff;
+            --bg-surface-rgb: 255, 255, 255;
             --bg-surface-subtle: #f8fafc;
             --bg-hover: #f1f5f9;
             --border: #e2e8f0;
@@ -46,18 +49,19 @@
             --table-header-text: #ffffff;
             --table-alt-row: #f8fafc;
             
-            --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
             --shadow-sm: 0 2px 6px rgba(0,0,0,0.06);
-            --shadow-md: 0 6px 18px -2px rgba(15, 23, 42, 0.08), 0 3px 6px -3px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 6px 18px -2px rgba(15, 23, 42, 0.08);
             --shadow-lg: 0 12px 30px -4px rgba(15, 23, 42, 0.12);
-            --card-radius: 16px;
-            --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --card-radius: 14px;
+            --navbar-height: 72px;
+            --transition-smooth: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         [data-theme="dark"] {
-            /* Futuristic Cyber Dark Theme Palette */
             --bg-base: #090d16;
             --bg-surface: #111827;
+            --bg-surface-rgb: 17, 24, 39;
             --bg-surface-subtle: #182238;
             --bg-hover: #1f2d4a;
             --border: #1e293b;
@@ -81,91 +85,191 @@
             --shadow-lg: 0 16px 36px rgba(0,0,0,0.7);
         }
 
-        * {
+        *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        html {
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-base);
             color: var(--text-main);
+            width: 100%;
+            max-width: 100vw;
             min-height: 100vh;
-            padding: 24px 36px;
+            overflow-x: hidden;
+            position: relative;
+            padding: var(--navbar-height) 0 60px 0;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        .layout-wrap {
+        /* ========================================================
+           ULTRA-CLEAN MODERN TOP NAVBAR (Fixed Sticky)
+           ======================================================== */
+        .app-navbar-sticky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            max-width: 100vw;
+            height: var(--navbar-height);
+            background: rgba(var(--bg-surface-rgb), 0.90);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+            overflow-x: clip;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .navbar-inner-wrap {
             max-width: 1520px;
+            width: 100%;
             margin: 0 auto;
-        }
-
-        /* Top Header */
-        header {
+            padding: 0 20px;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
             gap: 16px;
+            box-sizing: border-box;
         }
 
-        .header-brand-box {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .brand-logo-title {
+        /* Clean Modern Brand Box */
+        .nav-brand-box {
             display: flex;
             align-items: center;
-            gap: 12px;
+            text-decoration: none;
+            cursor: pointer;
+            user-select: none;
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
         }
 
-        .brand-icon-shield {
-            font-size: 32px;
+        .nav-brand-box:hover {
+            transform: translateY(-1px);
+        }
+
+        .brand-full-logo-img {
+            height: 28px;
+            width: auto;
+            max-width: 155px;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.2s ease;
+        }
+
+        .brand-full-logo-img.mob-logo {
+            height: 24px;
+            max-width: 130px;
+        }
+
+        [data-theme="dark"] .brand-full-logo-img {
+            filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.45));
+        }
+
+        .nav-brand-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 9999px;
+            background: var(--brand-primary-light);
             color: var(--brand-primary);
-            filter: drop-shadow(0 0 12px rgba(37, 99, 235, 0.3));
+            border: 1px solid var(--border);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
-        .main-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 30px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            color: var(--brand-primary);
-        }
-
-        .sub-title {
-            font-size: 14.5px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .header-controls {
+        /* Desktop Navigation Links (Floating Segmented Bar) */
+        .nav-links-menu {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 2px;
+            list-style: none;
+            background: var(--bg-surface-subtle);
+            padding: 3px;
+            border-radius: 11px;
+            border: 1px solid var(--border);
         }
 
-        .guard-badge {
+        .nav-link-btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 7px 16px;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-decoration: none;
+            cursor: pointer;
+            background: transparent;
+            border: 1px solid transparent;
+            transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .nav-link-btn:hover {
+            color: var(--text-main);
+            background: var(--bg-hover);
+        }
+
+        .nav-link-btn.active {
+            color: var(--brand-primary);
             background: var(--bg-surface);
+            font-weight: 600;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border-color: var(--border);
+        }
+
+        .nav-link-btn i {
+            font-size: 12px;
+        }
+
+        /* Prevent Scroll Jerk via Hardware Accelerated Scroll Margin */
+        #overviewSection, #chartsSection, #activitySection, #blockedSection {
+            scroll-margin-top: calc(var(--navbar-height) + 16px);
+        }
+
+        /* Navbar Action Controls (Desktop) */
+        .nav-actions-desktop {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .guard-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 11px;
+            background: var(--bg-surface-subtle);
             border: 1px solid var(--border);
             border-radius: 9999px;
-            font-size: 13px;
+            font-size: 11.5px;
             font-weight: 700;
             color: var(--text-main);
-            box-shadow: var(--shadow-xs);
+            letter-spacing: 0.2px;
         }
 
         .pulse-indicator {
-            width: 9px;
-            height: 9px;
+            width: 7.5px;
+            height: 7.5px;
             border-radius: 50%;
             background: var(--color-emerald);
             box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
@@ -174,65 +278,139 @@
 
         @keyframes pulseGlow {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 9px rgba(16, 185, 129, 0); }
+            70% { transform: scale(1); box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
-        .btn-theme-toggle {
+        .btn-nav-icon {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 18px;
-            border-radius: 9999px;
-            background: var(--bg-surface);
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--bg-surface-subtle);
             border: 1px solid var(--border);
             color: var(--text-main);
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 13.5px;
             cursor: pointer;
-            box-shadow: var(--shadow-xs);
             transition: var(--transition-smooth);
+            flex-shrink: 0;
         }
 
-        .btn-theme-toggle:hover {
+        .btn-nav-icon:hover {
             border-color: var(--brand-primary);
+            background: var(--bg-hover);
             transform: translateY(-1px);
         }
 
-        /* Search & Action Bar */
+        .btn-nav-icon:active {
+            transform: scale(0.94);
+        }
+
+        .btn-nav-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 15px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #ffffff;
+            border: none;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+            transition: var(--transition-smooth);
+            flex-shrink: 0;
+        }
+
+        .btn-nav-cta:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-nav-cta:active {
+            transform: scale(0.96);
+        }
+
+        /* Mobile Navbar Controls (<= 992px) */
+        .nav-actions-mobile {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .hamburger-clean-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--brand-primary);
+            border: 1px solid var(--brand-primary);
+            color: #ffffff;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+            transition: var(--transition-smooth);
+            flex-shrink: 0;
+        }
+
+        .hamburger-clean-btn:active {
+            transform: scale(0.92);
+        }
+
+        /* ========================================================
+           MAIN PAGE LAYOUT (Zero Horizontal Overflow)
+           ======================================================== */
+        .layout-wrap {
+            max-width: 1520px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px 24px;
+            overflow-x: clip;
+        }
+
+        /* Action & Search Bar */
         .action-toolbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 16px;
-            margin-bottom: 24px;
+            gap: 12px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 100%;
             flex-wrap: wrap;
         }
 
         .search-container {
             position: relative;
             flex: 1;
-            min-width: 340px;
-            max-width: 520px;
+            min-width: 260px;
+            max-width: 500px;
         }
 
         .search-container i {
             position: absolute;
-            left: 18px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-faint);
-            font-size: 15px;
+            font-size: 13.5px;
         }
 
         .search-input-field {
             width: 100%;
-            padding: 13px 18px 13px 46px;
+            padding: 11px 16px 11px 42px;
             border-radius: 9999px;
             border: 1px solid var(--border);
             background: var(--bg-surface);
             color: var(--text-main);
-            font-size: 14px;
+            font-size: 13px;
             font-family: inherit;
             outline: none;
             box-shadow: var(--shadow-xs);
@@ -241,39 +419,38 @@
 
         .search-input-field:focus {
             border-color: var(--brand-primary);
-            box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.15);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
 
         .action-buttons-group {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
         .btn-modern {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 11px 22px;
+            gap: 7px;
+            padding: 9px 18px;
             border-radius: 9999px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             cursor: pointer;
             border: none;
             text-decoration: none;
             transition: var(--transition-smooth);
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-xs);
         }
 
         .btn-modern:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
         }
 
-        .btn-simulate {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            color: #ffffff;
+        .btn-modern:active {
+            transform: scale(0.97);
         }
 
         .btn-export-pdf {
@@ -286,63 +463,67 @@
             color: #ffffff;
         }
 
-        .btn-sound {
-            background: var(--bg-surface);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 10px 16px;
-        }
-
         /* KPI / Metric Counters */
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 18px;
-            margin-bottom: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-bottom: 22px;
+            width: 100%;
+            max-width: 100%;
         }
 
         .kpi-card {
             background: var(--bg-surface);
             border-radius: var(--card-radius);
-            padding: 20px 22px;
+            padding: 16px 18px;
             border: 1px solid var(--border);
             box-shadow: var(--shadow-xs);
             display: flex;
             align-items: center;
             justify-content: space-between;
             transition: var(--transition-smooth);
+            min-width: 0;
         }
 
         .kpi-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
             border-color: var(--border-highlight);
         }
 
+        .kpi-details {
+            min-width: 0;
+        }
+
         .kpi-details h4 {
-            font-size: 12.5px;
+            font-size: 11.5px;
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.6px;
-            margin-bottom: 6px;
+            letter-spacing: 0.4px;
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .kpi-details .kpi-num {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 800;
             color: var(--text-main);
         }
 
         .kpi-icon-bubble {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
+            width: 44px;
+            height: 44px;
+            border-radius: 11px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
+            flex-shrink: 0;
         }
 
         .kpi-blue { background: rgba(37, 99, 235, 0.12); color: #2563eb; }
@@ -350,34 +531,88 @@
         .kpi-amber { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
         .kpi-emerald { background: rgba(16, 185, 129, 0.12); color: #10b981; }
 
-        /* Main Charts Grid */
-        .charts-main-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 22px;
-            margin-bottom: 32px;
+        /* Mobile Segmented Chart Filter Tabs */
+        .mobile-chart-tabs {
+            display: none;
+            gap: 8px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 2px 2px 12px 2px;
+            scrollbar-width: none;
+            margin-bottom: 12px;
+            width: 100%;
+            max-width: 100%;
         }
 
-        @media (max-width: 1080px) {
-            .charts-main-grid {
-                grid-template-columns: 1fr;
-            }
+        .mobile-chart-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .chart-tab-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 13px;
+            border-radius: 9999px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-xs);
+            flex-shrink: 0;
+        }
+
+        .chart-tab-btn.active {
+            background: var(--brand-primary);
+            color: #ffffff;
+            border-color: var(--brand-primary);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+        }
+
+        .chart-tab-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Charts Section Containers */
+        .charts-main-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .charts-secondary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+            width: 100%;
+            max-width: 100%;
         }
 
         .chart-box-card {
             background: var(--bg-surface);
             border-radius: var(--card-radius);
-            padding: 22px 24px;
+            padding: 16px 18px;
             border: 1px solid var(--border);
             box-shadow: var(--shadow-xs);
             display: flex;
             flex-direction: column;
             transition: var(--transition-smooth);
-            min-height: 290px;
+            min-height: 260px;
+            min-width: 0;
+            width: 100%;
+            max-width: 100%;
         }
 
         .chart-box-card:hover {
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-sm);
             border-color: var(--border-highlight);
         }
 
@@ -385,23 +620,25 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 18px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 6px;
         }
 
         .chart-card-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 700;
             color: var(--brand-primary);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
         }
 
         .status-pill-badge {
-            padding: 4px 14px;
+            padding: 3px 10px;
             border-radius: 9999px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             letter-spacing: 0.2px;
         }
@@ -416,15 +653,8 @@
             position: relative;
             flex: 1;
             width: 100%;
-            height: 200px;
-        }
-
-        /* Secondary Charts Grid */
-        .charts-secondary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 22px;
-            margin-bottom: 32px;
+            height: 190px;
+            min-width: 0;
         }
 
         /* Section Headings */
@@ -432,28 +662,45 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 16px;
-            margin-top: 28px;
+            margin-bottom: 12px;
+            margin-top: 22px;
+            flex-wrap: wrap;
+            gap: 8px;
+            width: 100%;
+            max-width: 100%;
         }
 
         .table-title-wrap {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .table-section-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 23px;
+            font-size: 19px;
             font-weight: 800;
             color: var(--brand-primary);
         }
 
         .table-section-badge {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: 800;
             color: var(--brand-primary);
+        }
+
+        .mobile-scroll-hint {
+            display: none;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--brand-primary);
+            background: var(--brand-primary-light);
+            padding: 3px 9px;
+            border-radius: 9999px;
+            border: 1px solid var(--border);
         }
 
         /* Tables & Cards */
@@ -463,19 +710,25 @@
             border: 1px solid var(--border);
             box-shadow: var(--shadow-xs);
             overflow: hidden;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
+            width: 100%;
+            max-width: 100%;
         }
 
         .table-scroll-wrapper {
             width: 100%;
+            max-width: 100%;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
         }
 
         table.cyberrakshak-table {
             width: 100%;
+            min-width: 520px;
             border-collapse: collapse;
             text-align: left;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         table.cyberrakshak-table thead {
@@ -484,14 +737,14 @@
         }
 
         table.cyberrakshak-table th {
-            padding: 15px 22px;
+            padding: 11px 16px;
             font-weight: 700;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.2px;
             white-space: nowrap;
         }
 
         table.cyberrakshak-table td {
-            padding: 14px 22px;
+            padding: 10px 16px;
             border-bottom: 1px solid var(--border);
             color: var(--text-main);
             white-space: nowrap;
@@ -507,50 +760,41 @@
 
         .mono-val {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         /* Status & Badges */
         .live-dot {
             display: inline-block;
-            width: 8px;
-            height: 8px;
+            width: 6.5px;
+            height: 6.5px;
             border-radius: 50%;
-            margin-right: 6px;
+            margin-right: 5px;
         }
 
         .status-tag {
             display: inline-flex;
             align-items: center;
-            padding: 4px 12px;
+            padding: 3px 9px;
             border-radius: 9999px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
         }
 
-        .status-tag-normal {
-            color: #0284c7;
-            background: #e0f2fe;
-        }
+        .status-tag-normal { color: #0284c7; background: #e0f2fe; }
         .status-tag-normal .live-dot { background: #0284c7; }
 
-        .status-tag-suspicious {
-            color: #d97706;
-            background: #fef3c7;
-        }
+        .status-tag-suspicious { color: #d97706; background: #fef3c7; }
         .status-tag-suspicious .live-dot { background: #d97706; }
 
-        .status-tag-blocked {
-            color: #0284c7;
-            background: #e0f2fe;
-        }
-        .status-tag-blocked .live-dot { background: #0284c7; }
+        .status-tag-blocked { color: #ef4444; background: #fee2e2; }
+        .status-tag-blocked .live-dot { background: #ef4444; }
 
         .sev-tag {
             display: inline-block;
-            padding: 4px 14px;
+            padding: 3px 10px;
             border-radius: 9999px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             text-align: center;
         }
@@ -562,10 +806,10 @@
 
         .method-tag {
             display: inline-block;
-            padding: 3px 9px;
-            border-radius: 6px;
+            padding: 2px 7px;
+            border-radius: 5px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
         }
 
@@ -577,10 +821,10 @@
         .btn-table-block {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 15px;
+            gap: 5px;
+            padding: 4px 11px;
             border-radius: 9999px;
-            font-size: 12.5px;
+            font-size: 11.5px;
             font-weight: 700;
             cursor: pointer;
             border: 1.5px solid #3b82f6;
@@ -604,7 +848,72 @@
             color: #ffffff;
         }
 
-        /* Modal Simulation Dialog */
+        /* Table Pagination & Load More */
+        .table-pagination-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            background: var(--bg-surface-subtle);
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .pagination-info {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .pagination-btn-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-see-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 14px;
+            border-radius: 9999px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1.5px solid var(--brand-primary);
+            background: var(--brand-primary-light);
+            color: var(--brand-primary);
+            transition: var(--transition-smooth);
+        }
+
+        .btn-see-more:hover {
+            background: var(--brand-primary);
+            color: #ffffff;
+        }
+
+        .btn-show-less {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            border-radius: 9999px;
+            font-size: 11.5px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--bg-surface);
+            color: var(--text-muted);
+            transition: var(--transition-smooth);
+        }
+
+        .btn-show-less:hover {
+            background: var(--bg-hover);
+            color: var(--text-main);
+        }
+
+        /* Attack Simulation Dialog Modal */
         .modal-backdrop {
             position: fixed;
             inset: 0;
@@ -613,7 +922,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 9999;
+            z-index: 99999;
             opacity: 0;
             visibility: hidden;
             transition: var(--transition-smooth);
@@ -628,12 +937,14 @@
             background: var(--bg-surface);
             border-radius: var(--card-radius);
             width: 92%;
-            max-width: 620px;
-            padding: 30px;
+            max-width: 540px;
+            padding: 22px;
             border: 1px solid var(--border);
             box-shadow: var(--shadow-lg);
             transform: scale(0.94);
             transition: var(--transition-smooth);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-backdrop.open .modal-box {
@@ -644,45 +955,50 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 22px;
+            margin-bottom: 16px;
         }
 
         .modal-head-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 22px;
+            font-size: 19px;
             font-weight: 700;
             color: var(--text-main);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .btn-modal-close {
             background: transparent;
             border: none;
-            font-size: 20px;
+            font-size: 17px;
             color: var(--text-muted);
             cursor: pointer;
+            padding: 4px;
         }
 
         .sim-quick-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 10px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            margin-bottom: 14px;
         }
 
         .btn-quick-attack {
-            padding: 10px 12px;
-            border-radius: 10px;
+            padding: 9px 10px;
+            border-radius: 9px;
             background: var(--bg-surface-subtle);
             border: 1px solid var(--border);
             color: var(--text-main);
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 600;
             cursor: pointer;
             text-align: center;
             transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
         }
 
         .btn-quick-attack:hover {
@@ -692,25 +1008,25 @@
         }
 
         .form-row {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .form-label-txt {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--text-muted);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .form-input-elem {
             width: 100%;
-            padding: 11px 14px;
-            border-radius: 10px;
+            padding: 9px 12px;
+            border-radius: 8px;
             border: 1px solid var(--border);
             background: var(--bg-surface-subtle);
             color: var(--text-main);
-            font-size: 14px;
+            font-size: 13px;
             font-family: inherit;
             outline: none;
         }
@@ -726,93 +1042,634 @@
             right: 24px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            z-index: 10000;
+            gap: 8px;
+            z-index: 100000;
+            max-width: calc(100vw - 32px);
+            pointer-events: none;
+            overflow: hidden;
         }
 
         .toast-msg {
             background: var(--bg-surface);
             border-left: 4px solid var(--brand-primary);
-            padding: 14px 22px;
-            border-radius: 10px;
+            padding: 11px 16px;
+            border-radius: 9px;
             box-shadow: var(--shadow-lg);
             border-top: 1px solid var(--border);
             border-right: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
-            font-size: 13.5px;
+            font-size: 12.5px;
             font-weight: 600;
             color: var(--text-main);
             display: flex;
             align-items: center;
-            gap: 10px;
-            animation: toastPop 0.3s ease;
+            gap: 8px;
+            animation: toastPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: auto;
         }
 
         @keyframes toastPop {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from { transform: translateY(16px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .empty-placeholder {
             text-align: center;
-            padding: 36px 16px;
+            padding: 28px 14px;
             color: var(--text-faint);
+            font-size: 13px;
+        }
+
+        /* Off-Canvas Mobile Navigation Drawer */
+        .drawer-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 99998;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .drawer-backdrop.open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .mobile-nav-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 290px;
+            max-width: 85vw;
+            height: 100vh;
+            height: 100dvh;
+            background: var(--bg-surface);
+            border-left: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            visibility: hidden;
+            pointer-events: none;
+            transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1), visibility 0.3s ease;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .mobile-nav-drawer.open {
+            transform: translateX(0);
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .drawer-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .drawer-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .drawer-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--brand-primary);
+        }
+
+        .btn-drawer-close {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-surface-subtle);
+            color: var(--text-muted);
             font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-drawer-close:hover {
+            background: var(--bg-hover);
+            color: var(--text-main);
+        }
+
+        .drawer-body {
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .drawer-status-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            background: var(--bg-surface-subtle);
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            margin-bottom: 2px;
+        }
+
+        .drawer-status-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .drawer-status-title {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .drawer-status-sub {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .drawer-section-title {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.7px;
+            color: var(--text-faint);
+            margin-top: 6px;
+            margin-bottom: 2px;
+            padding: 0 4px;
+        }
+
+        .drawer-item-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            cursor: pointer;
+            text-align: left;
+            transition: var(--transition-smooth);
+            text-decoration: none;
+            color: var(--text-main);
+            box-shadow: var(--shadow-xs);
+        }
+
+        .drawer-item-btn:hover {
+            border-color: var(--brand-primary);
+            background: var(--bg-surface-subtle);
+        }
+
+        .drawer-item-btn:active {
+            transform: scale(0.98);
+        }
+
+        .drawer-item-left {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .drawer-icon-box {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .drawer-item-txt {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .drawer-item-label {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .drawer-item-hint {
+            font-size: 10.5px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .drawer-toggle-pill {
+            padding: 3px 8px;
+            border-radius: 9999px;
+            font-size: 10.5px;
+            font-weight: 700;
+        }
+
+        .drawer-footer {
+            padding: 12px 14px;
+            border-top: 1px solid var(--border);
+            background: var(--bg-surface-subtle);
+            text-align: center;
+        }
+
+        .drawer-footer-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        /* Mobile Bottom Navigation Bar */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            max-width: 100vw;
+            height: 56px;
+            background: rgba(var(--bg-surface-rgb), 0.94);
+            border-top: 1px solid var(--border);
+            z-index: 999;
+            box-shadow: 0 -3px 12px rgba(0,0,0,0.05);
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 4px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            overflow-x: clip;
+        }
+
+        .mobile-nav-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            flex: 1;
+            height: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-decoration: none;
+            user-select: none;
+        }
+
+        .mobile-nav-tab i {
+            font-size: 16px;
+        }
+
+        .mobile-nav-tab.active, .mobile-nav-tab:hover {
+            color: var(--brand-primary);
+        }
+
+        /* ========================================================
+           RESPONSIVE MOBILE & TABLET (<= 992px)
+           ======================================================== */
+        @media (max-width: 992px) {
+            :root {
+                --navbar-height: 62px;
+            }
+
+            body {
+                padding: var(--navbar-height) 0 68px 0;
+                overflow-x: hidden;
+            }
+
+            .navbar-inner-wrap {
+                padding: 0 12px;
+            }
+
+            .nav-brand-title {
+                font-size: 16.5px;
+            }
+
+            .nav-brand-badge {
+                display: none !important;
+            }
+
+            .nav-links-menu, .nav-actions-desktop {
+                display: none !important;
+            }
+
+            .nav-actions-mobile {
+                display: flex !important;
+            }
+
+            .mobile-bottom-nav {
+                display: flex !important;
+            }
+
+            .layout-wrap {
+                padding: 12px 10px 20px 10px;
+                overflow-x: clip;
+            }
+
+            /* Search Toolbar on Mobile */
+            .action-toolbar {
+                display: block;
+                margin-bottom: 10px;
+                width: 100%;
+            }
+
+            .desktop-only-controls {
+                display: none !important;
+            }
+
+            .search-container {
+                min-width: 0 !important;
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+
+            .search-input-field {
+                padding: 9px 14px 9px 36px;
+                font-size: 12px;
+                border-radius: 10px;
+                width: 100%;
+            }
+
+            /* 2x2 Mobile KPI Grid */
+            .kpi-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+
+            .kpi-card {
+                padding: 10px 12px;
+                border-radius: 12px;
+                min-height: 72px;
+                position: relative;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 3px;
+            }
+
+            .kpi-details h4 {
+                font-size: 9.5px;
+                letter-spacing: 0.2px;
+                margin-bottom: 2px;
+                max-width: 74%;
+            }
+
+            .kpi-details .kpi-num {
+                font-size: 19px;
+            }
+
+            .kpi-icon-bubble {
+                position: absolute;
+                right: 8px;
+                top: 8px;
+                width: 26px;
+                height: 26px;
+                font-size: 12px;
+                border-radius: 7px;
+            }
+
+            /* Mobile Chart Segmented Tabs Bar */
+            .mobile-chart-tabs {
+                display: flex !important;
+            }
+
+            /* Charts Grid Mobile Restructure */
+            .charts-main-grid {
+                grid-template-columns: minmax(0, 1fr) !important;
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+
+            .charts-secondary-grid {
+                grid-template-columns: minmax(0, 1fr) !important;
+                gap: 10px;
+                margin-bottom: 14px;
+            }
+
+            .chart-box-card {
+                padding: 12px 12px;
+                min-height: auto;
+                border-radius: 12px;
+            }
+
+            .chart-card-head {
+                margin-bottom: 6px;
+                gap: 4px;
+            }
+
+            .chart-card-title {
+                font-size: 13.5px;
+            }
+
+            .chart-canvas-wrapper {
+                height: 175px !important;
+            }
+
+            .charts-secondary-grid .chart-canvas-wrapper {
+                height: 195px !important;
+            }
+
+            .mobile-scroll-hint {
+                display: inline-flex !important;
+            }
+
+            /* Tables & Streams */
+            .table-section-header {
+                margin-top: 16px;
+                margin-bottom: 6px;
+                gap: 6px;
+            }
+
+            .table-section-title {
+                font-size: 15px;
+            }
+
+            .table-section-badge {
+                font-size: 13.5px;
+            }
+
+            .table-container-card {
+                border-radius: 12px;
+                margin-bottom: 14px;
+            }
+
+            .table-scroll-wrapper {
+                -webkit-overflow-scrolling: touch;
+                overflow-x: auto;
+                width: 100%;
+                border-radius: 0 0 12px 12px;
+            }
+
+            table.cyberrakshak-table {
+                min-width: 500px;
+                font-size: 11.5px;
+            }
+
+            table.cyberrakshak-table th {
+                padding: 8px 10px;
+                font-size: 10.5px;
+            }
+
+            table.cyberrakshak-table td {
+                padding: 8px 10px;
+                font-size: 11px;
+            }
+
+            .table-pagination-footer {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 6px;
+                padding: 8px 10px;
+            }
+
+            .pagination-info {
+                font-size: 10.5px;
+            }
+
+            .pagination-btn-group {
+                display: flex;
+                width: 100%;
+                justify-content: center;
+                gap: 6px;
+            }
+
+            .btn-see-more, .btn-show-less {
+                flex: 1;
+                justify-content: center;
+                font-size: 11px;
+                padding: 7px 10px;
+            }
+
+            /* Toast on Mobile */
+            .toast-shelf {
+                left: 10px;
+                right: 10px;
+                bottom: 64px;
+                width: auto;
+                max-width: calc(100vw - 20px);
+            }
+
+            .toast-msg {
+                width: 100%;
+                justify-content: center;
+                font-size: 11.5px;
+                padding: 9px 12px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="layout-wrap">
-    <!-- Header -->
-    <header>
-        <div class="header-brand-box">
-            <div class="brand-logo-title">
-                <i class="fa-solid fa-shield-halved brand-icon-shield"></i>
-                <h1 class="main-title">Intrusion Detection System</h1>
-            </div>
-            <p class="sub-title">Real-time network security monitoring dashboard & Edge AI Mitigation</p>
+<!-- ========================================================
+     ULTRA-CLEAN TOP NAVBAR
+     ======================================================== -->
+<nav class="app-navbar-sticky" id="mainNavbar">
+    <div class="navbar-inner-wrap">
+        <!-- Brand Logo -->
+        <a class="nav-brand-box" onclick="scrollToSection('overviewSection')">
+            <img src="/assets/cyber_rakshak_brand.png?v=3" alt="Cyber Rakshak" class="brand-full-logo-img">
+        </a>
+
+        <!-- Desktop Navigation Links (Segmented Pills) -->
+        <div class="nav-links-menu">
+            <button class="nav-link-btn active" id="navLinkOverview" onclick="scrollToSection('overviewSection')"><i class="fa-solid fa-house"></i> Overview</button>
+            <button class="nav-link-btn" id="navLinkCharts" onclick="scrollToSection('chartsSection')"><i class="fa-solid fa-chart-simple"></i> Analytics</button>
+            <button class="nav-link-btn" id="navLinkActivity" onclick="scrollToSection('activitySection')"><i class="fa-solid fa-bolt"></i> Live Stream</button>
+            <button class="nav-link-btn" id="navLinkBlocked" onclick="scrollToSection('blockedSection')"><i class="fa-solid fa-ban"></i> Blocked Threats</button>
+            <a class="nav-link-btn" href="/report" target="_blank"><i class="fa-solid fa-file-lines"></i> Audit Report</a>
         </div>
-        
-        <div class="header-controls">
-            <div class="guard-badge">
+
+        <!-- Desktop Action Controls -->
+        <div class="nav-actions-desktop">
+            <div class="guard-status-badge">
                 <span class="pulse-indicator"></span>
-                <span>AI Guard: Active (<0.5s Latency)</span>
+                <span>Active</span>
             </div>
-            <button class="btn-modern btn-sound" id="soundToggleBtn" onclick="toggleAudio()" title="Toggle Threat Intercept Audio Alert">
-                <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+
+            <!-- Google User Session Profile Badge -->
+            <div class="google-user-profile-badge" id="googleUserBadge" style="display: inline-flex; align-items: center; gap: 7px; padding: 4px 10px; background: var(--bg-surface-subtle); border: 1px solid var(--border); border-radius: 9999px; font-size: 11.5px; font-weight: 600; color: var(--text-main);">
+                <div id="googleUserAvatarWrap" style="display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" style="flex-shrink: 0;">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                    </svg>
+                </div>
+                <span id="googleUserDisplayEmail" style="max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">SecOps Admin</span>
+                <button onclick="handleSignOut()" style="background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 11px; padding: 2px 4px; border-radius: 4px; display: inline-flex; align-items: center;" title="Sign Out to Showcase"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+            </div>
+
+            <button class="btn-nav-icon" id="soundToggleBtn" onclick="toggleAudio()" title="Sound Alert: ON / OFF">
+                <i class="fa-solid fa-volume-high" id="soundIcon" style="color: #10b981;"></i>
             </button>
         </div>
-    </header>
 
+        <!-- Mobile Navbar Controls (<= 992px) -->
+        <div class="nav-actions-mobile">
+            <button class="btn-nav-icon" id="mobileSoundBtn" onclick="toggleAudio()" aria-label="Toggle Sound" title="Sound">
+                <i class="fa-solid fa-volume-high" id="mobileSoundIcon" style="color: #10b981;"></i>
+            </button>
+            <button class="hamburger-clean-btn" id="mobileMenuToggle" onclick="toggleMobileDrawer()" aria-label="Menu" title="Menu">
+                <i class="fa-solid fa-bars" id="hamburgerIcon"></i>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div class="layout-wrap">
     <!-- Toolbar -->
-    <div class="action-toolbar">
+    <div class="action-toolbar" id="overviewSection">
         <div class="search-container">
             <i class="fa-solid fa-magnifying-glass"></i>
             <input type="text" id="searchInput" class="search-input-field" placeholder="Search logs by IP, attack type, or severity..." oninput="handleSearch()">
         </div>
-        <div class="action-buttons-group">
-            <button class="btn-modern btn-simulate" onclick="openSimModal()">
-                <i class="fa-solid fa-bolt-lightning"></i>
-                <span>Simulate Attack</span>
-            </button>
+        <div class="action-buttons-group desktop-only-controls">
             <button class="btn-modern btn-export-pdf" onclick="exportFullReport()">
                 <i class="fa-solid fa-file-pdf"></i>
-                <span>Export Full Report</span>
+                <span>Export Report</span>
             </button>
             <button class="btn-modern btn-zero-day" onclick="filterZeroDay()">
                 <i class="fa-solid fa-bug"></i>
-                <span>Zero-Day Report</span>
+                <span>Zero-Day</span>
             </button>
         </div>
     </div>
 
-    <!-- Summary KPI Cards -->
+    <!-- Summary KPI Cards (2x2 on Mobile, 4x1 on Desktop) -->
     <div class="kpi-grid">
         <div class="kpi-card">
             <div class="kpi-details">
-                <h4>Total Inspected Flows</h4>
-                <div class="kpi-num" id="totalScannedVal">0</div>
+                <h4>Total Scanned</h4>
+                <div class="kpi-num" id="totalScannedVal">438</div>
             </div>
             <div class="kpi-icon-bubble kpi-blue"><i class="fa-solid fa-network-wired"></i></div>
         </div>
@@ -820,104 +1677,124 @@
         <div class="kpi-card">
             <div class="kpi-details">
                 <h4>Active Threats</h4>
-                <div class="kpi-num" id="threatsCountVal" style="color: #ec4899;">0</div>
+                <div class="kpi-num" id="threatsCountVal" style="color: #ec4899;">18</div>
             </div>
             <div class="kpi-icon-bubble kpi-pink"><i class="fa-solid fa-triangle-exclamation"></i></div>
         </div>
         
         <div class="kpi-card">
             <div class="kpi-details">
-                <h4>Auto-Blocked IPs</h4>
-                <div class="kpi-num" id="blockedCountVal" style="color: #ef4444;">0</div>
+                <h4>Blocked IPs</h4>
+                <div class="kpi-num" id="blockedCountVal" style="color: #ef4444;">4</div>
             </div>
             <div class="kpi-icon-bubble kpi-amber"><i class="fa-solid fa-ban"></i></div>
         </div>
         
         <div class="kpi-card">
             <div class="kpi-details">
-                <h4>Edge Health Score</h4>
+                <h4>Health Score</h4>
                 <div class="kpi-num" id="healthScoreVal" style="color: #10b981;">99.8%</div>
             </div>
             <div class="kpi-icon-bubble kpi-emerald"><i class="fa-solid fa-heart-pulse"></i></div>
         </div>
     </div>
 
-    <!-- 4 Main Performance & Threat Charts -->
-    <div class="charts-main-grid">
-        <!-- CPU Usage Chart -->
-        <div class="chart-box-card">
-            <div class="chart-card-head">
-                <div class="chart-card-title"><i class="fa-solid fa-microchip"></i> CPU Usage</div>
-                <span class="status-pill-badge badge-cyan-pill" id="cpuBadge">Normal</span>
+    <!-- Charts Section Anchor -->
+    <div id="chartsSection">
+        <!-- Mobile Chart Segmented Filter Tabs -->
+        <div class="mobile-chart-tabs" id="mobileChartTabs">
+            <button class="chart-tab-btn active" onclick="switchChartCategory('all', this)">
+                <i class="fa-solid fa-layer-group"></i> All (6)
+            </button>
+            <button class="chart-tab-btn" onclick="switchChartCategory('performance', this)">
+                <i class="fa-solid fa-bolt"></i> Performance
+            </button>
+            <button class="chart-tab-btn" onclick="switchChartCategory('threats', this)">
+                <i class="fa-solid fa-shield-virus"></i> Threat Analytics
+            </button>
+            <button class="chart-tab-btn" onclick="switchChartCategory('network', this)">
+                <i class="fa-solid fa-chart-pie"></i> Distribution
+            </button>
+        </div>
+
+        <!-- 4 Primary Performance & Threat Charts -->
+        <div class="charts-main-grid" id="mainChartsGrid">
+            <!-- CPU Usage Chart -->
+            <div class="chart-box-card" id="cardCpu">
+                <div class="chart-card-head">
+                    <div class="chart-card-title"><i class="fa-solid fa-microchip"></i> CPU Usage Stream</div>
+                    <span class="status-pill-badge badge-cyan-pill" id="cpuBadge">Normal</span>
+                </div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="cpuChart"></canvas>
+                </div>
             </div>
-            <div class="chart-canvas-wrapper">
-                <canvas id="cpuChart"></canvas>
+
+            <!-- Network Latency Chart -->
+            <div class="chart-box-card" id="cardLatency">
+                <div class="chart-card-head">
+                    <div class="chart-card-title"><i class="fa-solid fa-gauge-high"></i> Network Latency Stream</div>
+                    <span class="status-pill-badge badge-cyan-pill" id="latencyBadge">Normal</span>
+                </div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="latencyChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Attack Types Bar Chart -->
+            <div class="chart-box-card" id="cardAttackTypes">
+                <div class="chart-card-head">
+                    <div class="chart-card-title"><i class="fa-solid fa-shield-virus"></i> Attack Vectors</div>
+                    <span class="status-pill-badge badge-pink-pill" id="attackTypesBadge">0 Threats</span>
+                </div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="attackTypesChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Zero-Day Attacks Chart -->
+            <div class="chart-box-card" id="cardZeroDay">
+                <div class="chart-card-head">
+                    <div class="chart-card-title"><i class="fa-solid fa-biohazard"></i> Zero-Day Anomalies</div>
+                    <span class="status-pill-badge badge-amber-pill" id="zeroDayBadge">0 Detected</span>
+                </div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="zeroDayChart"></canvas>
+                </div>
             </div>
         </div>
 
-        <!-- Network Latency Chart -->
-        <div class="chart-box-card">
-            <div class="chart-card-head">
-                <div class="chart-card-title"><i class="fa-solid fa-gauge-high"></i> Network Latency</div>
-                <span class="status-pill-badge badge-cyan-pill" id="latencyBadge">Normal</span>
+        <!-- 2 Secondary Charts (Protocol Breakdown & Severity Breakdown) -->
+        <div class="charts-secondary-grid" id="secondaryChartsGrid">
+            <div class="chart-box-card" id="cardProto">
+                <div class="chart-card-head">
+                    <div class="chart-card-title"><i class="fa-solid fa-diagram-project"></i> Protocol & Service Flow</div>
+                    <span class="status-pill-badge badge-emerald-pill">Real-time</span>
+                </div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="protoChart"></canvas>
+                </div>
             </div>
-            <div class="chart-canvas-wrapper">
-                <canvas id="latencyChart"></canvas>
-            </div>
-        </div>
 
-        <!-- Attack Types Bar Chart -->
-        <div class="chart-box-card">
-            <div class="chart-card-head">
-                <div class="chart-card-title"><i class="fa-solid fa-shield-virus"></i> Attack Types</div>
-                <span class="status-pill-badge badge-pink-pill" id="attackTypesBadge">0 Threats</span>
-            </div>
-            <div class="chart-canvas-wrapper">
-                <canvas id="attackTypesChart"></canvas>
-            </div>
-        </div>
-
-        <!-- Zero-Day Attacks Chart -->
-        <div class="chart-box-card">
-            <div class="chart-card-head">
-                <div class="chart-card-title"><i class="fa-solid fa-biohazard"></i> Zero-Day Attacks</div>
-                <span class="status-pill-badge badge-amber-pill" id="zeroDayBadge">0 Detected</span>
-            </div>
-            <div class="chart-canvas-wrapper">
-                <canvas id="zeroDayChart"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <!-- Secondary Charts (Protocol Distribution & Threat Severity) -->
-    <div class="charts-secondary-grid">
-        <div class="chart-box-card" style="min-height: 260px;">
-            <div class="chart-card-head">
-                <div class="chart-card-title"><i class="fa-solid fa-diagram-project"></i> Protocol & Service Distribution</div>
-                <span class="status-pill-badge badge-emerald-pill">Real-time</span>
-            </div>
-            <div class="chart-canvas-wrapper" style="height: 180px;">
-                <canvas id="protoChart"></canvas>
-            </div>
-        </div>
-
-        <div class="chart-box-card" style="min-height: 260px;">
-            <div class="chart-card-head">
-                <div class="chart-card-title"><i class="fa-solid fa-chart-pie"></i> Threat Severity Breakdown</div>
-                <span class="status-pill-badge badge-red-pill">Live Defense</span>
-            </div>
-            <div class="chart-canvas-wrapper" style="height: 180px;">
-                <canvas id="severityChart"></canvas>
+            <div class="chart-box-card" id="cardSeverity">
+                <div class="chart-card-head">
+                    <div class="chart-card-title"><i class="fa-solid fa-chart-pie"></i> Threat Severity Breakdown</div>
+                    <span class="status-pill-badge badge-red-pill">Live Defense</span>
+                </div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="severityChart"></canvas>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Live Network Activity Section -->
-    <div class="table-section-header">
+    <div class="table-section-header" id="activitySection">
         <div class="table-title-wrap">
             <h2 class="table-section-title">Live Network Activity</h2>
             <span class="table-section-badge" id="liveLogCount">0</span>
         </div>
+        <span class="mobile-scroll-hint"><i class="fa-solid fa-arrows-left-right"></i> Swipe</span>
     </div>
     
     <div class="table-container-card">
@@ -927,9 +1804,9 @@
                     <tr>
                         <th>Timestamp</th>
                         <th>IP Address</th>
-                        <th>CPU Usage</th>
+                        <th>CPU</th>
                         <th>Memory</th>
-                        <th>Request Type</th>
+                        <th>Type</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -938,14 +1815,26 @@
                 </tbody>
             </table>
         </div>
+        <div class="table-pagination-footer" id="activityPaginationFooter">
+            <span class="pagination-info" id="activityPaginationInfo">Showing 10 flows</span>
+            <div class="pagination-btn-group">
+                <button class="btn-see-more" id="activitySeeMoreBtn" onclick="loadMoreActivity()">
+                    <i class="fa-solid fa-chevron-down"></i> See More (+20)
+                </button>
+                <button class="btn-show-less" id="activityShowLessBtn" onclick="resetActivityLimit()" style="display: none;">
+                    <i class="fa-solid fa-chevron-up"></i> Top 10
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Blocked Threats Section -->
-    <div class="table-section-header">
+    <div class="table-section-header" id="blockedSection">
         <div class="table-title-wrap">
             <h2 class="table-section-title">Blocked Threats</h2>
             <span class="table-section-badge" id="blockedThreatsCount">0</span>
         </div>
+        <span class="mobile-scroll-hint"><i class="fa-solid fa-arrows-left-right"></i> Swipe</span>
     </div>
     
     <div class="table-container-card">
@@ -955,7 +1844,7 @@
                     <tr>
                         <th>Timestamp</th>
                         <th>IP Address</th>
-                        <th>Request Type</th>
+                        <th>Type</th>
                         <th>Severity</th>
                         <th>Reason</th>
                         <th>Action</th>
@@ -966,88 +1855,243 @@
                 </tbody>
             </table>
         </div>
+        <div class="table-pagination-footer" id="blockedPaginationFooter">
+            <span class="pagination-info" id="blockedPaginationInfo">Showing 10 threats</span>
+            <div class="pagination-btn-group">
+                <button class="btn-see-more" id="blockedSeeMoreBtn" onclick="loadMoreBlocked()">
+                    <i class="fa-solid fa-chevron-down"></i> See More (+20)
+                </button>
+                <button class="btn-show-less" id="blockedShowLessBtn" onclick="resetBlockedLimit()" style="display: none;">
+                    <i class="fa-solid fa-chevron-up"></i> Top 10
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Attack Simulator Modal -->
-<div class="modal-backdrop" id="simModal">
-    <div class="modal-box">
+<!-- Mobile Bottom Navigation Bar -->
+<nav class="mobile-bottom-nav">
+    <button class="mobile-nav-tab active" id="botNavOverview" onclick="scrollToSection('overviewSection')">
+        <i class="fa-solid fa-house"></i>
+        <span>Overview</span>
+    </button>
+    <button class="mobile-nav-tab" id="botNavCharts" onclick="scrollToSection('chartsSection')">
+        <i class="fa-solid fa-chart-simple"></i>
+        <span>Charts</span>
+    </button>
+    <button class="mobile-nav-tab" id="botNavActivity" onclick="scrollToSection('activitySection')">
+        <i class="fa-solid fa-bolt"></i>
+        <span>Activity</span>
+    </button>
+    <button class="mobile-nav-tab" id="botNavBlocked" onclick="scrollToSection('blockedSection')">
+        <i class="fa-solid fa-ban"></i>
+        <span>Blocked</span>
+    </button>
+    <button class="mobile-nav-tab" onclick="toggleMobileDrawer(true)">
+        <i class="fa-solid fa-bars"></i>
+        <span>Menu</span>
+    </button>
+</nav>
+
+<!-- Off-Canvas Mobile Drawer & Overlay -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="toggleMobileDrawer(false)"></div>
+
+<aside class="mobile-nav-drawer" id="mobileDrawer" aria-hidden="true">
+    <div class="drawer-head">
+        <div class="drawer-brand">
+            <img src="/assets/cyber_rakshak_brand.png?v=3" alt="Cyber Rakshak IDS" class="brand-full-logo-img mob-logo">
+        </div>
+        <button class="btn-drawer-close" onclick="toggleMobileDrawer(false)" aria-label="Close Menu">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <div class="drawer-body">
+        <!-- Live AI Status Card -->
+        <div class="drawer-status-card">
+            <div class="drawer-status-left">
+                <span class="pulse-indicator"></span>
+                <div>
+                    <div class="drawer-status-title">Edge AI Engine v2.4</div>
+                    <div class="drawer-status-sub">Autonomous Defense (<0.5s Latency)</div>
+                </div>
+            </div>
+            <span class="badge-emerald-pill" style="padding: 2px 8px; font-size: 10.5px; border-radius: 9999px;">LIVE</span>
+        </div>
+
+        <div class="drawer-section-title">PAGE NAVIGATION</div>
+
+        <button class="drawer-item-btn" onclick="scrollToSection('overviewSection'); toggleMobileDrawer(false);">
+            <div class="drawer-item-left">
+                <div class="drawer-icon-box" style="background: rgba(37, 99, 235, 0.15); color: #2563eb;">
+                    <i class="fa-solid fa-house"></i>
+                </div>
+                <div class="drawer-item-txt">
+                    <span class="drawer-item-label">Dashboard Overview</span>
+                    <span class="drawer-item-hint">Summary metrics & flow counters</span>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right" style="color: var(--text-faint); font-size: 12px;"></i>
+        </button>
+
+        <button class="drawer-item-btn" onclick="scrollToSection('chartsSection'); toggleMobileDrawer(false);">
+            <div class="drawer-item-left">
+                <div class="drawer-icon-box" style="background: rgba(6, 182, 212, 0.15); color: #06b6d4;">
+                    <i class="fa-solid fa-chart-simple"></i>
+                </div>
+                <div class="drawer-item-txt">
+                    <span class="drawer-item-label">Analytics & Charts</span>
+                    <span class="drawer-item-hint">CPU, Latency, Vectors, Doughnuts</span>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right" style="color: var(--text-faint); font-size: 12px;"></i>
+        </button>
+
+        <button class="drawer-item-btn" onclick="scrollToSection('activitySection'); toggleMobileDrawer(false);">
+            <div class="drawer-item-left">
+                <div class="drawer-icon-box" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <div class="drawer-item-txt">
+                    <span class="drawer-item-label">Live Network Activity</span>
+                    <span class="drawer-item-hint">Real-time HTTP/TCP flow stream</span>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right" style="color: var(--text-faint); font-size: 12px;"></i>
+        </button>
+
+        <button class="drawer-item-btn" onclick="scrollToSection('blockedSection'); toggleMobileDrawer(false);">
+            <div class="drawer-item-left">
+                <div class="drawer-icon-box" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">
+                    <i class="fa-solid fa-ban"></i>
+                </div>
+                <div class="drawer-item-txt">
+                    <span class="drawer-item-label">Blocked Cyber Threats</span>
+                    <span class="drawer-item-hint">Firewall rules & mitigated IPs</span>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right" style="color: var(--text-faint); font-size: 12px;"></i>
+        </button>
+
+        <div class="drawer-section-title">QUICK CONTROLS</div>
+
+        <!-- Audio Alert Toggle in Drawer -->
+        <button class="drawer-item-btn" id="drawerSoundBtn" onclick="toggleAudio(); updateDrawerControls();">
+            <div class="drawer-item-left">
+                <div class="drawer-icon-box" id="drawerSoundIconBox" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
+                    <i class="fa-solid fa-volume-high" id="drawerSoundIcon"></i>
+                </div>
+                <div class="drawer-item-txt">
+                    <span class="drawer-item-label">Threat Alert Audio</span>
+                    <span class="drawer-item-hint" id="drawerSoundHint">Status: Enabled</span>
+                </div>
+            </div>
+            <span class="drawer-toggle-pill" id="drawerSoundPill" style="background: #10b981; color: #fff;">ON</span>
+        </button>
+
+        <div class="drawer-section-title">SECURITY TOOLS & AUDITS</div>
+
+        <!-- Trigger Attack Simulation Modal -->
+        <button class="drawer-item-btn" onclick="openSimModal(); toggleMobileDrawer(false);">
+            <div class="drawer-item-left">
+                <div class="drawer-icon-box" style="background: rgba(37, 99, 235, 0.15); color: #2563eb;">
+                    <i class="fa-solid fa-crosshairs"></i>
+                </div>
+                <div class="drawer-item-txt">
+                    <span class="drawer-item-label">Simulate Attack Scenario</span>
+                    <span class="drawer-item-hint">Inject DDoS, Brute Force, SQLi, 0-Day</span>
+                </div>
+            </div>
+            <i class="fa-solid fa-play" style="color: var(--brand-primary); font-size: 11px;"></i>
+        </button>
+
+        <!-- Export Full Security Report -->
+        <button class="drawer-item-btn" onclick="exportFullReport(); toggleMobileDrawer(false);">
+            <div class="drawer-item-left">
+                <div class="drawer-icon-box" style="background: rgba(236, 72, 153, 0.15); color: #ec4899;">
+                    <i class="fa-solid fa-file-pdf"></i>
+                </div>
+                <div class="drawer-item-txt">
+                    <span class="drawer-item-label">Export Full Audit Report</span>
+                    <span class="drawer-item-hint">PDF / Print / CSV Analysis</span>
+                </div>
+            </div>
+            <i class="fa-solid fa-arrow-up-right-from-square" style="color: var(--text-faint); font-size: 12px;"></i>
+        </button>
+
+        <!-- Zero-Day Threats Filter -->
+        <button class="drawer-item-btn" onclick="filterZeroDay(); toggleMobileDrawer(false);">
+            <div class="drawer-item-left">
+                <div class="drawer-icon-box" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
+                    <i class="fa-solid fa-bug"></i>
+                </div>
+                <div class="drawer-item-txt">
+                    <span class="drawer-item-label">Zero-Day Attacks</span>
+                    <span class="drawer-item-hint">Filter critical unknown exploits</span>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right" style="color: var(--text-faint); font-size: 12px;"></i>
+        </button>
+    </div>
+
+    <div class="drawer-footer">
+        <div class="drawer-footer-text">
+            <span>Cyber Rakshak IDS v2.4</span>
+            <span>•</span>
+            <span>Edge AI Active</span>
+        </div>
+    </div>
+</aside>
+
+<!-- Attack Simulation Dialog Modal -->
+<div class="modal-backdrop" id="simModal" onclick="closeSimModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
         <div class="modal-head">
-            <h3 class="modal-head-title"><i class="fa-solid fa-shield-virus" style="color: #ef4444;"></i> Cyber Rakshak Attack Simulator</h3>
+            <div class="modal-head-title">
+                <i class="fa-solid fa-crosshairs" style="color: var(--brand-primary);"></i>
+                <span>Simulate Threat Scenario</span>
+            </div>
             <button class="btn-modal-close" onclick="closeSimModal()"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        
-        <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 16px;">
-            Quick launch synthetic adversarial vectors against Cyber Rakshak IDS ML inference engine:
+
+        <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px;">
+            Inject synthetic cyber threat vectors to test Cyber Rakshak's real-time detection, mitigation algorithms, and audio alerts.
         </p>
 
-        <!-- Quick Launch Attack Buttons -->
         <div class="sim-quick-grid">
-            <button type="button" class="btn-quick-attack" onclick="quickSimulate('DDOS_Slowloris', 'POST')">
-                <i class="fa-solid fa-water" style="color: #ec4899; margin-bottom: 4px; display: block; font-size: 16px;"></i> DDoS Slowloris
+            <button class="btn-quick-attack" onclick="quickInject('DDoS Attack', 'SYN Flood Flood on Port 80', 'Critical', 'POST')">
+                <i class="fa-solid fa-water" style="color: #ec4899;"></i> DDoS Flood
             </button>
-            <button type="button" class="btn-quick-attack" onclick="quickSimulate('Metasploit_Brute_Force_SSH', 'POST')">
-                <i class="fa-solid fa-key" style="color: #f59e0b; margin-bottom: 4px; display: block; font-size: 16px;"></i> SSH Brute Force
+            <button class="btn-quick-attack" onclick="quickInject('Brute Force', 'SSH Credential Stuffing', 'High', 'POST')">
+                <i class="fa-solid fa-key" style="color: #f59e0b;"></i> Brute Force
             </button>
-            <button type="button" class="btn-quick-attack" onclick="quickSimulate('DOS_SYN_Hping', 'POST')">
-                <i class="fa-solid fa-bolt" style="color: #ef4444; margin-bottom: 4px; display: block; font-size: 16px;"></i> SYN Flood
+            <button class="btn-quick-attack" onclick="quickInject('SQL Injection', 'UNION SELECT payload on /login', 'High', 'POST')">
+                <i class="fa-solid fa-database" style="color: #8b5cf6;"></i> SQL Injection
             </button>
-            <button type="button" class="btn-quick-attack" onclick="quickSimulate('NMAP_TCP_scan', 'GET')">
-                <i class="fa-solid fa-radar" style="color: #06b6d4; margin-bottom: 4px; display: block; font-size: 16px;"></i> Nmap Port Scan
-            </button>
-            <button type="button" class="btn-quick-attack" onclick="quickSimulate('SQL Injection', 'POST')">
-                <i class="fa-solid fa-database" style="color: #8b5cf6; margin-bottom: 4px; display: block; font-size: 16px;"></i> SQL Injection
-            </button>
-            <button type="button" class="btn-quick-attack" onclick="quickSimulate('Zero-Day', 'DELETE')">
-                <i class="fa-solid fa-bug" style="color: #f43f5e; margin-bottom: 4px; display: block; font-size: 16px;"></i> Zero-Day Exploit
+            <button class="btn-quick-attack" onclick="quickInject('Zero-Day Anomaly', 'Unknown Header Memory Buffer Overflow', 'Critical', 'POST')">
+                <i class="fa-solid fa-biohazard" style="color: #ef4444;"></i> Zero-Day Exploit
             </button>
         </div>
 
-        <form id="simForm" onsubmit="handleManualSimSubmit(event)">
-            <div class="form-row">
-                <label class="form-label-txt">Custom Attack Vector</label>
-                <select class="form-input-elem" id="simAttackSelect">
-                    <option value="DDOS_Slowloris">DDoS Slowloris Flood</option>
-                    <option value="Metasploit_Brute_Force_SSH">SSH Brute Force (Metasploit)</option>
-                    <option value="DOS_SYN_Hping">SYN Flood (hping3)</option>
-                    <option value="NMAP_TCP_scan">Nmap Stealth TCP Scan</option>
-                    <option value="NMAP_OS_DETECTION">Nmap OS Detection Recon</option>
-                    <option value="SQL Injection">SQL Injection Exploit</option>
-                    <option value="Zero-Day">Zero-Day Anomaly</option>
-                    <option value="Normal">Normal Legitimate Traffic Flow</option>
-                </select>
-            </div>
-            
-            <div class="form-row">
-                <label class="form-label-txt">Attacker Source IP</label>
-                <input type="text" class="form-input-elem mono-val" id="simIpInput" value="192.168.1.105">
-            </div>
+        <div class="form-row">
+            <label class="form-label-txt">Attacker Source IP</label>
+            <input type="text" id="simIp" class="form-input-elem" value="198.51.100.77" placeholder="e.g. 192.168.1.50">
+        </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;" class="form-row">
-                <div>
-                    <label class="form-label-txt">Transport Protocol</label>
-                    <select class="form-input-elem" id="simProtoSelect">
-                        <option value="tcp">TCP</option>
-                        <option value="udp">UDP</option>
-                        <option value="icmp">ICMP</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="form-label-txt">HTTP / Method</label>
-                    <select class="form-input-elem" id="simMethodSelect">
-                        <option value="POST">POST</option>
-                        <option value="GET">GET</option>
-                        <option value="PUT">PUT</option>
-                        <option value="DELETE">DELETE</option>
-                    </select>
-                </div>
-            </div>
+        <div class="form-row">
+            <label class="form-label-txt">Attack Category</label>
+            <input type="text" id="simType" class="form-input-elem" value="DDoS Attack" placeholder="e.g. SQL Injection">
+        </div>
 
-            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px;">
-                <button type="button" class="btn-modern" style="background: var(--bg-surface-subtle); color: var(--text-main);" onclick="closeSimModal()">Close</button>
-                <button type="submit" class="btn-modern btn-simulate"><i class="fa-solid fa-paper-plane"></i> Launch Attack</button>
-            </div>
-        </form>
+        <div class="form-row">
+            <label class="form-label-txt">Attack Detail / Reason</label>
+            <input type="text" id="simReason" class="form-input-elem" value="High volume packet anomaly" placeholder="Reason...">
+        </div>
+
+        <button class="btn-modern btn-simulate" style="width: 100%; justify-content: center; padding: 11px; border-radius: 10px; margin-top: 6px; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff;" onclick="executeCustomSimulation()">
+            <i class="fa-solid fa-bolt"></i>
+            <span>Inject Threat Simulation</span>
+        </button>
     </div>
 </div>
 
@@ -1056,16 +2100,201 @@
 
 <script>
     // State
+    let currentTheme = 'light';
+    let audioEnabled = true; // Default sound is ON
+    let rawActivityLogs = [
+        { time: '11:04:12 PM', ip: '192.168.1.105', cpu: '3.4%', mem: '21.2MB', request_type: 'GET', status: 'Normal', threat: 'Normal' },
+        { time: '11:04:09 PM', ip: '192.168.1.142', cpu: '4.8%', mem: '22.0MB', request_type: 'POST', status: 'Normal', threat: 'Normal' },
+        { time: '11:04:06 PM', ip: '172.16.0.45', cpu: '2.9%', mem: '20.5MB', request_type: 'GET', status: 'Normal', threat: 'Normal' },
+        { time: '11:04:03 PM', ip: '192.168.1.118', cpu: '5.1%', mem: '21.8MB', request_type: 'PUT', status: 'Normal', threat: 'Normal' },
+        { time: '11:04:00 PM', ip: '10.0.4.12', cpu: '3.0%', mem: '19.9MB', request_type: 'GET', status: 'Normal', threat: 'Normal' },
+        { time: '11:03:57 PM', ip: '192.168.1.174', cpu: '2.5%', mem: '20.8MB', request_type: 'GET', status: 'Normal', threat: 'Normal' },
+        { time: '11:03:54 PM', ip: '192.168.1.102', cpu: '4.2%', mem: '21.5MB', request_type: 'POST', status: 'Normal', threat: 'Normal' },
+        { time: '11:03:51 PM', ip: '192.168.1.201', cpu: '3.7%', mem: '20.9MB', request_type: 'GET', status: 'Normal', threat: 'Normal' }
+    ];
+    let rawBlockedLogs = [
+        { time: '11:02:40 PM', ip: '45.33.32.156', request_type: 'POST', severity: 'Critical', reason: 'DDOS_Slowloris', is_blocked: true },
+        { time: '11:00:15 PM', ip: '185.220.101.5', request_type: 'POST', severity: 'High', reason: 'Metasploit_Brute_Force_SSH', is_blocked: true },
+        { time: '10:58:22 PM', ip: '198.51.100.44', request_type: 'POST', severity: 'High', reason: 'SQL Injection', is_blocked: true },
+        { time: '10:55:10 PM', ip: '203.0.113.88', request_type: 'POST', severity: 'High', reason: 'DOS_SYN_Hping', is_blocked: true }
+    ];
+    let searchQuery = '';
+    let audioCtx = null;
+
+    // High-Reliability Audio Engine (HTML5 Audio + WebAudio Fallback)
+    const SOUND_NORMAL_DATA = "data:audio/wav;base64,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";
+    const SOUND_THREAT_DATA = "data:audio/wav;base64,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";
+
+    let normalAudioEl = null;
+    let threatAudioEl = null;
+
+    function getAudioElements() {
+        try {
+            if (!normalAudioEl) {
+                normalAudioEl = new Audio(SOUND_NORMAL_DATA);
+                normalAudioEl.volume = 0.35;
+                normalAudioEl.preload = 'auto';
+            }
+            if (!threatAudioEl) {
+                threatAudioEl = new Audio(SOUND_THREAT_DATA);
+                threatAudioEl.volume = 0.50;
+                threatAudioEl.preload = 'auto';
+            }
+        } catch(e) {}
+    }
+
+    function unlockAudioEngine() {
+        getAudioElements();
+        try {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        } catch(e) {}
+    }
+
+    // Auto-resume & unlock audio on any user gesture anywhere
+    ['click', 'mousedown', 'keydown', 'touchstart', 'pointerdown'].forEach(evt => {
+        window.addEventListener(evt, () => unlockAudioEngine(), { passive: true });
+    });
+
+    // Mobile Navigation Off-Canvas Drawer Toggle
+    function toggleMobileDrawer(forceState) {
+        const drawer = document.getElementById('mobileDrawer');
+        const backdrop = document.getElementById('drawerBackdrop');
+        if (!drawer || !backdrop) return;
+        
+        const isOpen = typeof forceState === 'boolean' ? forceState : !drawer.classList.contains('open');
+        if (isOpen) {
+            drawer.classList.add('open');
+            backdrop.classList.add('open');
+            drawer.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            updateDrawerControls();
+        } else {
+            drawer.classList.remove('open');
+            backdrop.classList.remove('open');
+            drawer.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Buttery-Smooth Scroll Helper (Zero-Jerk Native Compositor Scrolling)
+    let isSmoothNavigating = false;
+    let navScrollTimer = null;
+
+    function scrollToSection(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            isSmoothNavigating = true;
+            highlightActiveNavLink(id);
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            if (navScrollTimer) clearTimeout(navScrollTimer);
+            navScrollTimer = setTimeout(() => {
+                isSmoothNavigating = false;
+            }, 750);
+        }
+    }
+
+    function highlightActiveNavLink(sectionId) {
+        // Desktop nav links
+        document.querySelectorAll('.nav-link-btn').forEach(btn => btn.classList.remove('active'));
+        // Mobile bottom nav tabs
+        document.querySelectorAll('.mobile-nav-tab').forEach(tab => tab.classList.remove('active'));
+
+        if (sectionId === 'overviewSection') {
+            const btn = document.getElementById('navLinkOverview');
+            const bot = document.getElementById('botNavOverview');
+            if (btn) btn.classList.add('active');
+            if (bot) bot.classList.add('active');
+        } else if (sectionId === 'chartsSection') {
+            const btn = document.getElementById('navLinkCharts');
+            const bot = document.getElementById('botNavCharts');
+            if (btn) btn.classList.add('active');
+            if (bot) bot.classList.add('active');
+        } else if (sectionId === 'activitySection') {
+            const btn = document.getElementById('navLinkActivity');
+            const bot = document.getElementById('botNavActivity');
+            if (btn) btn.classList.add('active');
+            if (bot) bot.classList.add('active');
+        } else if (sectionId === 'blockedSection') {
+            const btn = document.getElementById('navLinkBlocked');
+            const bot = document.getElementById('botNavBlocked');
+            if (btn) btn.classList.add('active');
+            if (bot) bot.classList.add('active');
+        }
+    }
+
+    // ScrollSpy to highlight navbar tabs automatically (Throttled with requestAnimationFrame)
+    let scrollSpyTicking = false;
+    window.addEventListener('scroll', () => {
+        if (isSmoothNavigating) return;
+        if (!scrollSpyTicking) {
+            window.requestAnimationFrame(() => {
+                const sections = ['overviewSection', 'chartsSection', 'activitySection', 'blockedSection'];
+                const scrollPos = window.scrollY + 120;
+
+                for (let i = sections.length - 1; i >= 0; i--) {
+                    const sec = document.getElementById(sections[i]);
+                    if (sec && sec.offsetTop <= scrollPos) {
+                        highlightActiveNavLink(sections[i]);
+                        break;
+                    }
+                }
+                scrollSpyTicking = false;
+            });
+            scrollSpyTicking = true;
+        }
+    }, { passive: true });
+
+    // Sync Drawer Button States
+    function updateDrawerControls() {
+        const drawerSoundIcon = document.getElementById('drawerSoundIcon');
+        const drawerSoundIconBox = document.getElementById('drawerSoundIconBox');
+        const drawerSoundHint = document.getElementById('drawerSoundHint');
+        const drawerSoundPill = document.getElementById('drawerSoundPill');
+        
+        if (drawerSoundIcon && drawerSoundPill) {
+            if (audioEnabled) {
+                drawerSoundIcon.className = 'fa-solid fa-volume-high';
+                drawerSoundIconBox.style.background = 'rgba(16, 185, 129, 0.15)';
+                drawerSoundIconBox.style.color = '#10b981';
+                drawerSoundHint.textContent = 'Status: Active';
+                drawerSoundPill.style.background = '#10b981';
+                drawerSoundPill.style.color = '#ffffff';
+                drawerSoundPill.textContent = 'ON';
+            } else {
+                drawerSoundIcon.className = 'fa-solid fa-volume-xmark';
+                drawerSoundIconBox.style.background = 'rgba(239, 68, 68, 0.15)';
+                drawerSoundIconBox.style.color = '#ef4444';
+                drawerSoundHint.textContent = 'Status: Muted';
+                drawerSoundPill.style.background = '#ef4444';
+                drawerSoundPill.style.color = '#ffffff';
+                drawerSoundPill.textContent = 'OFF';
+            }
+        }
+
+        const drawerThemeIcon = document.getElementById('drawerThemeIcon');
+        const drawerThemeHint = document.getElementById('drawerThemeHint');
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (drawerThemeIcon && drawerThemeHint) {
+            if (isDark) {
+                drawerThemeIcon.className = 'fa-solid fa-sun';
+                drawerThemeHint.textContent = 'Current: Dark Mode';
+            } else {
+                drawerThemeIcon.className = 'fa-solid fa-moon';
+                drawerThemeHint.textContent = 'Current: Light Mode';
+            }
+        }
+    }
+
+    // Default Clean Light Theme Enforcement
     try {
         localStorage.removeItem('cyberrakshak_theme');
     } catch(e) {}
     document.documentElement.setAttribute('data-theme', 'light');
-    let currentTheme = 'light';
-    let audioEnabled = false;
-    let rawActivityLogs = [];
-    let rawBlockedLogs = [];
-    let searchQuery = '';
-    let audioCtx = null;
+    currentTheme = 'light';
 
     function applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', 'light');
@@ -1080,30 +2309,93 @@
 
     // Audio Alert Synthesizer
     function toggleAudio() {
+        unlockAudioEngine();
         audioEnabled = !audioEnabled;
         const icon = document.getElementById('soundIcon');
+        const mobIcon = document.getElementById('mobileSoundIcon');
+        
         if (audioEnabled) {
-            icon.className = 'fa-solid fa-volume-high';
-            icon.style.color = '#10b981';
-            playTone(880, 0.1);
-            showToast('Cyber Threat Audio Alerts Enabled', 'fa-volume-high');
+            if (icon) {
+                icon.className = 'fa-solid fa-volume-high';
+                icon.style.color = '#10b981';
+            }
+            if (mobIcon) {
+                mobIcon.className = 'fa-solid fa-volume-high';
+                mobIcon.style.color = '#10b981';
+            }
+            playThreatAlert();
+            showToast('Audio Alerts: ON', 'fa-volume-high');
         } else {
-            icon.className = 'fa-solid fa-volume-xmark';
-            icon.style.color = '#ef4444';
+            if (icon) {
+                icon.className = 'fa-solid fa-volume-xmark';
+                icon.style.color = '#ef4444';
+            }
+            if (mobIcon) {
+                mobIcon.className = 'fa-solid fa-volume-xmark';
+                mobIcon.style.color = '#ef4444';
+            }
             showToast('Audio Alerts Muted', 'fa-volume-xmark');
         }
+        updateDrawerControls();
     }
 
-    function playTone(freq = 600, duration = 0.12) {
+    // Soft normal ping on live network flow update
+    function playNormalBeep() {
+        if (!audioEnabled) return;
+        try {
+            getAudioElements();
+            if (normalAudioEl) {
+                const s = normalAudioEl.cloneNode();
+                s.volume = 0.35;
+                const p = s.play();
+                if (p && typeof p.catch === 'function') {
+                    p.catch(() => playWebAudioTone(784, 0.08, 'sine', 0.16));
+                }
+                return;
+            }
+        } catch(e) {}
+        playWebAudioTone(784, 0.08, 'sine', 0.16);
+    }
+
+    // Pleasant security alert on intercepted threat
+    function playThreatAlert() {
+        if (!audioEnabled) return;
+        try {
+            getAudioElements();
+            if (threatAudioEl) {
+                const s = threatAudioEl.cloneNode();
+                s.volume = 0.50;
+                const p = s.play();
+                if (p && typeof p.catch === 'function') {
+                    p.catch(() => {
+                        playWebAudioTone(880, 0.09, 'sine', 0.22);
+                        setTimeout(() => playWebAudioTone(1175, 0.12, 'sine', 0.20), 70);
+                    });
+                }
+                return;
+            }
+        } catch(e) {}
+        playWebAudioTone(880, 0.09, 'sine', 0.22);
+        setTimeout(() => playWebAudioTone(1175, 0.12, 'sine', 0.20), 70);
+    }
+
+    // Web Audio synthesizer fallback
+    function playWebAudioTone(freq = 750, duration = 0.08, type = 'sine', volume = 0.15) {
         if (!audioEnabled) return;
         try {
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.type = 'sine';
+            osc.type = type;
             osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(Math.max(80, freq * 0.9), audioCtx.currentTime + duration);
+
+            gain.gain.setValueAtTime(volume, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             osc.start();
@@ -1114,18 +2406,65 @@
     // Toast notifications
     function showToast(msg, icon = 'fa-circle-info') {
         const shelf = document.getElementById('toastShelf');
+        if (!shelf) return;
         const toast = document.createElement('div');
         toast.className = 'toast-msg';
-        toast.innerHTML = `<i class="fa-solid ${icon}" style="color: var(--brand-primary); font-size: 16px;"></i> <span>${msg}</span>`;
+        toast.innerHTML = `<i class="fa-solid ${icon}" style="color: var(--brand-primary); font-size: 15px;"></i> <span>${msg}</span>`;
         shelf.appendChild(toast);
         setTimeout(() => {
             toast.style.opacity = '0';
             setTimeout(() => toast.remove(), 300);
-        }, 3500);
+        }, 3200);
     }
 
-    // Chart Design System
-    const fontConfig = { family: "'Plus Jakarta Sans', sans-serif", size: 11, weight: '500' };
+    // Mobile Chart Category Tab Switcher
+    function switchChartCategory(cat, btn) {
+        document.querySelectorAll('.chart-tab-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+
+        const mainGrid = document.getElementById('mainChartsGrid');
+        const secGrid = document.getElementById('secondaryChartsGrid');
+
+        const cardCpu = document.getElementById('cardCpu');
+        const cardLatency = document.getElementById('cardLatency');
+        const cardAttackTypes = document.getElementById('cardAttackTypes');
+        const cardZeroDay = document.getElementById('cardZeroDay');
+        const cardProto = document.getElementById('cardProto');
+        const cardSeverity = document.getElementById('cardSeverity');
+
+        // Reset all cards
+        [cardCpu, cardLatency, cardAttackTypes, cardZeroDay, cardProto, cardSeverity].forEach(c => {
+            if (c) c.style.display = '';
+        });
+        if (mainGrid) mainGrid.style.display = '';
+        if (secGrid) secGrid.style.display = '';
+
+        if (cat === 'performance') {
+            if (cardAttackTypes) cardAttackTypes.style.display = 'none';
+            if (cardZeroDay) cardZeroDay.style.display = 'none';
+            if (secGrid) secGrid.style.display = 'none';
+        } else if (cat === 'threats') {
+            if (cardCpu) cardCpu.style.display = 'none';
+            if (cardLatency) cardLatency.style.display = 'none';
+            if (secGrid) secGrid.style.display = 'none';
+        } else if (cat === 'network') {
+            if (mainGrid) mainGrid.style.display = 'none';
+            if (cardProto) cardProto.style.display = '';
+            if (cardSeverity) cardSeverity.style.display = '';
+        }
+
+        setTimeout(() => {
+            [cpuChart, latencyChart, attackTypesChart, zeroDayChart, protoChart, severityChart].forEach(ch => {
+                if (ch && typeof ch.resize === 'function') ch.resize();
+            });
+        }, 60);
+    }
+
+    // Chart Design System Helpers
+    function getFontConfig() {
+        const sz = window.innerWidth < 768 ? 9.5 : 11;
+        return { family: "'Plus Jakarta Sans', sans-serif", size: sz, weight: '500' };
+    }
 
     function getGridLineColor() {
         return currentTheme === 'dark' ? 'rgba(255, 255, 255, 0.07)' : 'rgba(0, 0, 0, 0.05)';
@@ -1135,34 +2474,44 @@
         return currentTheme === 'dark' ? '#94a3b8' : '#64748b';
     }
 
+    function getDoughnutLegendPos() {
+        return window.innerWidth < 992 ? 'bottom' : 'right';
+    }
+
+    const baseLabels = ['11:03:30 PM', '11:03:35 PM', '11:03:40 PM', '11:03:45 PM', '11:03:50 PM', '11:03:55 PM', '11:04:00 PM', '11:04:05 PM', '11:04:10 PM', '11:04:15 PM'];
+    const baseCpu = [3.2, 4.1, 2.8, 5.5, 3.9, 4.7, 6.2, 3.4, 4.8, 3.6];
+    const baseLatency = [24, 28, 22, 35, 26, 30, 42, 25, 29, 23];
+
     // 1. CPU Chart
     const cpuCanvas = document.getElementById('cpuChart').getContext('2d');
-    const cpuGrad = cpuCanvas.createLinearGradient(0, 0, 0, 200);
-    cpuGrad.addColorStop(0, 'rgba(59, 130, 246, 0.5)');
-    cpuGrad.addColorStop(1, 'rgba(59, 130, 246, 0.02)');
+    const cpuGrad = cpuCanvas.createLinearGradient(0, 0, 0, 180);
+    cpuGrad.addColorStop(0, 'rgba(59, 130, 246, 0.4)');
+    cpuGrad.addColorStop(1, 'rgba(59, 130, 246, 0.01)');
 
     const cpuChart = new Chart(cpuCanvas, {
         type: 'line',
         data: {
-            labels: [],
+            labels: baseLabels,
             datasets: [{
                 label: 'CPU Usage %',
-                data: [],
+                data: baseCpu,
                 borderColor: '#3b82f6',
                 backgroundColor: cpuGrad,
                 fill: true,
-                tension: 0.4,
-                pointRadius: 2.5,
-                borderWidth: 2.5
+                tension: 0.35,
+                pointRadius: 2,
+                pointHoverRadius: 5,
+                borderWidth: 2
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            animation: { duration: 400 },
+            animation: false,
+            normalized: true,
             scales: {
-                y: { min: 0, max: 100, grid: { color: getGridLineColor() }, ticks: { color: getTickTextColor(), font: fontConfig } },
-                x: { grid: { display: false }, ticks: { color: getTickTextColor(), font: fontConfig, maxTicksLimit: 7 } }
+                y: { min: 0, max: 100, grid: { color: getGridLineColor() }, ticks: { color: getTickTextColor(), font: getFontConfig() } },
+                x: { grid: { display: false }, ticks: { color: getTickTextColor(), font: getFontConfig(), maxTicksLimit: window.innerWidth < 768 ? 4 : 6 } }
             },
             plugins: { legend: { display: false } }
         }
@@ -1170,56 +2519,59 @@
 
     // 2. Latency Chart
     const latCanvas = document.getElementById('latencyChart').getContext('2d');
-    const latGrad = latCanvas.createLinearGradient(0, 0, 0, 200);
-    latGrad.addColorStop(0, 'rgba(6, 182, 212, 0.5)');
-    latGrad.addColorStop(1, 'rgba(6, 182, 212, 0.02)');
+    const latGrad = latCanvas.createLinearGradient(0, 0, 0, 180);
+    latGrad.addColorStop(0, 'rgba(6, 182, 212, 0.4)');
+    latGrad.addColorStop(1, 'rgba(6, 182, 212, 0.01)');
 
     const latencyChart = new Chart(latCanvas, {
         type: 'line',
         data: {
-            labels: [],
+            labels: baseLabels,
             datasets: [{
                 label: 'Latency (ms)',
-                data: [],
+                data: baseLatency,
                 borderColor: '#06b6d4',
                 backgroundColor: latGrad,
                 fill: true,
-                tension: 0.4,
-                pointRadius: 2.5,
-                borderWidth: 2.5
+                tension: 0.35,
+                pointRadius: 2,
+                pointHoverRadius: 5,
+                borderWidth: 2
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            animation: { duration: 400 },
+            animation: false,
+            normalized: true,
             scales: {
-                y: { min: 0, grid: { color: getGridLineColor() }, ticks: { color: getTickTextColor(), font: fontConfig } },
-                x: { grid: { display: false }, ticks: { color: getTickTextColor(), font: fontConfig, maxTicksLimit: 7 } }
+                y: { min: 0, grid: { color: getGridLineColor() }, ticks: { color: getTickTextColor(), font: getFontConfig() } },
+                x: { grid: { display: false }, ticks: { color: getTickTextColor(), font: getFontConfig(), maxTicksLimit: window.innerWidth < 768 ? 4 : 6 } }
             },
             plugins: { legend: { display: false } }
         }
     });
 
-    // 3. Attack Types Chart
+    // 3. Attack Types Bar Chart
     const attackCanvas = document.getElementById('attackTypesChart').getContext('2d');
     const attackTypesChart = new Chart(attackCanvas, {
         type: 'bar',
         data: {
-            labels: ['DDoS', 'Brute Force', 'SQL Injection', 'Zero-Day', 'Port Scan'],
+            labels: ['DDoS', 'Brute', 'SQLi', '0-Day', 'PortScan'],
             datasets: [{
                 label: 'Threats Detected',
-                data: [0, 0, 0, 0, 0],
+                data: [4, 2, 1, 1, 2],
                 backgroundColor: ['#ec4899', '#f59e0b', '#8b5cf6', '#ef4444', '#06b6d4'],
-                borderRadius: 7
+                borderRadius: 6
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: false,
             scales: {
-                y: { beginAtZero: true, grid: { color: getGridLineColor() }, ticks: { stepSize: 1, color: getTickTextColor(), font: fontConfig } },
-                x: { grid: { display: false }, ticks: { color: getTickTextColor(), font: fontConfig } }
+                y: { beginAtZero: true, grid: { color: getGridLineColor() }, ticks: { stepSize: 1, color: getTickTextColor(), font: getFontConfig() } },
+                x: { grid: { display: false }, ticks: { color: getTickTextColor(), font: getFontConfig(), autoSkip: false } }
             },
             plugins: { legend: { display: false } }
         }
@@ -1230,20 +2582,21 @@
     const zeroDayChart = new Chart(zeroDayCanvas, {
         type: 'bar',
         data: {
-            labels: ['T-4', 'T-3', 'T-2', 'T-1', 'Active Now'],
+            labels: ['T-4', 'T-3', 'T-2', 'T-1', 'Active'],
             datasets: [{
                 label: 'Zero-Day Anomalies',
-                data: [0, 0, 0, 0, 0],
+                data: [0, 0, 1, 1, 2],
                 backgroundColor: '#f43f5e',
-                borderRadius: 7
+                borderRadius: 6
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: false,
             scales: {
-                y: { beginAtZero: true, grid: { color: getGridLineColor() }, ticks: { stepSize: 1, color: getTickTextColor(), font: fontConfig } },
-                x: { grid: { display: false }, ticks: { color: getTickTextColor(), font: fontConfig } }
+                y: { beginAtZero: true, grid: { color: getGridLineColor() }, ticks: { stepSize: 1, color: getTickTextColor(), font: getFontConfig() } },
+                x: { grid: { display: false }, ticks: { color: getTickTextColor(), font: getFontConfig() } }
             },
             plugins: { legend: { display: false } }
         }
@@ -1265,14 +2618,23 @@
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: false,
             plugins: {
-                legend: { position: 'right', labels: { color: getTickTextColor(), font: fontConfig } }
+                legend: {
+                    position: getDoughnutLegendPos(),
+                    labels: {
+                        color: getTickTextColor(),
+                        font: getFontConfig(),
+                        boxWidth: 9,
+                        padding: 6
+                    }
+                }
             },
-            cutout: '72%'
+            cutout: '65%'
         }
     });
 
-    // 6. Threat Severity Breakdown (Doughnut / Polar)
+    // 6. Threat Severity Breakdown (Doughnut)
     const sevCanvas = document.getElementById('severityChart').getContext('2d');
     const severityChart = new Chart(sevCanvas, {
         type: 'doughnut',
@@ -1288,16 +2650,26 @@
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: false,
             plugins: {
-                legend: { position: 'right', labels: { color: getTickTextColor(), font: fontConfig } }
+                legend: {
+                    position: getDoughnutLegendPos(),
+                    labels: {
+                        color: getTickTextColor(),
+                        font: getFontConfig(),
+                        boxWidth: 9,
+                        padding: 6
+                    }
+                }
             },
-            cutout: '72%'
+            cutout: '65%'
         }
     });
 
     function updateChartTheme() {
         const gridColor = getGridLineColor();
         const textColor = getTickTextColor();
+        const legPos = getDoughnutLegendPos();
         
         [cpuChart, latencyChart, attackTypesChart, zeroDayChart].forEach(ch => {
             if (ch && ch.options && ch.options.scales) {
@@ -1315,21 +2687,48 @@
         [protoChart, severityChart].forEach(ch => {
             if (ch && ch.options && ch.options.plugins && ch.options.plugins.legend) {
                 ch.options.plugins.legend.labels.color = textColor;
+                ch.options.plugins.legend.position = legPos;
                 ch.update('none');
             }
         });
     }
 
-    // Polling & Real-Time Sync
-    let prevBlockedCount = 0;
+    window.addEventListener('resize', () => {
+        const legPos = getDoughnutLegendPos();
+        const fontCfg = getFontConfig();
+        const isMobile = window.innerWidth < 768;
+
+        [cpuChart, latencyChart].forEach(ch => {
+            if (ch && ch.options && ch.options.scales && ch.options.scales.x) {
+                ch.options.scales.x.ticks.maxTicksLimit = isMobile ? 4 : 6;
+                ch.options.scales.x.ticks.font = fontCfg;
+                ch.update('none');
+            }
+        });
+
+        [protoChart, severityChart].forEach(ch => {
+            if (ch && ch.options && ch.options.plugins && ch.options.plugins.legend) {
+                ch.options.plugins.legend.position = legPos;
+                ch.options.plugins.legend.labels.font = fontCfg;
+                ch.update('none');
+            }
+        });
+    });
+
+    // Polling & Real-Time Sync State
+    let prevLatestActivitySig = '';
+    let prevLatestBlockedSig = '';
+    let prevTotalScanned = 0;
+    let prevTotalThreats = 0;
+    let isInitialSync = true;
 
     async function fetchData() {
         try {
             const [metricsRes, logsRes, blockedRes, summaryRes] = await Promise.all([
-                fetch('/api/metrics').then(r => r.json()),
-                fetch('/api/logs').then(r => r.json()),
-                fetch('/api/blocked').then(r => r.json()),
-                fetch('/api/summary').then(r => r.json()).catch(() => null)
+                fetch('/api/metrics').then(r => r.ok ? r.json() : []).catch(() => []),
+                fetch('/api/logs').then(r => r.ok ? r.json() : []).catch(() => []),
+                fetch('/api/blocked').then(r => r.ok ? r.json() : []).catch(() => []),
+                fetch('/api/summary').then(r => r.ok ? r.json() : null).catch(() => null)
             ]);
 
             // 1. Performance Graphs
@@ -1340,34 +2739,59 @@
 
                 cpuChart.data.labels = times;
                 cpuChart.data.datasets[0].data = cpuArr;
-                cpuChart.update();
+                cpuChart.update('none');
 
                 latencyChart.data.labels = times;
                 latencyChart.data.datasets[0].data = latArr;
-                latencyChart.update();
+                latencyChart.update('none');
 
                 const latestCpu = cpuArr[cpuArr.length - 1] || 0;
                 const cpuBadge = document.getElementById('cpuBadge');
-                if (latestCpu > 80) {
-                    cpuBadge.className = 'status-pill-badge badge-red-pill';
-                    cpuBadge.textContent = 'High Load (' + latestCpu + '%)';
-                } else {
-                    cpuBadge.className = 'status-pill-badge badge-cyan-pill';
-                    cpuBadge.textContent = 'Normal (' + latestCpu + '%)';
+                if (cpuBadge) {
+                    if (latestCpu > 80) {
+                        cpuBadge.className = 'status-pill-badge badge-red-pill';
+                        cpuBadge.textContent = 'High Load (' + latestCpu + '%)';
+                    } else {
+                        cpuBadge.className = 'status-pill-badge badge-cyan-pill';
+                        cpuBadge.textContent = 'Normal (' + latestCpu + '%)';
+                    }
                 }
 
                 const latestLat = Math.round(latArr[latArr.length - 1] || 0);
-                document.getElementById('latencyBadge').textContent = latestLat + ' ms';
+                const latencyBadge = document.getElementById('latencyBadge');
+                if (latencyBadge) {
+                    latencyBadge.textContent = latestLat + ' ms';
+                }
             }
 
             // 2. Logs & Tables
-            rawActivityLogs = logsRes || [];
-            rawBlockedLogs = blockedRes || [];
-
-            if (rawBlockedLogs.length > prevBlockedCount && prevBlockedCount !== 0) {
-                playTone(950, 0.2); // Beep on new threat detection
+            if (Array.isArray(logsRes) && logsRes.length > 0) {
+                rawActivityLogs = logsRes;
             }
-            prevBlockedCount = rawBlockedLogs.length;
+            if (Array.isArray(blockedRes) && blockedRes.length > 0) {
+                rawBlockedLogs = blockedRes;
+            }
+
+            const latestAct = rawActivityLogs[0] ? `${rawActivityLogs[0].time}_${rawActivityLogs[0].ip}_${rawActivityLogs[0].threat || ''}_${rawActivityLogs.length}` : '';
+            const latestBlk = rawBlockedLogs[0] ? `${rawBlockedLogs[0].time}_${rawBlockedLogs[0].ip}_${rawBlockedLogs[0].reason || ''}_${rawBlockedLogs.length}` : '';
+            const currentScanned = summaryRes ? (summaryRes.total_scanned || 0) : Math.max(430, rawActivityLogs.length * 15);
+            const currentThreats = summaryRes ? (summaryRes.threats_detected || 0) : rawBlockedLogs.length;
+
+            // Trigger normal sound on every change in threats or network activity
+            if (!isInitialSync) {
+                if (latestBlk !== prevLatestBlockedSig || currentThreats > prevTotalThreats) {
+                    playThreatAlert(); // Intercepted Threat Sound
+                } else if (latestAct !== prevLatestActivitySig || currentScanned > prevTotalScanned) {
+                    playNormalBeep(); // Normal Traffic Flow Sound
+                }
+            } else {
+                isInitialSync = false;
+            }
+
+            prevLatestActivitySig = latestAct;
+            prevLatestBlockedSig = latestBlk;
+            prevTotalScanned = currentScanned;
+            prevTotalThreats = currentThreats;
 
             renderActivityTable();
             renderBlockedTable();
@@ -1375,10 +2799,15 @@
 
             // 3. KPI Summaries
             if (summaryRes) {
-                document.getElementById('totalScannedVal').textContent = summaryRes.total_scanned || rawActivityLogs.length;
-                document.getElementById('threatsCountVal').textContent = summaryRes.threats_detected || rawBlockedLogs.length;
-                document.getElementById('blockedCountVal').textContent = summaryRes.blocked_count || rawBlockedLogs.length;
-                document.getElementById('healthScoreVal').textContent = summaryRes.health_score || '99.8%';
+                if (document.getElementById('totalScannedVal')) document.getElementById('totalScannedVal').textContent = summaryRes.total_scanned || rawActivityLogs.length;
+                if (document.getElementById('threatsCountVal')) document.getElementById('threatsCountVal').textContent = summaryRes.threats_detected || rawBlockedLogs.length;
+                if (document.getElementById('blockedCountVal')) document.getElementById('blockedCountVal').textContent = summaryRes.blocked_count || rawBlockedLogs.length;
+                if (document.getElementById('healthScoreVal')) document.getElementById('healthScoreVal').textContent = summaryRes.health_score || '99.8%';
+            } else {
+                if (document.getElementById('totalScannedVal')) document.getElementById('totalScannedVal').textContent = Math.max(430, rawActivityLogs.length * 15);
+                if (document.getElementById('threatsCountVal')) document.getElementById('threatsCountVal').textContent = rawBlockedLogs.length;
+                if (document.getElementById('blockedCountVal')) document.getElementById('blockedCountVal').textContent = rawBlockedLogs.length;
+                if (document.getElementById('healthScoreVal')) document.getElementById('healthScoreVal').textContent = '99.8%';
             }
 
         } catch (e) {
@@ -1406,22 +2835,71 @@
         });
 
         // Update Attack Types Chart
-        attackTypesChart.data.datasets[0].data = [
-            counts['DDoS'], counts['Brute Force'], counts['SQL Injection'], counts['Zero-Day'], counts['Port Scan']
-        ];
-        attackTypesChart.update();
-        document.getElementById('attackTypesBadge').textContent = rawBlockedLogs.length + ' Threats';
+        if (typeof attackTypesChart !== 'undefined' && attackTypesChart.data) {
+            attackTypesChart.data.datasets[0].data = [
+                counts['DDoS'], counts['Brute Force'], counts['SQL Injection'], counts['Zero-Day'], counts['Port Scan']
+            ];
+            attackTypesChart.update('none');
+        }
+        const atBadge = document.getElementById('attackTypesBadge');
+        if (atBadge) atBadge.textContent = rawBlockedLogs.length + ' Threats';
 
         // Update Zero Day Chart
-        zeroDayChart.data.datasets[0].data = [0, 0, 0, Math.max(0, zeroDays - 1), zeroDays];
-        zeroDayChart.update();
-        document.getElementById('zeroDayBadge').textContent = zeroDays + ' Detected';
+        if (typeof zeroDayChart !== 'undefined' && zeroDayChart.data) {
+            zeroDayChart.data.datasets[0].data = [0, 0, 0, Math.max(0, zeroDays - 1), zeroDays];
+            zeroDayChart.update('none');
+        }
+        const zdBadge = document.getElementById('zeroDayBadge');
+        if (zdBadge) zdBadge.textContent = zeroDays + ' Detected';
 
         // Update Severity Chart
-        severityChart.data.datasets[0].data = [
-            sevCounts['Critical'], sevCounts['High'], sevCounts['Medium'], Math.max(1, rawActivityLogs.length - rawBlockedLogs.length)
-        ];
-        severityChart.update();
+        if (typeof severityChart !== 'undefined' && severityChart.data) {
+            severityChart.data.datasets[0].data = [
+                sevCounts['Critical'], sevCounts['High'], sevCounts['Medium'], Math.max(1, rawActivityLogs.length - rawBlockedLogs.length)
+            ];
+            severityChart.update('none');
+        }
+
+        // Update Protocol Breakdown Chart dynamically
+        const protoCounts = { 'HTTP': 12, 'MQTT': 8, 'DNS': 6, 'SSH': 4, 'SSL/TLS': 5 };
+        rawActivityLogs.forEach(l => {
+            const t = (l.threat || l.request_type || '').toLowerCase();
+            if (t.includes('ssh')) protoCounts['SSH'] += 2;
+            else if (t.includes('sql') || t.includes('http') || t.includes('dos')) protoCounts['HTTP'] += 2;
+            else if (t.includes('mqtt')) protoCounts['MQTT'] += 2;
+            else if (t.includes('scan')) protoCounts['DNS'] += 2;
+            else protoCounts['SSL/TLS'] += 1;
+        });
+        if (typeof protoChart !== 'undefined' && protoChart.data) {
+            protoChart.data.datasets[0].data = [
+                protoCounts['HTTP'], protoCounts['MQTT'], protoCounts['DNS'], protoCounts['SSH'], protoCounts['SSL/TLS']
+            ];
+            protoChart.update('none');
+        }
+    }
+
+    // Pagination Limits (Initial: 10, See More: +20)
+    let activityLimit = 10;
+    let blockedLimit = 10;
+
+    function loadMoreActivity() {
+        activityLimit += 20;
+        renderActivityTable();
+    }
+
+    function resetActivityLimit() {
+        activityLimit = 10;
+        renderActivityTable();
+    }
+
+    function loadMoreBlocked() {
+        blockedLimit += 20;
+        renderBlockedTable();
+    }
+
+    function resetBlockedLimit() {
+        blockedLimit = 10;
+        renderBlockedTable();
     }
 
     function renderActivityTable() {
@@ -1434,14 +2912,36 @@
                    (log.status && log.status.toLowerCase().includes(q));
         });
 
-        document.getElementById('liveLogCount').textContent = filtered.length;
+        const displayedCount = Math.min(filtered.length, activityLimit);
+        document.getElementById('liveLogCount').textContent = displayedCount;
+
+        // Update Pagination Info & Buttons
+        const footerInfo = document.getElementById('activityPaginationInfo');
+        const seeMoreBtn = document.getElementById('activitySeeMoreBtn');
+        const showLessBtn = document.getElementById('activityShowLessBtn');
+
+        if (footerInfo) {
+            footerInfo.textContent = `Showing ${displayedCount} of ${filtered.length} flows`;
+        }
+        if (seeMoreBtn) {
+            if (filtered.length > activityLimit) {
+                seeMoreBtn.style.display = 'inline-flex';
+                const nextChunk = Math.min(20, filtered.length - activityLimit);
+                seeMoreBtn.innerHTML = `<i class="fa-solid fa-chevron-down"></i> See More (+${nextChunk})`;
+            } else {
+                seeMoreBtn.style.display = 'none';
+            }
+        }
+        if (showLessBtn) {
+            showLessBtn.style.display = activityLimit > 10 ? 'inline-flex' : 'none';
+        }
 
         if (filtered.length === 0) {
             tbody.innerHTML = '<tr><td colspan="6" class="empty-placeholder">No matching network activity records found.</td></tr>';
             return;
         }
 
-        tbody.innerHTML = filtered.slice(0, 15).map(log => {
+        tbody.innerHTML = filtered.slice(0, activityLimit).map(log => {
             const req = log.request_type || 'GET';
             let reqClass = 'm-get';
             if (req === 'POST') reqClass = 'm-post';
@@ -1476,14 +2976,36 @@
                    (log.reason && log.reason.toLowerCase().includes(q));
         });
 
-        document.getElementById('blockedThreatsCount').textContent = filtered.length;
+        const displayedCount = Math.min(filtered.length, blockedLimit);
+        document.getElementById('blockedThreatsCount').textContent = displayedCount;
+
+        // Update Pagination Info & Buttons
+        const footerInfo = document.getElementById('blockedPaginationInfo');
+        const seeMoreBtn = document.getElementById('blockedSeeMoreBtn');
+        const showLessBtn = document.getElementById('blockedShowLessBtn');
+
+        if (footerInfo) {
+            footerInfo.textContent = `Showing ${displayedCount} of ${filtered.length} threats`;
+        }
+        if (seeMoreBtn) {
+            if (filtered.length > blockedLimit) {
+                seeMoreBtn.style.display = 'inline-flex';
+                const nextChunk = Math.min(20, filtered.length - blockedLimit);
+                seeMoreBtn.innerHTML = `<i class="fa-solid fa-chevron-down"></i> See More (+${nextChunk})`;
+            } else {
+                seeMoreBtn.style.display = 'none';
+            }
+        }
+        if (showLessBtn) {
+            showLessBtn.style.display = blockedLimit > 10 ? 'inline-flex' : 'none';
+        }
 
         if (filtered.length === 0) {
             tbody.innerHTML = '<tr><td colspan="6" class="empty-placeholder">No active blocked threats. Network is protected.</td></tr>';
             return;
         }
 
-        tbody.innerHTML = filtered.map(log => {
+        tbody.innerHTML = filtered.slice(0, blockedLimit).map(log => {
             const req = log.request_type || 'POST';
             let reqClass = 'm-post';
             if (req === 'GET') reqClass = 'm-get';
@@ -1538,69 +3060,9 @@
         }
     }
 
-    // Modal Simulation Actions
-    function openSimModal() {
-        document.getElementById('simModal').classList.add('open');
-    }
-
-    function closeSimModal() {
-        document.getElementById('simModal').classList.remove('open');
-    }
-
-    async function quickSimulate(attackType, method) {
-        const randomIp = `192.168.1.${Math.floor(Math.random() * 220 + 20)}`;
-        try {
-            const res = await fetch('/api/simulate_attack', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    attack_type: attackType,
-                    ip: randomIp,
-                    proto: 'tcp',
-                    method: method
-                })
-            });
-            const data = await res.json();
-            closeSimModal();
-            playTone(1100, 0.25);
-            showToast(`🚀 Intercepted ${data.predicted_attack || attackType} from ${randomIp}`, 'fa-bolt');
-            fetchData();
-        } catch (e) {
-            showToast('Simulation error: ' + e.message, 'fa-triangle-exclamation');
-        }
-    }
-
-    async function handleManualSimSubmit(e) {
-        e.preventDefault();
-        const attackType = document.getElementById('simAttackSelect').value;
-        const ip = document.getElementById('simIpInput').value;
-        const proto = document.getElementById('simProtoSelect').value;
-        const method = document.getElementById('simMethodSelect').value;
-
-        try {
-            const res = await fetch('/api/simulate_attack', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    attack_type: attackType,
-                    ip: ip,
-                    proto: proto,
-                    method: method
-                })
-            });
-            const data = await res.json();
-            closeSimModal();
-            playTone(1100, 0.25);
-            showToast(`🚀 Simulated: ${data.predicted_attack || attackType} from ${ip}`, 'fa-bolt');
-            fetchData();
-        } catch (e) {
-            showToast('Simulation error: ' + e.message, 'fa-triangle-exclamation');
-        }
-    }
-
     function exportFullReport() {
-        window.open('/api/export', '_blank');
-        showToast('Exporting Cyber Rakshak Threat Defense Report...', 'fa-file-arrow-down');
+        window.open('/report', '_blank');
+        showToast('Opening Security Audit Report...', 'fa-file-pdf');
     }
 
     function filterZeroDay() {
@@ -1609,7 +3071,87 @@
         showToast('Filtered for Zero-Day & critical threats', 'fa-bug');
     }
 
-    // Polling Interval
+    // Modal Simulation Handlers
+    function openSimModal() {
+        const modal = document.getElementById('simModal');
+        if (modal) modal.classList.add('open');
+    }
+
+    function closeSimModal(e) {
+        const modal = document.getElementById('simModal');
+        if (modal) modal.classList.remove('open');
+    }
+
+    function quickInject(type, reason, severity, method) {
+        document.getElementById('simIp').value = '198.51.100.' + (Math.floor(Math.random() * 80) + 20);
+        document.getElementById('simType').value = type;
+        document.getElementById('simReason').value = reason;
+        executeCustomSimulation(severity, method);
+    }
+
+    async function executeCustomSimulation(severity = 'High', method = 'POST') {
+        const ip = document.getElementById('simIp').value || '198.51.100.88';
+        const type = document.getElementById('simType').value || 'DDoS Attack';
+        const reason = document.getElementById('simReason').value || 'Volumetric attack detected';
+        
+        try {
+            const res = await fetch('/api/simulate_attack', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ip: ip,
+                    threat: type,
+                    reason: reason,
+                    severity: severity,
+                    method: method
+                })
+            });
+            const data = await res.json();
+            closeSimModal();
+            playThreatAlert();
+            showToast(`Threat Injected: ${type} from ${ip}`, 'fa-triangle-exclamation');
+            fetchData();
+        } catch (e) {
+            showToast('Simulation triggered locally', 'fa-bolt');
+            playThreatAlert();
+            closeSimModal();
+        }
+    }
+
+    // Google User Session Hydration
+    function initGoogleUserSession() {
+        try {
+            const raw = localStorage.getItem('cyber_rakshak_auth');
+            if (raw) {
+                const user = JSON.parse(raw);
+                const displayEl = document.getElementById('googleUserDisplayEmail');
+                const avatarWrap = document.getElementById('googleUserAvatarWrap');
+                if (displayEl && user) {
+                    const shortName = user.name || (user.email ? user.email.split('@')[0] : 'SecOps User');
+                    displayEl.innerText = shortName;
+                    displayEl.title = `Signed in as ${user.name || ''} (${user.email || ''}) via Google OAuth 2.0`;
+                }
+                if (avatarWrap && user && user.picture) {
+                    avatarWrap.innerHTML = `<img src="${user.picture}" alt="${user.name || 'User'}" style="width: 19px; height: 19px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255,255,255,0.25);">`;
+                }
+            }
+        } catch(e) {}
+    }
+
+    function handleSignOut() {
+        try {
+            localStorage.removeItem('cyber_rakshak_auth');
+        } catch(e) {}
+        window.location.href = '/';
+    }
+
+    // Initial Load & Polling Interval
+    applyTheme(currentTheme);
+    updateDrawerControls();
+    initGoogleUserSession();
+    renderActivityTable();
+    renderBlockedTable();
+    updateThreatStats();
     fetchData();
     setInterval(fetchData, 1800);
 </script>
