@@ -565,71 +565,108 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 }
 
 /* ========================================================
-   HERO HARDWARE DEVICE SPOTLIGHT SHOWCASE
+   HERO 2-COLUMN SPLIT GRID & SIDE PRODUCT SHOWCASE
    ======================================================== */
-.hero-device-spotlight-wrap {
-    position: relative;
+.hero-split-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: center;
+    margin-bottom: 50px;
     width: 100%;
-    max-width: 900px;
-    margin: 10px auto 40px auto;
+}
+
+.hero-left-col {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.hero-left-col .hero-subtitle {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 580px;
+}
+
+.hero-left-col .hero-cta-group {
+    margin-bottom: 24px;
+}
+
+.hero-trust-chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.hero-trust-chips span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.hero-right-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+}
+
+.hero-device-spotlight-side {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.hero-device-stage-card {
+.hero-device-aura {
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 180, 255, 0.22) 0%, rgba(0, 128, 255, 0.06) 50%, rgba(0, 0, 0, 0) 70%);
+    filter: blur(28px);
+    z-index: 1;
+    pointer-events: none;
+    animation: pulseAura 4s ease-in-out infinite;
+}
+
+[data-theme="dark"] .hero-device-aura {
+    background: radial-gradient(circle, rgba(0, 240, 255, 0.28) 0%, rgba(0, 128, 255, 0.12) 50%, rgba(0, 0, 0, 0) 70%);
+}
+
+@keyframes pulseAura {
+    0%, 100% { transform: scale(0.95); opacity: 0.7; }
+    50% { transform: scale(1.08); opacity: 1; }
+}
+
+.hero-device-side-img {
     position: relative;
+    z-index: 2;
     width: 100%;
-    background: radial-gradient(circle at 50% 50%, rgba(0, 180, 255, 0.09) 0%, rgba(255, 255, 255, 0.98) 75%);
-    border: 1px solid rgba(0, 128, 255, 0.2);
-    border-radius: 28px;
-    padding: 38px 24px 26px 24px;
-    box-shadow: 0 20px 50px rgba(0, 128, 255, 0.12), 0 4px 16px rgba(0, 0, 0, 0.04);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-[data-theme="dark"] .hero-device-stage-card {
-    background: radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.14) 0%, rgba(13, 18, 30, 0.95) 75%);
-    border-color: rgba(0, 240, 255, 0.28);
-    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.6), 0 0 35px rgba(0, 240, 255, 0.18);
-}
-
-.hero-device-stage-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 28px 65px rgba(0, 128, 255, 0.2), 0 0 45px rgba(0, 200, 255, 0.22);
-    border-color: rgba(0, 128, 255, 0.4);
-}
-
-.hero-device-img-wrap {
-    position: relative;
-    width: 100%;
-    max-width: 640px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.hero-device-img {
-    width: 100%;
-    max-height: 380px;
+    max-width: 480px;
+    height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 20px 36px rgba(0, 0, 0, 0.24));
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: drop-shadow(0 20px 38px rgba(0, 0, 0, 0.22));
     animation: floatDevice 6s ease-in-out infinite;
+    transition: transform 0.4s ease;
+}
+
+.hero-device-spotlight-side:hover .hero-device-side-img {
+    transform: scale(1.04) translateY(-5px);
+    filter: drop-shadow(0 25px 48px rgba(0, 128, 255, 0.35));
 }
 
 @keyframes floatDevice {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-7px); }
-}
-
-.hero-device-stage-card:hover .hero-device-img {
-    transform: scale(1.03) translateY(-4px);
-    filter: drop-shadow(0 28px 48px rgba(0, 128, 255, 0.3));
 }
 
 /* Floating Telemetry Badges */
@@ -658,28 +695,25 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
-.pill-top-left {
-    top: -10px;
-    left: -12px;
+.pill-side-top {
+    top: -12px;
+    left: 0px;
+    z-index: 4;
     animation: floatPill1 5s ease-in-out infinite;
 }
 
-.pill-top-right {
-    top: -10px;
-    right: -12px;
+.pill-side-bottom-left {
+    bottom: -10px;
+    left: -8px;
+    z-index: 4;
     animation: floatPill2 5.5s ease-in-out infinite;
 }
 
-.pill-bottom-left {
-    bottom: 22px;
-    left: -16px;
-    animation: floatPill2 6s ease-in-out infinite;
-}
-
-.pill-bottom-right {
-    bottom: 22px;
-    right: -16px;
-    animation: floatPill1 6.5s ease-in-out infinite;
+.pill-side-bottom-right {
+    bottom: 24px;
+    right: -10px;
+    z-index: 4;
+    animation: floatPill1 6s ease-in-out infinite;
 }
 
 @keyframes floatPill1 {
@@ -690,24 +724,6 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 @keyframes floatPill2 {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(5px); }
-}
-
-.hero-device-footer-bar {
-    margin-top: 18px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 22px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-muted);
-}
-
-.hero-device-footer-bar span {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
 }
 
 .live-pulse-dot {
@@ -1684,7 +1700,12 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 @media (max-width: 992px) {
     .nav-menu-center { display: none !important; }
     .btn-mobile-hamburger { display: flex !important; }
-    .hero-giant-title { font-size: 44px; }
+    .hero-giant-title { font-size: 42px; text-align: center; }
+    .hero-split-grid { grid-template-columns: 1fr; gap: 36px; text-align: center; }
+    .hero-left-col { align-items: center; text-align: center; }
+    .hero-left-col .hero-subtitle { text-align: center; margin-left: auto; margin-right: auto; }
+    .hero-trust-chips { justify-content: center; }
+    .hero-device-spotlight-side { max-width: 420px; margin: 0 auto; }
     .hero-cards-grid { grid-template-columns: 1fr; }
     .services-grid-6 { grid-template-columns: 1fr 1fr; }
     .hardware-stage-clean { grid-template-columns: 1fr; }
