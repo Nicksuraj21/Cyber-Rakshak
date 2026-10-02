@@ -137,20 +137,20 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
     left: 0;
     width: 100%;
     z-index: 9999;
-    height: 76px;
-    background: rgba(255, 255, 255, 0.96);
+    height: 72px;
+    background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(226, 232, 240, 0.85);
-    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
     display: flex;
     align-items: center;
     box-sizing: border-box;
 }
 
 [data-theme="dark"] .site-header {
-    background: rgba(10, 15, 29, 0.96);
-    border-bottom-color: rgba(30, 41, 59, 0.85);
+    background: rgba(11, 17, 32, 0.95);
+    border-bottom-color: rgba(30, 41, 59, 0.8);
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
 }
 
@@ -159,9 +159,9 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 1220px;
+    max-width: 1240px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 28px;
 }
 
 /* Brand Logo */
@@ -173,16 +173,16 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 }
 
 .brand-full-logo-img {
-    height: 50px;
+    height: 44px;
     width: auto;
-    max-width: 270px;
+    max-width: 250px;
     object-fit: contain;
     display: block;
 }
 
 .brand-full-logo-img.mob-logo {
-    height: 42px;
-    max-width: 220px;
+    height: 38px;
+    max-width: 200px;
 }
 
 [data-theme="dark"] .brand-full-logo-img {
@@ -193,21 +193,15 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 .nav-menu-center {
     display: flex;
     align-items: center;
-    gap: 32px;
-}
-
-.nav-item-dropdown {
-    position: relative;
-    display: flex;
-    align-items: center;
+    gap: 6px;
 }
 
 .nav-pill-link {
-    font-size: 14.5px;
+    font-size: 14px;
     font-weight: 600;
     color: #475569;
     text-decoration: none;
-    padding: 7px 18px;
+    padding: 7px 16px;
     border-radius: var(--radius-pill);
     transition: all 0.2s ease;
     display: inline-flex;
