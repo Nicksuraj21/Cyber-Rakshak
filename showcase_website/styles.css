@@ -767,133 +767,202 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
     justify-content: center;
     position: relative;
     width: 100%;
+    perspective: 1200px;
 }
 
 .hero-showcase-stage {
     position: relative;
     width: 100%;
-    max-width: 530px;
+    max-width: 540px;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 390px;
+    min-height: 420px;
 }
 
 .stage-ambient-aura {
     position: absolute;
-    width: 440px;
-    height: 440px;
+    width: 480px;
+    height: 480px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(0, 160, 255, 0.22) 0%, rgba(0, 220, 255, 0.06) 50%, transparent 70%);
-    filter: blur(40px);
+    background: radial-gradient(circle, rgba(0, 160, 255, 0.28) 0%, rgba(0, 220, 255, 0.08) 50%, transparent 70%);
+    filter: blur(45px);
     z-index: 1;
     pointer-events: none;
     animation: pulseAura 5s ease-in-out infinite;
 }
 
 [data-theme="dark"] .stage-ambient-aura {
-    background: radial-gradient(circle, rgba(0, 240, 255, 0.26) 0%, rgba(0, 150, 255, 0.08) 50%, transparent 70%);
+    background: radial-gradient(circle, rgba(0, 240, 255, 0.3) 0%, rgba(0, 150, 255, 0.1) 50%, transparent 70%);
 }
 
-/* 3D Stepped Base */
-.stage-pedestal-base {
+.stage-cyber-ring {
     position: absolute;
-    bottom: 20px;
-    width: 380px;
-    height: 85px;
-    background: linear-gradient(180deg, rgba(235, 245, 255, 0.7) 0%, rgba(215, 235, 255, 0.15) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    border-radius: 40px;
-    transform: perspective(600px) rotateX(45deg);
-    box-shadow: 0 20px 40px rgba(0, 102, 255, 0.08);
+    width: 290px;
+    height: 290px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 160, 255, 0.35);
+    box-shadow: 0 0 35px rgba(0, 180, 255, 0.3), inset 0 0 25px rgba(0, 180, 255, 0.2);
+    top: 15px;
+    left: -15px;
     z-index: 1;
+    pointer-events: none;
+    opacity: 0.8;
+    transform: perspective(800px) rotateY(-15deg) rotateX(10deg);
+    animation: pulseRing 8s ease-in-out infinite;
 }
 
-[data-theme="dark"] .stage-pedestal-base {
-    background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.3) 100%);
-    border-color: rgba(56, 189, 248, 0.2);
+[data-theme="dark"] .stage-cyber-ring {
+    border-color: rgba(56, 189, 248, 0.45);
+    box-shadow: 0 0 45px rgba(56, 189, 248, 0.4), inset 0 0 30px rgba(56, 189, 248, 0.25);
 }
 
-.stage-pedestal-step {
+/* 3D Stepped Base Platform */
+.stage-pedestal-platform {
+    position: absolute;
+    bottom: 15px;
+    width: 410px;
+    height: 110px;
+    border-radius: 46px;
+    background: linear-gradient(180deg, rgba(235, 245, 255, 0.95) 0%, rgba(210, 230, 255, 0.35) 60%, rgba(190, 220, 255, 0.1) 100%);
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 25px 50px rgba(0, 102, 255, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.9);
+    transform: perspective(700px) rotateX(48deg) rotateZ(-1deg);
+    z-index: 2;
+}
+
+[data-theme="dark"] .stage-pedestal-platform {
+    background: linear-gradient(180deg, rgba(30, 48, 80, 0.8) 0%, rgba(15, 23, 42, 0.4) 100%);
+    border-color: rgba(56, 189, 248, 0.35);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(56, 189, 248, 0.25);
+}
+
+/* Realistic Contact Drop Shadow */
+.stage-device-shadow {
     position: absolute;
     bottom: 40px;
-    width: 320px;
-    height: 65px;
-    background: linear-gradient(180deg, rgba(245, 250, 255, 0.85) 0%, rgba(225, 240, 255, 0.3) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    border-radius: 30px;
-    transform: perspective(600px) rotateX(45deg);
-    z-index: 2;
+    width: 350px;
+    height: 55px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.38) 0%, rgba(15, 23, 42, 0.08) 55%, transparent 75%);
+    filter: blur(12px);
+    z-index: 3;
+    pointer-events: none;
+    transform: scaleY(0.5);
 }
 
-[data-theme="dark"] .stage-pedestal-step {
-    background: linear-gradient(180deg, rgba(30, 58, 100, 0.8) 0%, rgba(15, 23, 42, 0.5) 100%);
-    border-color: rgba(56, 189, 248, 0.3);
+[data-theme="dark"] .stage-device-shadow {
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.2) 55%, transparent 75%);
 }
 
-/* Floating Frosted Glass Live Telemetry Card */
+/* Floating Frosted Glass Live Telemetry Card (Exact Mockup Match) */
 .floating-telemetry-glass-card {
     position: absolute;
-    top: 15px;
-    right: 5px;
-    width: 260px;
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    top: 10px;
+    right: 0px;
+    width: 310px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(244, 249, 255, 0.8) 100%);
+    backdrop-filter: blur(20px) saturate(190%);
+    -webkit-backdrop-filter: blur(20px) saturate(190%);
     border: 1.5px solid rgba(255, 255, 255, 0.95);
-    border-radius: 16px;
-    padding: 12px 16px;
-    box-shadow: 0 16px 36px rgba(0, 80, 200, 0.12);
+    border-radius: 20px;
+    padding: 14px 18px 12px 18px;
+    box-shadow: 0 20px 45px rgba(0, 80, 200, 0.14), 0 4px 12px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1);
     z-index: 2;
-    transform: perspective(800px) rotateY(-6deg) rotateX(3deg);
-    transition: transform 0.3s ease;
+    transform: perspective(900px) rotateY(-10deg) rotateX(7deg) rotateZ(1deg);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    animation: floatGlassCard 6s ease-in-out infinite;
 }
 
 [data-theme="dark"] .floating-telemetry-glass-card {
-    background: rgba(15, 23, 42, 0.88);
-    border-color: rgba(56, 189, 248, 0.3);
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(30, 41, 59, 0.75) 100%);
+    border-color: rgba(56, 189, 248, 0.35);
+    box-shadow: 0 24px 55px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(56, 189, 248, 0.25);
+}
+
+.hero-showcase-stage:hover .floating-telemetry-glass-card {
+    transform: perspective(900px) rotateY(-6deg) rotateX(4deg) translateY(-4px);
+    box-shadow: 0 25px 55px rgba(0, 80, 200, 0.2), inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
 .glass-card-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .glass-card-title {
     display: flex;
     align-items: center;
-    gap: 7px;
-    font-size: 12px;
-    font-weight: 800;
-    color: #0f172a;
+    gap: 8px;
 }
 
-[data-theme="dark"] .glass-card-title {
+.glass-shield-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: rgba(0, 102, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0066ff;
+    font-size: 13px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="dark"] .glass-shield-icon {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    box-shadow: inset 0 1px 0 rgba(56, 189, 248, 0.3);
+}
+
+.glass-card-heading {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.2px;
+}
+
+[data-theme="dark"] .glass-card-heading {
     color: #f8fafc;
 }
 
 .pill-live-tag {
-    background: #0066ff;
+    background: linear-gradient(135deg, #0066ff 0%, #0052cc 100%);
     color: #ffffff;
-    font-size: 10px;
-    font-weight: 800;
-    padding: 2px 7px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px 3px 8px;
     border-radius: var(--radius-pill);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 2px 8px rgba(0, 102, 255, 0.4);
+    letter-spacing: 0.3px;
+}
+
+.live-pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 6px #22c55e;
+    animation: pulseLiveDot 1.8s infinite;
 }
 
 .glass-wave-area {
     width: 100%;
-    height: 48px;
-    overflow: hidden;
+    height: 65px;
+    overflow: visible;
+    position: relative;
 }
 
 .wave-chart-svg {
     width: 100%;
     height: 100%;
     display: block;
+    overflow: visible;
 }
 
 /* Hardware Device Render */
@@ -917,6 +986,25 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 @keyframes floatStageDevice {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-7px); }
+}
+
+@keyframes floatGlassCard {
+    0%, 100% {
+        transform: perspective(900px) rotateY(-10deg) rotateX(7deg) rotateZ(1deg) translateY(0);
+    }
+    50% {
+        transform: perspective(900px) rotateY(-8deg) rotateX(5deg) rotateZ(1.5deg) translateY(-8px);
+    }
+}
+
+@keyframes pulseLiveDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.35; transform: scale(0.7); }
+}
+
+@keyframes pulseRing {
+    0%, 100% { opacity: 0.7; transform: perspective(800px) rotateY(-15deg) rotateX(10deg) scale(1); }
+    50% { opacity: 0.95; transform: perspective(800px) rotateY(-12deg) rotateX(8deg) scale(1.04); }
 }
 
 /* ========================================================
@@ -2741,15 +2829,25 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
         max-width: 320px;
     }
     
-    .floating-telemetry-glass-card {
-        width: 220px;
-        padding: 10px 12px;
-        right: 0;
-        top: 0;
+    .stage-pedestal-platform {
+        width: 320px;
+        height: 85px;
     }
     
-    .glass-card-title {
-        font-size: 11px;
+    .stage-cyber-ring {
+        width: 220px;
+        height: 220px;
+    }
+
+    .floating-telemetry-glass-card {
+        width: 230px;
+        padding: 10px 12px;
+        right: -5px;
+        top: -5px;
+    }
+    
+    .glass-card-heading {
+        font-size: 11.5px;
     }
     
     .hero-bottom-stats-banner {
@@ -2787,8 +2885,40 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
         max-width: 270px;
     }
     
+    .stage-pedestal-platform {
+        width: 260px;
+        height: 70px;
+    }
+    
+    .stage-cyber-ring {
+        width: 170px;
+        height: 170px;
+    }
+
     .floating-telemetry-glass-card {
-        display: none;
+        width: 190px;
+        padding: 8px 10px;
+        top: -15px;
+        right: 0px;
+    }
+    
+    .glass-card-heading {
+        font-size: 10px;
+    }
+    
+    .glass-shield-icon {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+    }
+    
+    .pill-live-tag {
+        font-size: 9px;
+        padding: 2px 6px;
+    }
+    
+    .glass-wave-area {
+        height: 45px;
     }
     
     .hero-bottom-stats-banner {
