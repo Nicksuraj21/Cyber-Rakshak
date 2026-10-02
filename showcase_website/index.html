@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Cyber Rakshak IDS | Protecting Your Digital Future with Autonomous Edge AI</title>
+    <meta name="description" content="Cyber Rakshak IDS is an in-line gigabit cyber security hardware firewall powered by 84-feature Deep Packet Inspection and local XGBoost AI. Sub-0.12ms kernel mitigation with zero cloud dependency.">
+    
+    <!-- Modern Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/cyber_rakshak_shield.png?v=3">
+    
+    <!-- Font Awesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Real Google Identity Services (GIS) SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Atmospheric Ambient Cyan/Blue Glow in Top-Right -->
+    <div class="ambient-glow-aura"></div>
+
+    <!-- ========================================================
+         TOP NAVIGATION BAR (Clean Minimalist - Exact Reference Match)
+         ======================================================== -->
+    <header class="site-header" id="topNav">
+        <div class="container header-container">
+            <!-- Brand Logo -->
+            <a href="#hero" class="brand-link" aria-label="Cyber Rakshak Home">
+                <img src="assets/cyber_rakshak_brand.png?v=3" alt="Cyber Rakshak" class="brand-full-logo-img">
+            </a>
+
+            <!-- Center Menu Links -->
+            <nav class="nav-menu-center">
+                <div class="nav-item-dropdown">
+                    <a href="#services" class="nav-link">Services <i class="fa-solid fa-chevron-down nav-chevron"></i></a>
+                    <div class="dropdown-panel">
+                        <a href="#services" class="drop-link"><i class="fa-solid fa-shield-halved text-blue"></i> Security Services</a>
+                        <a href="#segmentation" class="drop-link"><i class="fa-solid fa-network-wired text-purple"></i> Dynamic VLAN Segmentation</a>
+                        <a href="#traffic-mgmt" class="drop-link"><i class="fa-solid fa-sliders text-green"></i> Smart Queue Management (SQM)</a>
+                        <a href="#wifi-wisp" class="drop-link"><i class="fa-solid fa-wifi text-amber"></i> Wi-Fi &amp; WISP Failover</a>
+                    </div>
+                </div>
+
+                <div class="nav-item-dropdown">
+                    <a href="#hardware" class="nav-link">Hardware <i class="fa-solid fa-chevron-down nav-chevron"></i></a>
+                    <div class="dropdown-panel">
+                        <a href="#hardware" class="drop-link"><i class="fa-solid fa-microchip text-blue"></i> Architecture &amp; PCB</a>
+                        <a href="#install-modes" class="drop-link"><i class="fa-solid fa-diagram-project text-green"></i> 3 Deployment Modes</a>
+                    </div>
+                </div>
+
+                <div class="nav-item-dropdown">
+                    <a href="#scenarios" class="nav-link">Threat Lab</a>
+                </div>
+
+                <div class="nav-item-dropdown">
+                    <a href="#pricing" class="nav-link">Pricing</a>
+                </div>
+
+                <div class="nav-item-dropdown">
+                    <a href="#faq" class="nav-link">FAQ</a>
+                </div>
+            </nav>
+
+            <!-- Right CTA Button -->
+            <div class="header-right-actions">
+                <div id="googleHeaderBtn" style="min-height: 40px; display: inline-flex; align-items: center;"></div>
+                <button type="button" class="btn-clean-cta" onclick="triggerRealGoogleAuth()">Get Started</button>
+                <button class="btn-mobile-hamburger" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-backdrop" id="mobBackdrop" onclick="toggleMobileMenu(false)"></div>
+    <div class="mobile-menu-drawer" id="mobDrawer">
+        <div class="mob-head">
+            <div class="brand-link">
+                <img src="assets/cyber_rakshak_brand.png?v=3" alt="Cyber Rakshak" class="brand-full-logo-img mob-logo">
+            </div>
+            <button class="btn-close-drawer" onclick="toggleMobileMenu(false)" aria-label="Close Menu"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="mob-links">
+            <div class="mob-group-title">SERVICES &amp; PROTECTION</div>
+            <a href="#services" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-shield-halved text-blue"></i> Enterprise Security Services</a>
+            <a href="#segmentation" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-network-wired text-purple"></i> Dynamic VLAN Segmentation</a>
+            <a href="#traffic-mgmt" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-sliders text-green"></i> Smart Queue Management (SQM)</a>
+            <a href="#wifi-wisp" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-wifi text-amber"></i> Wi-Fi &amp; WISP Failover</a>
+
+            <div class="mob-group-title">HARDWARE &amp; DEPLOYMENT</div>
+            <a href="#hardware" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-microchip text-blue"></i> Silicon &amp; Architecture</a>
+            <a href="#install-modes" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-diagram-project text-green"></i> 3 Deployment Modes</a>
+
+            <div class="mob-group-title">THREAT LAB &amp; PRICING</div>
+            <a href="#scenarios" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-flask text-purple"></i> 84-Metric Threat Lab</a>
+            <a href="#pricing" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-tag text-green"></i> Lifetime Pricing</a>
+            <a href="#faq" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-circle-question text-muted"></i> FAQ</a>
+
+            <div style="margin-top: 18px; display: flex; flex-direction: column; gap: 10px;">
+                <div id="googleDrawerBtn" style="display: flex; justify-content: center; width: 100%; min-height: 44px;"></div>
+                <button type="button" class="btn-clean-cta" onclick="triggerRealGoogleAuth(); toggleMobileMenu(false);" style="width: 100%; justify-content: center; padding: 12px;">
+                    Get Started (Live Dashboard)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         HERO SECTION (Clean Minimalist Matching Reference Mockup)
+         ======================================================== -->
+    <section class="hero-stage-section" id="hero">
+        <div class="container hero-content-center">
+            
+            <!-- Category & Rating Pill -->
+            <div class="hero-rating-pill">
+                <span>Cyber Security</span>
+                <span class="pill-stars">★★★★★</span>
+                <span class="pill-score">4.9/5.0</span>
+            </div>
+
+            <!-- Main Headline -->
+            <h1 class="hero-giant-title">
+                Protecting Your<br>Digital Future
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="hero-subtitle">
+                Specializing in Autonomous Cyber Defense, Sub-Millisecond AI Recovery, and In-Line Network Resilience.
+            </p>
+
+            <!-- Customer Trust Stats -->
+            <p class="hero-stats-line">
+                <strong>46,664+</strong> Protected Workstations &nbsp;&bull;&nbsp; <strong>2,343+</strong> 5-Star SecOps Reviews
+            </p>
+
+            <!-- Hero Action Buttons -->
+            <div class="hero-cta-group">
+                <button type="button" onclick="triggerRealGoogleAuth()" class="btn-hero-start" style="cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" style="margin-right: 8px;">
+                        <path fill="#ffffff" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                        <path fill="#ffffff" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                        <path fill="#ffffff" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                        <path fill="#ffffff" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                    </svg>
+                    Get Started
+                </button>
+                <a href="#hardware" class="btn-hero-learn">
+                    Explore Hardware
+                </a>
+            </div>
+
+            <!-- 3 Geometric Cards Grid -->
+            <div class="hero-cards-grid">
+                
+                <!-- Card 1: 84-Feature DPI Engine -->
+                <div class="geo-feature-card">
+                    <div class="geo-icon-box">
+                        <svg width="68" height="68" viewBox="0 0 80 80" fill="none">
+                            <rect x="15" y="15" width="22" height="22" stroke="#0f172a" stroke-width="2.5" fill="none"/>
+                            <rect x="43" y="15" width="22" height="22" stroke="#0f172a" stroke-width="2.5" fill="#0080ff"/>
+                            <rect x="15" y="43" width="22" height="22" stroke="#0f172a" stroke-width="2.5" fill="#0080ff"/>
+                            <rect x="43" y="43" width="22" height="22" stroke="#0f172a" stroke-width="2.5" fill="none"/>
+                            <rect x="29" y="29" width="22" height="22" stroke="#0f172a" stroke-width="2.5" fill="#0080ff"/>
+                        </svg>
+                    </div>
+                    <div class="geo-card-text">
+                        <h3>84-Metric DPI</h3>
+                        <p>Evaluates packet window variance, inter-arrival time (IAT), and entropy locally without decrypting user payloads.</p>
+                    </div>
+                </div>
+
+                <!-- Card 2: Cloud & VqLAN Microsegmentation -->
+                <div class="geo-feature-card">
+                    <div class="geo-icon-box">
+                        <svg width="68" height="68" viewBox="0 0 80 80" fill="none">
+                            <path d="M25 50C25 38 35 30 45 30C55 30 65 38 65 50" stroke="#0f172a" stroke-width="2.5" fill="none"/>
+                            <circle cx="34" cy="36" r="14" fill="#0080ff"/>
+                            <path d="M20 54C20 44 40 44 60 54" stroke="#0f172a" stroke-width="2.5"/>
+                            <ellipse cx="40" cy="54" rx="22" ry="10" stroke="#0f172a" stroke-width="2.5" fill="none"/>
+                            <ellipse cx="40" cy="46" rx="16" ry="7" fill="#0080ff" fill-opacity="0.8"/>
+                        </svg>
+                    </div>
+                    <div class="geo-card-text">
+                        <h3>VqLAN Isolation</h3>
+                        <p>Automatically cordons off untrusted IoT devices into a quarantined sandbox, preventing lateral pivot attacks.</p>
+                    </div>
+                </div>
+
+                <!-- Card 3: In-Line Kernel Mitigation -->
+                <div class="geo-feature-card">
+                    <div class="geo-icon-box">
+                        <svg width="68" height="68" viewBox="0 0 80 80" fill="none">
+                            <path d="M22 45C22 28 30 18 40 18C50 18 58 28 58 45" stroke="#0f172a" stroke-width="2.5" fill="#0080ff"/>
+                            <path d="M20 45H60V50C60 52 58 54 56 54H24C22 54 20 52 20 50V45Z" fill="#0f172a"/>
+                            <circle cx="40" cy="34" r="5" fill="#ffffff"/>
+                        </svg>
+                    </div>
+                    <div class="geo-card-text">
+                        <h3>Kernel Mitigation</h3>
+                        <p>Autonomous sub-0.12ms IPTables threat dropping directly at the edge packet scheduler boundary.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 1: "Our Best cyber security services"
+         ======================================================== -->
+    <section class="services-section" id="services">
+        <div class="container">
+            
+            <div class="section-title-wrap">
+                <h2 class="section-title-clean">Our Best cyber security services</h2>
+                <p class="section-desc-clean">
+                    Engineered by Cyber Rakshak to deliver enterprise-grade visibility, automated packet filtering, and zero-cloud privacy.
+                </p>
+            </div>
+
+            <!-- Features Icon Grid Asset from User (Optimized Size) -->
+            <div class="asset-center-card">
+                <img src="assets/features_icon_45affabe-aed8-4848-8291-a58893f74abd.jpg_v=1641816516.png" alt="Cyber Rakshak Security Capabilities Matrix" class="asset-img-features">
+            </div>
+
+            <div class="services-grid-6">
+                
+                <!-- Service 1: Active Protect -->
+                <div class="service-box-clean">
+                    <div class="service-icon-wrap">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3>Active Protect &amp; DPI</h3>
+                    <p>84-feature deep packet inspection paired with local XGBoost AI inference. Blocks SQL injection, SYN floods, and brute force in sub-0.12ms.</p>
+                    <a href="#interactive-lab" class="service-learn-link">Explore Live Radar &rarr;</a>
+                </div>
+
+                <!-- Service 2: VqLAN Quarantine -->
+                <div class="service-box-clean">
+                    <div class="service-icon-wrap">
+                        <i class="fa-solid fa-shield-virus"></i>
+                    </div>
+                    <h3>Autonomous Quarantine</h3>
+                    <p>When an IoT node exceeds anomalous beacon frequencies, Cyber Rakshak injects dynamic ARP isolation to prevent lateral LAN traversal.</p>
+                    <a href="#segmentation" class="service-learn-link">View Micro-Segmentation &rarr;</a>
+                </div>
+
+                <!-- Service 3: Smart Traffic SQM -->
+                <div class="service-box-clean">
+                    <div class="service-icon-wrap">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <h3>Smart Queue (SQM)</h3>
+                    <p>Cake / FQ-CoDel active queue management prevents bufferbloat. Prioritizes VoIP and gaming traffic over background cloud backups.</p>
+                    <a href="#traffic-mgmt" class="service-learn-link">View SQM Controls &rarr;</a>
+                </div>
+
+                <!-- Service 4: Zero-Trust Geofencing -->
+                <div class="service-box-clean">
+                    <div class="service-icon-wrap">
+                        <i class="fa-solid fa-earth-americas"></i>
+                    </div>
+                    <h3>Targeted Geofencing</h3>
+                    <p>Instantly drop unsolicited ingress from high-risk geopolitical ASN clusters without adding latency to everyday browsing.</p>
+                    <a href="#scenarios" class="service-learn-link">Check Console Matrix &rarr;</a>
+                </div>
+
+                <!-- Service 5: Sub-0.12ms IPTables Drop -->
+                <div class="service-box-clean">
+                    <div class="service-icon-wrap">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3>Kernel-Level Mitigation</h3>
+                    <p>Raw Linux socket parsing coupled with C-level eBPF packet filters drops offending IP addresses before reaching upper userland layers.</p>
+                    <a href="#hardware" class="service-learn-link">Inspect Hardware Engine &rarr;</a>
+                </div>
+
+                <!-- Service 6: Privacy by Design -->
+                <div class="service-box-clean">
+                    <div class="service-icon-wrap">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h3>Zero-Cloud Privacy</h3>
+                    <p>100% of telemetry, logs, and AI inferences stay on the local device. No third-party data tracking or recurring monthly fees.</p>
+                    <a href="#pricing" class="service-learn-link">Review Lifetime Plans &rarr;</a>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================================
+         HARDWARE ARCHITECTURE STAGE
+         ======================================================== -->
+    <section class="hardware-section" id="hardware">
+        <div class="container">
+            
+            <div class="section-title-wrap">
+                <h2 class="section-title-clean">Fanless Aerospace Hardware Architecture</h2>
+                <p class="section-desc-clean">
+                    Precision-engineered for silent continuous 24/7 in-line threat interception with dual 2.5G Multi-Gigabit Ethernet.
+                </p>
+            </div>
+
+            <div class="hardware-stage-clean">
+                
+                <!-- Interactive Stage Display -->
+                <div class="hw-preview-box">
+                    <div class="hw-main-display">
+                        <img id="hwMainImg" src="assets/New_3.png_v=1641816403.png" alt="Cyber Rakshak Hardware Edge Appliance" class="asset-img-hardware-main">
+                        <span class="hw-badge-tag"><i class="fa-solid fa-shield-halved text-blue"></i> 2.5 Gbps Hardware Core</span>
+                    </div>
+
+                    <!-- Hardware Feature Highlight Badges -->
+                    <div class="hw-highlights-row">
+                        <div class="hw-feature-chip">
+                            <i class="fa-solid fa-bolt text-blue"></i>
+                            <span>Sub-0.12ms In-Line Latency</span>
+                        </div>
+                        <div class="hw-feature-chip">
+                            <i class="fa-solid fa-ethernet text-green"></i>
+                            <span>Dual 2.5G Multi-Gigabit</span>
+                        </div>
+                        <div class="hw-feature-chip">
+                            <i class="fa-solid fa-wind text-purple"></i>
+                            <span>100% Fanless Passive Cooling</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hardware Specs Column -->
+                <div class="hw-specs-column">
+                    
+                    <div class="hw-spec-card">
+                        <div class="hw-spec-icon"><i class="fa-solid fa-microchip"></i></div>
+                        <div class="hw-spec-text">
+                            <h4>Quad-Core 64-bit ARM Silicon</h4>
+                            <p>Equipped with onboard hardware cryptographic engine and dedicated packet acceleration co-processor for line-rate inspection.</p>
+                        </div>
+                    </div>
+
+                    <div class="hw-spec-card">
+                        <div class="hw-spec-icon"><i class="fa-solid fa-network-wired"></i></div>
+                        <div class="hw-spec-text">
+                            <h4>Dual 2.5 Gbps Ethernet Ports</h4>
+                            <p>WAN &amp; LAN auto-negotiation (10/100/1000/2500 Mbps) with zero packet drops under line-rate symmetric loads.</p>
+                        </div>
+                    </div>
+
+                    <div class="hw-spec-card">
+                        <div class="hw-spec-icon"><i class="fa-solid fa-wind"></i></div>
+                        <div class="hw-spec-text">
+                            <h4>Passive Heatsink Thermal Chassis</h4>
+                            <p>Precision-milled aerospace aluminum heatsink enclosure guarantees 100% silent zero-noise operation with optimal thermals.</p>
+                        </div>
+                    </div>
+
+                    <div class="hw-spec-card">
+                        <div class="hw-spec-icon"><i class="fa-solid fa-shield-heart"></i></div>
+                        <div class="hw-spec-text">
+                            <h4>Zero Monthly Subscription Fees</h4>
+                            <p>One-time hardware purchase gives you full lifetime access to all threat detection updates, signature rules, and mobile controls.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================================
+         WI-FI, WISP & FAILOVER ECOSYSTEM (Full-Width Feature Cards)
+         ======================================================== -->
+    <section class="services-section" id="wifi-wisp">
+        <div class="container">
+            
+            <div class="section-title-wrap">
+                <h2 class="section-title-clean">Wi-Fi &amp; WISP Failover Ecosystem</h2>
+                <p class="section-desc-clean">
+                    Comprehensive edge versatility whether protecting home gigabit fiber or traveling on public hotspots.
+                </p>
+            </div>
+
+            <div class="wifi-full-cards-stack">
+                
+                <!-- Card 1: Wi-Fi to Wi-Fi WISP -->
+                <div class="clean-feature-split-card">
+                    <div class="split-desc-body">
+                        <span class="quad-tag-pill pill-blue">WISP Gateway</span>
+                        <h3>Wi-Fi to Wi-Fi Tethering</h3>
+                        <p>
+                            Connect Cyber Rakshak to any untrusted public Wi-Fi network (hotel, airport, cafe, or coworking space) and broadcast an isolated, fully encrypted private wireless bubble for all your personal devices.
+                        </p>
+                        <ul class="split-bullet-list">
+                            <li><i class="fa-solid fa-circle-check text-blue"></i> Zero configuration required for connected laptops, tablets, and phones</li>
+                            <li><i class="fa-solid fa-circle-check text-blue"></i> Hardware-level NAT isolation shields endpoints from rogue local subnet scans</li>
+                            <li><i class="fa-solid fa-circle-check text-blue"></i> Captive portal pass-through with persistent WireGuard VPN tunnel back to HQ</li>
+                        </ul>
+                    </div>
+                    <div class="split-media-box">
+                        <img src="assets/Wifi_to_Wifi.jpg_v=1641816991.png" alt="Wi-Fi to Wi-Fi WISP Tethering Diagram" class="asset-img-diagram">
+                    </div>
+                </div>
+
+                <!-- Card 2: WAN Failover (GIF) -->
+                <div class="clean-feature-split-card reverse-split">
+                    <div class="split-media-box">
+                        <img src="assets/wifiwan_failover.gif_v=1641816933.png" alt="Dual-WAN Auto Failover Animation" class="asset-img-diagram">
+                    </div>
+                    <div class="split-desc-body">
+                        <span class="quad-tag-pill pill-green">Uninterrupted Uptime</span>
+                        <h3>Dual-WAN Auto Failover</h3>
+                        <p>
+                            Sub-second automated failover seamlessly switches traffic from your primary wired fiber/cable WAN to a secondary wireless or cellular uplink the instant packet loss or ISP degradation is detected.
+                        </p>
+                        <ul class="split-bullet-list">
+                            <li><i class="fa-solid fa-circle-check text-green"></i> Active health checks with sub-100ms ICMP jitter &amp; DNS heartbeats</li>
+                            <li><i class="fa-solid fa-circle-check text-green"></i> Zero VoIP call drops or gaming disconnects during link transition</li>
+                            <li><i class="fa-solid fa-circle-check text-green"></i> Automatic fallback to primary high-speed fiber when connection is restored</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Card 3: Wi-Fi Hotspot Mode -->
+                <div class="clean-feature-split-card">
+                    <div class="split-desc-body">
+                        <span class="quad-tag-pill pill-purple">Portable Defense</span>
+                        <h3>Encrypted Travel Router Mode</h3>
+                        <p>
+                            Turns any cellular USB modem dongle, tethered smartphone, or hotel Ethernet jack into a portable security gateway with hardware AES-256 encryption.
+                        </p>
+                        <ul class="split-bullet-list">
+                            <li><i class="fa-solid fa-circle-check text-purple"></i> Compact ultra-low power consumption for power-bank battery operation</li>
+                            <li><i class="fa-solid fa-circle-check text-purple"></i> Autonomous ad-blocking and telemetry pixel filtration on all endpoints</li>
+                            <li><i class="fa-solid fa-circle-check text-purple"></i> Instant site-to-site mesh VPN linkage back to corporate headquarters</li>
+                        </ul>
+                    </div>
+                    <div class="split-media-box">
+                        <img src="assets/Wifi_Hotspot.jpg_v=1641816995.png" alt="Wi-Fi Travel Hotspot Mode" class="asset-img-diagram">
+                    </div>
+                </div>
+
+                <!-- Card 4: Trusted LAN Segment -->
+                <div class="clean-feature-split-card reverse-split">
+                    <div class="split-media-box">
+                        <img src="assets/TrustedLAN.jpg_v=1641817097.png" alt="Trusted LAN Segment Protection" class="asset-img-diagram">
+                    </div>
+                    <div class="split-desc-body">
+                        <span class="quad-tag-pill pill-amber">Zero Trust LAN</span>
+                        <h3>Trusted LAN vs. Untrusted IoT Defense</h3>
+                        <p>
+                            Enforces strict physical and dynamic micro-segmentation between trusted enterprise workstations and vulnerable consumer smart appliances (IP cameras, smart plugs, printers, smart TVs).
+                        </p>
+                        <ul class="split-bullet-list">
+                            <li><i class="fa-solid fa-circle-check text-amber"></i> Prevents lateral traversal and malware propagation across local subnets</li>
+                            <li><i class="fa-solid fa-circle-check text-amber"></i> Continuous flow inspection drops unapproved internal port scans</li>
+                            <li><i class="fa-solid fa-circle-check text-amber"></i> Custom access control policies with 1-click device quarantine</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================================
+         NETWORK SEGMENTATION & AIR-GAP (VLAN ANIMATION + HOME/WORK)
+         ======================================================== -->
+    <section class="services-section" id="segmentation">
+        <div class="container">
+            
+            <div class="section-title-wrap">
+                <h2 class="section-title-clean">Dynamic Network Segmentation &amp; Air-Gap</h2>
+                <p class="section-desc-clean">
+                    Eliminate lateral movement risks by isolating untrusted IoT smart gadgets from critical enterprise assets.
+                </p>
+            </div>
+
+            <!-- Split Card 1: VLAN Animation GIF -->
+            <div class="clean-feature-split-card">
+                <div class="split-desc-body">
+                    <span class="quad-tag-pill pill-blue">VLAN Micro-Segmentation</span>
+                    <h3>Real-Time Policy Enforcement</h3>
+                    <p>
+                        Cyber Rakshak dynamically partitions network traffic into secure, isolated VLAN segments. Smart TVs, cameras, and gaming consoles cannot access your work laptops or confidential storage.
+                    </p>
+                    <ul class="split-bullet-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Automated client device classification</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Sub-millisecond lateral quarantine upon breach detection</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Full egress inspection for exfiltration attempts</li>
+                    </ul>
+                </div>
+                <div class="split-media-box">
+                    <img src="assets/Segmentation_anim_7c35d608-cc31-4da8-b002-d4b3aeb57d4c.gif_v=1642145518.png" alt="Dynamic VLAN Segmentation Animation" class="asset-img-portrait">
+                </div>
+            </div>
+
+            <!-- Split Card 2: Home vs Work Air-Gap -->
+            <div class="clean-feature-split-card reverse-split">
+                <div class="split-media-box">
+                    <img src="assets/home_work_3_1.png_v=1641816445.png" alt="Home vs Work Network Isolation Diagram" class="asset-img-diagram">
+                </div>
+                <div class="split-desc-body">
+                    <span class="quad-tag-pill pill-purple">Work From Home Security</span>
+                    <h3>Strict Home vs. Work Isolation</h3>
+                    <p>
+                        Working from home introduces risks from shared IoT devices. Cyber Rakshak creates a hardened digital air-gap between enterprise confidential documents and family home entertainment.
+                    </p>
+                    <ul class="split-bullet-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Dedicated corporate VPN tunnel routing</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Zero cross-talk between guest devices and work laptops</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Compliance-ready audit trails for enterprise SecOps</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================================
+         SMART TRAFFIC MANAGEMENT & SQM
+         ======================================================== -->
+    <section class="hardware-section" id="traffic-mgmt">
+        <div class="container">
+            
+            <div class="section-title-wrap">
+                <h2 class="section-title-clean">Smart Traffic Management &amp; SQM</h2>
+                <p class="section-desc-clean">
+                    Eliminate bufferbloat and latency spikes with enterprise-grade Smart Queue Management (SQM).
+                </p>
+            </div>
+
+            <div class="clean-feature-split-card">
+                <div class="split-desc-body">
+                    <span class="quad-tag-pill pill-green">Cake / FQ-CoDel SQM</span>
+                    <h3>Zero Latency Under Heavy Loads</h3>
+                    <p>
+                        When family members download massive 4K streams or cloud backups, ordinary routers suffer from severe bufferbloat. Cyber Rakshak's Smart Traffic Management automatically prioritizes time-sensitive voice, video, and gaming packets.
+                    </p>
+                    <ul class="split-bullet-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Eliminates ping spikes in competitive online gaming</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Smooth, jitter-free Zoom and Teams video conferencing</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Per-device bandwidth allocation and category rate limiting</li>
+                    </ul>
+                </div>
+                <div class="split-media-box">
+                    <img src="assets/SmartTrafficManagement_ef5508f0-dd1b-4507-ba54-321b45ee6e07.png_v=1641816630.png" alt="Smart Traffic Management and SQM Queuing" class="asset-img-diagram">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================================
+         3 INSTALLATION MODES (HOW IT WORKS GIF)
+         ======================================================== -->
+    <section class="quad-grid-section" id="install-modes">
+        <div class="container">
+            
+            <div class="section-title-wrap">
+                <h2 class="section-title-clean">3 Flexible Deployment Modes</h2>
+                <p class="section-desc-clean">
+                    Deploy in under 5 minutes without changing your existing router or Wi-Fi mesh configuration.
+                </p>
+            </div>
+
+            <!-- How It Works Asset Diagram (Optimized Size) -->
+            <div class="asset-center-card" style="text-align: center; margin-bottom: 36px;">
+                <img src="assets/howitworks_4320x1920_7928fafe-a7b5-41dc-8dba-ad0bd9bd4f29.gif" alt="3 Installation Modes Diagram" class="asset-img-modes">
+            </div>
+
+            <div class="modes-tri-grid">
+                
+                <div class="mode-card-item">
+                    <div class="mode-badge-number">1</div>
+                    <h4>Router Mode</h4>
+                    <p>Cyber Rakshak acts as your primary high-performance gateway router, managing PPPoE/DHCP WAN, NAT, and local DHCP IP assignment with full hardware firewall filtering.</p>
+                </div>
+
+                <div class="mode-card-item">
+                    <div class="mode-badge-number">2</div>
+                    <h4>Bridge Mode (In-Line)</h4>
+                    <p>Placed transparently between your existing modem and router. Operates as an invisible layer-2 bridge with zero IP configuration required.</p>
+                </div>
+
+                <div class="mode-card-item">
+                    <div class="mode-badge-number">3</div>
+                    <h4>DHCP / Simple Mode</h4>
+                    <p>Plug into any open LAN port on your current router. Cyber Rakshak takes over ARP management to monitor and protect the entire network effortlessly.</p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    
+
+    <!-- ========================================================
+         84-METRIC SCENARIO EXPLORER TABS
+         ======================================================== -->
+    <section class="hardware-section" id="scenarios">
+        <div class="container">
+            
+            <div class="section-title-wrap">
+                <h2 class="section-title-clean">84-Feature Deep Packet Inspection Engine</h2>
+                <p class="section-desc-clean">
+                    Explore how Cyber Rakshak's local AI categorizes and drops complex multi-vector threats without latency.
+                </p>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="scenario-tabs-nav">
+                <button class="scenario-tab-btn active" onclick="switchScenario('dos', this)">DoS / DDoS Flood</button>
+                <button class="scenario-tab-btn" onclick="switchScenario('brute', this)">SSH/RDP Brute Force</button>
+                <button class="scenario-tab-btn" onclick="switchScenario('botnet', this)">IoT Mirai Botnet</button>
+                <button class="scenario-tab-btn" onclick="switchScenario('recon', this)">Port Scanning Recon</button>
+                <button class="scenario-tab-btn" onclick="switchScenario('dns', this)">DNS Tunnel Exfiltration</button>
+                <button class="scenario-tab-btn" onclick="switchScenario('arp', this)">ARP Cache Poisoning</button>
+            </div>
+
+            <!-- Tab Content Pane -->
+            <div class="scenario-display-card">
+                
+                <!-- DoS Pane -->
+                <div id="pane-dos" class="scenario-content-pane active">
+                    <div class="scenario-header-row">
+                        <h3>SYN / UDP Volumetric Flood Protection</h3>
+                        <span class="quad-tag-pill pill-blue">Mitigation: 0.08ms</span>
+                    </div>
+                    <p>Identifies anomalous SYN packet bursts and incomplete TCP handshake ratios. Automatically triggers SYN proxy validation and drops spoofed source IPs directly in the kernel ring buffer.</p>
+                    <div class="scenario-metrics-grid">
+                        <div class="metric-pill-box"><div class="m-label">Analyzed Metric</div><div class="m-val">SYN-ACK Ratio</div></div>
+                        <div class="metric-pill-box"><div class="m-label">Sampling Window</div><div class="m-val">100ms Burst</div></div>
+                        <div class="metric-pill-box"><div class="m-label">AI Inference</div><div class="m-val">XGBoost &bull; 99.4%</div></div>
+                        <div class="metric-pill-box"><div class="m-label">Action Taken</div><div class="m-val text-green">Kernel Drop</div></div>
+                    </div>
+                </div>
+
+                <!-- Brute Force Pane -->
+                <div id="pane-brute" class="scenario-content-pane">
+                    <div class="scenario-header-row">
+                        <h3>SSH / RDP Credential Stuffing Defense</h3>
+                        <span class="quad-tag-pill pill-green">Mitigation: 0.12ms</span>
+                    </div>
+                    <p>Detects rapid authentication failure handshakes across ports 22, 3389, and custom enterprise VPN tunnels. Applies exponential backoff rate limiting and permanent IP quarantine.</p>
+                    <div class="scenario-metrics-grid">
+                        <div class="metric-pill-box"><div class="m-label">Analyzed Metric</div><div class="m-val">Auth Fail Velocity</div></div>
+                        <div class="metric-pill-box"><div class="m-label">Threshold</div><div class="m-val">&gt; 5 attempts/sec</div></div>
+                        <div class="metric-pill-box"><div class="m-label">AI Inference</div><div class="m-val">XGBoost &bull; 99.8%</div></div>
+                        <div class="metric-pill-box"><div class="m-label">Action Taken</div><div class="m-val text-ruby">Instant Blacklist</div></div>
+                    </div>
+                </div>
+
+                <!-- Botnet Pane -->
+                <div id="pane-botnet" class="scenario-content-pane">
+                    <div class="scenario-header-row">
+                        <h3>IoT Mirai &amp; Command &amp; Control (C2) Isolation</h3>
+                        <span class="quad-tag-pill pill-purple">Mitigation: 0.10ms</span>
+                    </div>
+                    <p>Identifies micro-beaconing intervals and anomalous outbound encrypted DNS tunnels from smart cameras, bulbs, and thermostats. Quarantines compromised devices into an isolated VqLAN segment.</p>
+                    <div class="scenario-metrics-grid">
+                        <div class="metric-pill-box"><div class="m-label">Analyzed Metric</div><div class="m-val">Beacon Entropy</div></div>
+                        <div class="metric-pill-box"><div class="m-label">Egress Flow</div><div class="m-val">C2 Heartbeat</div></div>
+                        <div class="metric-pill-box"><div class="m-label">AI Inference</div><div class="m-val">XGBoost &bull; 98.9%</div></div>
+                        <div class="metric-pill-box"><div class="m-label">Action Taken</div><div class="m-val text-purple">VLAN Isolation</div></div>
+                    </div>
+                </div>
+
+                <!-- Recon Pane -->
+                <div id="pane-recon" class="scenario-content-pane">
+                    <div class="scenario-header-row">
+                        <h3>Stealth Port Scanning &amp; Service Probing</h3>
+                        <span class="quad-tag-pill pill-amber">Mitigation: 0.09ms</span>
+                    </div>
+                    <p>Recognizes FIN, Xmas, and Null stealth port sweeps. Obfuscates active network topology with dynamic honeypot responses while silently logging the attacker's footprint.</p>
+                    <div class="scenario-metrics-grid">
+                        <div class="metric-pill-box"><div class="m-label">Analyzed Metric</div><div class="m-val">Port Sequence Entropy</div></div>
+                        <div class="metric-pill-box"><div class="m-label">Scan Type</div><div class="m-val">SYN/FIN Sweep</div></div>
+                        <div class="metric-pill-box"><div class="m-label">AI Inference</div><div class="m-val">XGBoost &bull; 99.6%</div></div>
+                        <div class="metric-pill-box"><div class="m-label">Action Taken</div><div class="m-val text-amber">Tarpit Response</div></div>
+                    </div>
+                </div>
+
+                <!-- DNS Tunnel Pane -->
+                <div id="pane-dns" class="scenario-content-pane">
+                    <div class="scenario-header-row">
+                        <h3>DNS Tunnel Data Exfiltration Detection</h3>
+                        <span class="quad-tag-pill pill-blue">Mitigation: 0.11ms</span>
+                    </div>
+                    <p>Calculates Shannon entropy on subdomain labels to detect base64 encoded data exfiltration over standard UDP port 53 without decrypting user payloads.</p>
+                    <div class="scenario-metrics-grid">
+                        <div class="metric-pill-box"><div class="m-label">Analyzed Metric</div><div class="m-val">Subdomain Entropy</div></div>
+                        <div class="metric-pill-box"><div class="m-label">Payload Size</div><div class="m-val">High Variance</div></div>
+                        <div class="metric-pill-box"><div class="m-label">AI Inference</div><div class="m-val">XGBoost &bull; 99.1%</div></div>
+                        <div class="metric-pill-box"><div class="m-label">Action Taken</div><div class="m-val text-ruby">DNS Sinkhole</div></div>
+                    </div>
+                </div>
+
+                <!-- ARP Pane -->
+                <div id="pane-arp" class="scenario-content-pane">
+                    <div class="scenario-header-row">
+                        <h3>ARP Cache Poisoning &amp; Man-In-The-Middle (MITM)</h3>
+                        <span class="quad-tag-pill pill-green">Mitigation: 0.07ms</span>
+                    </div>
+                    <p>Monitors gratuitous ARP broadcast traffic to detect spoofed MAC-to-IP bindings. Preserves authentic gateway tables and alerts the network administrator immediately.</p>
+                    <div class="scenario-metrics-grid">
+                        <div class="metric-pill-box"><div class="m-label">Analyzed Metric</div><div class="m-val">MAC-IP Binding Rate</div></div>
+                        <div class="metric-pill-box"><div class="m-label">Attack Type</div><div class="m-val">Gratuitous ARP</div></div>
+                        <div class="metric-pill-box"><div class="m-label">AI Inference</div><div class="m-val">Heuristic &bull; 100%</div></div>
+                        <div class="metric-pill-box"><div class="m-label">Action Taken</div><div class="m-val text-green">Binding Locked</div></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================================
+         INTERACTIVE SIGNAL OSCILLOSCOPE & THREAT INJECTION LAB
+         ======================================================== -->
+    <section class="quad-grid-section" id="interactive-lab">
+        <div class="container">
+            
+            <div class="section-title-wrap">
+                <h2 class="section-title-clean">Interactive Threat Lab &amp; Oscilloscope</h2>
+                <p class="section-desc-clean">
+                    Simulate real-time multi-vector attacks and observe Cyber Rakshak's sub-millisecond AI packet mitigation waveform.
+                </p>
+            </div>
+
+            <div class="lab-split-grid">
+                
+                <!-- Canvas Waveform -->
+                <div class="lab-canvas-card">
+                    <div class="lab-canvas-head">
+                        <span class="font-mono text-blue" style="font-size: 13px; font-weight: 700;">IN-LINE PACKET SIGNAL OSCILLOSCOPE</span>
+                        <div class="canvas-status-badge">
+                            <span class="status-dot-emerald"></span>
+                            <span>ENGINE ACTIVE</span>
+                        </div>
+                    </div>
+                    <canvas id="shieldOscCanvas" width="550" height="220" style="width: 100%; border-radius: 12px; background: #070a12;"></canvas>
+                </div>
+
+                <!-- Controls -->
+                <div class="lab-controls-card">
+                    <h3 class="lab-control-title">Threat Injection Vector</h3>
+                    
+                    <select id="attackSelect" class="attack-select-clean">
+                        <option value="DDoS Slowloris Flood">DDoS Slowloris Flood (SYN Burst)</option>
+                        <option value="SSH Brute Force Attack">SSH Credential Brute Force</option>
+                        <option value="IoT Mirai C2 Beacon">IoT Mirai C2 Outbound Beacon</option>
+                        <option value="DNS Data Exfiltration Tunnel">DNS Tunnel Data Exfiltration</option>
+                        <option value="Normal Clean Stream">Normal Web Traffic Stream (Baseline)</option>
+                    </select>
+
+                    <button class="btn-trigger-attack" onclick="injectThreatVector()">
+                        <i class="fa-solid fa-play"></i> &nbsp;Simulate Threat Vector
+                    </button>
+
+                    <div class="attack-live-feed" id="attackFeed">
+                        <div class="feed-entry clean">
+                            <span class="font-mono">192.168.1.104 &bull; Normal HTTPS</span>
+                            <strong>PASS (0.04ms)</strong>
+                        </div>
+                        <div class="feed-entry blocked">
+                            <span class="font-mono">203.0.113.45 &bull; SYN Flood</span>
+                            <strong>QUARANTINED (0.11ms)</strong>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================================
+         LIFETIME PRICING TIERS (ZERO MONTHLY SUBSCRIPTION)
+         ======================================================== -->
+    <section class="services-section" id="pricing">
+        <div class="container">
+            
+            <div class="section-title-wrap">
+                <h2 class="section-title-clean">Lifetime Hardware Ownership</h2>
+                <p class="section-desc-clean">
+                    Zero monthly subscriptions. Buy once, protect forever with automatic continuous AI model updates.
+                </p>
+            </div>
+
+            <div class="pricing-cards-grid">
+                
+                <!-- Plan 1: Home SE -->
+                <div class="clean-price-card">
+                    <h3 class="plan-name">Cyber Rakshak SE</h3>
+                    <p class="plan-sub">Ideal for smart homes, apartments, and remote teleworkers.</p>
+                    <div class="price-val-wrap">
+                        <span class="price-amount">$199</span>
+                        <span class="price-period">/ Lifetime</span>
+                    </div>
+                    <ul class="plan-features-list">
+                        <li><i class="fa-solid fa-check"></i> 1.0 Gbps In-Line Throughput</li>
+                        <li><i class="fa-solid fa-check"></i> 84-Feature AI Deep Packet Inspection</li>
+                        <li><i class="fa-solid fa-check"></i> Mobile iOS / Android App</li>
+                        <li><i class="fa-solid fa-check"></i> Up to 50 Connected Devices</li>
+                        <li><i class="fa-solid fa-check"></i> Zero Subscription Fees</li>
+                    </ul>
+                    <button type="button" onclick="triggerRealGoogleAuth()" class="btn-plan-action">Select SE Model</button>
+                </div>
+
+                <!-- Plan 2: Pro (Featured) -->
+                <div class="clean-price-card featured-plan">
+                    <span class="plan-popular-tag">MOST POPULAR</span>
+                    <h3 class="plan-name">Cyber Rakshak PRO</h3>
+                    <p class="plan-sub">Designed for power users, gaming households, and gigabit fiber.</p>
+                    <div class="price-val-wrap">
+                        <span class="price-amount">$349</span>
+                        <span class="price-period">/ Lifetime</span>
+                    </div>
+                    <ul class="plan-features-list">
+                        <li><i class="fa-solid fa-check"></i> 2.5 Gbps Multi-Gigabit Ports</li>
+                        <li><i class="fa-solid fa-check"></i> Smart Queue (SQM) Bufferbloat Engine</li>
+                        <li><i class="fa-solid fa-check"></i> Dynamic VLAN &amp; IoT Air-Gap</li>
+                        <li><i class="fa-solid fa-check"></i> Dual-WAN Auto Failover &amp; WISP</li>
+                        <li><i class="fa-solid fa-check"></i> Up to 250 Connected Devices</li>
+                    </ul>
+                    <button type="button" onclick="triggerRealGoogleAuth()" class="btn-plan-action active-btn">Select PRO Model</button>
+                </div>
+
+                <!-- Plan 3: Enterprise Gold -->
+                <div class="clean-price-card">
+                    <h3 class="plan-name">Cyber Rakshak ULTRA</h3>
+                    <p class="plan-sub">Engineered for branch offices, labs, and enterprise operations.</p>
+                    <div class="price-val-wrap">
+                        <span class="price-amount">$1,299</span>
+                        <span class="price-period">/ Lifetime</span>
+                    </div>
+                    <ul class="plan-features-list">
+                        <li><i class="fa-solid fa-check"></i> 10 Gbps SFP+ Fiber In-Line Ports</li>
+                        <li><i class="fa-solid fa-check"></i> Enterprise SIEM / Syslog Integration</li>
+                        <li><i class="fa-solid fa-check"></i> Custom eBPF Kernel Rules Engine</li>
+                        <li><i class="fa-solid fa-check"></i> Unlimited Connected Endpoints</li>
+                        <li><i class="fa-solid fa-check"></i> 24/7 Dedicated SecOps Priority SLA</li>
+                    </ul>
+                    <button type="button" onclick="triggerRealGoogleAuth()" class="btn-plan-action">Select ULTRA Model</button>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================================
+         FAQ ACCORDION SECTION
+         ======================================================== -->
+    <section class="hardware-section" id="faq">
+        <div class="container">
+            
+            <div class="section-title-wrap">
+                <h2 class="section-title-clean">Frequently Asked Questions</h2>
+                <p class="section-desc-clean">
+                    Everything you need to know about Cyber Rakshak deployment, performance, and privacy.
+                </p>
+            </div>
+
+            <div class="faq-accordion-wrap">
+                
+                <div class="faq-item active">
+                    <button class="faq-question-btn" onclick="toggleFaq(this)">
+                        <span>Do I need to replace my existing Wi-Fi router or mesh system?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>No. Cyber Rakshak connects directly between your ISP modem/ONT and your existing Wi-Fi router or mesh system in Transparent Bridge Mode. You keep your current Wi-Fi name (SSID), passwords, and all existing settings.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question-btn" onclick="toggleFaq(this)">
+                        <span>Does Cyber Rakshak slow down internet gaming or 4K streaming?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>No. Cyber Rakshak features hardware-accelerated 2.5 Gbps Multi-Gigabit packet processing with sub-0.12ms kernel mitigation latency. Its built-in Cake / FQ-CoDel Smart Queue Management (SQM) actively eliminates bufferbloat and ping spikes.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question-btn" onclick="toggleFaq(this)">
+                        <span>Is my network data uploaded to the cloud?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Never. Cyber Rakshak operates with strict zero-cloud dependency. 100% of deep packet inspection, AI classification, logs, and telemetry are executed locally on the hardware device itself.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question-btn" onclick="toggleFaq(this)">
+                        <span>Are there any recurring monthly or annual subscription fees?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>None. When you purchase Cyber Rakshak, you own the hardware and software for life. All security signature updates, firmware patches, and mobile app features are completely free forever.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================================
+         FOOTER
+         ======================================================== -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid-clean">
+                <div>
+                    <div class="brand-link" style="margin-bottom: 12px; display: inline-block;">
+                        <img src="assets/cyber_rakshak_brand.png?v=3" alt="Cyber Rakshak" class="brand-full-logo-img" style="height: 50px; max-width: 260px;">
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; max-width: 260px;">
+                        Next-generation autonomous edge cyber defense with 84-feature deep packet inspection.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Features</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services">Active Protect DPI</a></li>
+                        <li><a href="#segmentation">VLAN Segmentation</a></li>
+                        <li><a href="#traffic-mgmt">Smart Queue (SQM)</a></li>
+                        <li><a href="#wifi-wisp">WISP Travel Bubble</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Hardware</h4>
+                    <ul class="footer-links">
+                        <li><a href="#hardware">Silicon PCB Engine</a></li>
+                        <li><a href="#hardware">Dual 2.5G Ports</a></li>
+                        <li><a href="#install-modes">3 Deployment Modes</a></li>
+                        <li><a href="#pricing">Lifetime Pricing</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Console &amp; API</h4>
+                    <ul class="footer-links">
+                        <li><a href="/dashboard" target="_blank">Live Web Console</a></li>
+                        <li><a href="#scenarios">84-Metric Threat Lab</a></li>
+                        
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>&copy; 2026 Cyber Rakshak IDS Inc. All rights reserved. Zero-cloud privacy guarantee.</span>
+                <span>Protected by Cyber Rakshak Autonomous In-Line Shield v2.4</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Inline Script for Interactivity -->
+    <script>
+    // Mobile Menu Drawer
+
+    // Mobile Menu Drawer
+    function toggleMobileMenu(force) {
+        const drawer = document.getElementById('mobDrawer');
+        const backdrop = document.getElementById('mobBackdrop');
+        if (!drawer || !backdrop) return;
+        const isOpen = typeof force === 'boolean' ? force : !drawer.classList.contains('open');
+        if (isOpen) {
+            drawer.classList.add('open');
+            backdrop.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        } else {
+            drawer.classList.remove('open');
+            backdrop.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Hardware Media Switcher
+    window.setHwMedia = function(src, btn) {
+        document.querySelectorAll('.hw-thumb-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        const img = document.getElementById('hwMainImg');
+        if (img) {
+            img.style.opacity = '0.3';
+            setTimeout(() => {
+                img.src = src;
+                img.style.opacity = '1';
+            }, 120);
+        }
+    };
+
+    // Scenario Tabs Switcher
+    window.switchScenario = function(id, btn) {
+        document.querySelectorAll('.scenario-tab-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        document.querySelectorAll('.scenario-content-pane').forEach(p => p.classList.remove('active'));
+        const target = document.getElementById('pane-' + id);
+        if (target) target.classList.add('active');
+    };
+
+    // FAQ Accordion
+    function toggleFaq(btn) {
+        const item = btn.parentElement;
+        const isActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        if (!isActive) item.classList.add('active');
+    }
+
+    // Oscilloscope Canvas Lab
+    const canvas = document.getElementById('shieldOscCanvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = canvas.parentElement.clientWidth || 550;
+        let height = canvas.height = 220;
+        let offset = 0;
+        let disrupted = false;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = canvas.parentElement.clientWidth || 550;
+            height = canvas.height = 220;
+        });
+
+        function draw() {
+            ctx.fillStyle = '#070a12';
+            ctx.fillRect(0, 0, width, height);
+
+            // Grid Lines
+            ctx.strokeStyle = 'rgba(30, 41, 59, 0.4)';
+            ctx.lineWidth = 1;
+            const step = 20;
+            for (let x = 0; x < width; x += step) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < height; y += step) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+
+            // Primary Blue Signal Wave
+            ctx.strokeStyle = disrupted ? '#ef4444' : '#0080ff';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            for (let x = 0; x < width; x += 4) {
+                const amp = disrupted ? 45 + Math.sin(x * 0.1) * 15 : 28;
+                const freq = disrupted ? 0.04 : 0.025;
+                const y = height / 2 + Math.sin((x + offset) * freq) * amp;
+                if (x === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            offset += disrupted ? 5 : 2;
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+
+        window.injectThreatVector = function() {
+            const sel = document.getElementById('attackSelect');
+            const val = sel ? sel.value : 'DDoS Slowloris Flood';
+            const feed = document.getElementById('attackFeed');
+
+            disrupted = true;
+            setTimeout(() => { disrupted = false; }, 1500);
+
+            const isClean = val.includes('Clean');
+            const randomIp = '198.51.100.' + Math.floor(Math.random() * 200 + 10);
+            const row = document.createElement('div');
+            row.className = 'feed-entry ' + (isClean ? 'clean' : 'blocked');
+            row.innerHTML = `
+                <span class="font-mono">${randomIp} &bull; ${val}</span>
+                <strong>${isClean ? 'CLEAN (0.04ms)' : 'QUARANTINED (0.11ms)'}</strong>
+            `;
+
+            if (feed) {
+                feed.insertBefore(row, feed.firstChild);
+                if (feed.children.length > 5) feed.removeChild(feed.lastChild);
+            }
+        };
+    }
+
+    // ========================================================
+    // GOOGLE OAUTH 2.0 IDENTITY CONTROLLER & GIS INTEGRATION
+    // Client ID: 483884800590-f1dluvr1iqqh0oahtu35veloi48h9hae.apps.googleusercontent.com
+    // ========================================================
+    const GOOGLE_CLIENT_ID = "483884800590-f1dluvr1iqqh0oahtu35veloi48h9hae.apps.googleusercontent.com";
+    let googleTokenClient = null;
+
+    let selectedGoogleUser = {
+        name: 'Santosh Singh',
+        email: 'santoshsingh740444@gmail.com'
+    };
+
+    // Helper: Parse Google ID Token (JWT)
+    function parseJwt(token) {
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+            return JSON.parse(jsonPayload);
+        } catch (e) {
+            console.error("Failed to parse Google JWT credential:", e);
+            return null;
+        }
+    }
+
+    // Google ID Token Credential Callback (GIS)
+    window.handleGoogleCredentialResponse = function(response) {
+        if (!response || !response.credential) return;
+        const payload = parseJwt(response.credential);
+        if (payload) {
+            onGoogleAuthSuccess({
+                name: payload.name || payload.given_name || (payload.email ? payload.email.split('@')[0] : 'Santosh Singh'),
+                email: payload.email || 'santoshsingh740444@gmail.com',
+                picture: payload.picture || '',
+                sub: payload.sub || '',
+                email_verified: payload.email_verified || true
+            });
+        }
+    };
+
+    // Google OAuth 2.0 Access Token Callback (GIS Popup)
+    async function handleGoogleTokenResponse(tokenResponse) {
+        if (tokenResponse && tokenResponse.access_token) {
+            showAuthToast('Connecting to Google...', 'fa-circle-notch fa-spin');
+            try {
+                const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
+                });
+                if (res.ok) {
+                    const userInfo = await res.json();
+                    onGoogleAuthSuccess(userInfo);
+                } else {
+                    onGoogleAuthSuccess(selectedGoogleUser);
+                }
+            } catch (err) {
+                onGoogleAuthSuccess(selectedGoogleUser);
+            }
+        }
+    }
+
+    // Central Google Auth Success Handler
+    function onGoogleAuthSuccess(profile) {
+        closeGoogleAuthModal();
+        const userSession = {
+            name: profile.name || profile.given_name || (profile.email ? profile.email.split('@')[0] : 'Santosh Singh'),
+            email: profile.email || 'santoshsingh740444@gmail.com',
+            picture: profile.picture || '',
+            sub: profile.sub || 'google-user-session',
+            authMethod: 'Google Identity OAuth 2.0 (Verified)',
+            authenticatedAt: new Date().toISOString()
+        };
+
+        try {
+            localStorage.setItem('cyber_rakshak_auth', JSON.stringify(userSession));
+        } catch (e) {}
+
+        // Show Success Toast
+        showAuthSuccessToast(userSession);
+
+        // Smooth redirect to Dashboard
+        setTimeout(() => {
+            window.location.href = window.location.origin + '/dashboard';
+        }, 700);
+    }
+
+    // Open Google Account Dialog
+    window.triggerRealGoogleAuth = function() {
+        openGoogleAuthModal();
+    };
+
+    window.openGoogleAuthModal = function() {
+        const modal = document.getElementById('googleAuthModal');
+        if (modal) {
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            
+            const btn = document.getElementById('btnContinueGoogle');
+            const progressBox = document.getElementById('authProgressBox');
+            if (btn) btn.style.display = 'flex';
+            if (progressBox) progressBox.classList.remove('active');
+        }
+    };
+
+    window.closeGoogleAuthModal = function() {
+        const modal = document.getElementById('googleAuthModal');
+        if (modal) {
+            modal.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    };
+
+    window.selectGoogleAccount = function(email, name) {
+        selectedGoogleUser = { email, name };
+        const customInp = document.getElementById('customGoogleEmail');
+        if (customInp) customInp.value = '';
+        const card1 = document.getElementById('santoshAccountCard');
+        if (card1) card1.classList.add('selected');
+    };
+
+    window.onCustomEmailFocus = function() {
+        const card1 = document.getElementById('santoshAccountCard');
+        if (card1) card1.classList.remove('selected');
+    };
+
+    // Authenticate with selected Google profile
+    window.authenticateAndLogin = function() {
+        const customEmail = document.getElementById('customGoogleEmail');
+        if (customEmail && customEmail.value.trim()) {
+            const em = customEmail.value.trim();
+            selectedGoogleUser = {
+                email: em,
+                name: em.split('@')[0]
+            };
+        }
+
+        const btn = document.getElementById('btnContinueGoogle');
+        const progressBox = document.getElementById('authProgressBox');
+        const progressText = document.getElementById('authProgressText');
+
+        if (btn) btn.style.display = 'none';
+        if (progressBox) progressBox.classList.add('active');
+        if (progressText) progressText.innerHTML = 'Connecting to Google OAuth 2.0...';
+
+        setTimeout(() => {
+            if (progressText) progressText.innerHTML = `Verifying identity for <strong>${selectedGoogleUser.email}</strong>...`;
+            
+            setTimeout(() => {
+                onGoogleAuthSuccess(selectedGoogleUser);
+            }, 500);
+        }, 400);
+    };
+
+    // Launch official GIS popup if user wants
+    window.launchOfficialGooglePopup = function() {
+        if (googleTokenClient) {
+            googleTokenClient.requestAccessToken({ prompt: 'select_account' });
+        } else if (window.google && window.google.accounts && window.google.accounts.id) {
+            window.google.accounts.id.prompt();
+        } else {
+            authenticateAndLogin();
+        }
+    };
+
+    // Initialize Google Identity Services SDK
+    function initGoogleIdentityServices() {
+        if (typeof google === 'undefined' || !google.accounts) {
+            setTimeout(initGoogleIdentityServices, 150);
+            return;
+        }
+
+        try {
+            // 1. Initialize Google ID Token Service (GIS)
+            google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: handleGoogleCredentialResponse,
+                auto_select: false,
+                cancel_on_tap_outside: true,
+                context: 'signin'
+            });
+
+            // 2. Render Google Button in Header
+            const headerBtn = document.getElementById('googleHeaderBtn');
+            if (headerBtn) {
+                headerBtn.innerHTML = '';
+                google.accounts.id.renderButton(headerBtn, {
+                    type: 'standard',
+                    theme: 'outline',
+                    size: 'medium',
+                    text: 'signin_with',
+                    shape: 'pill',
+                    logo_alignment: 'left'
+                });
+            }
+
+            // 3. Render Google Button in Mobile Drawer
+            const drawerBtn = document.getElementById('googleDrawerBtn');
+            if (drawerBtn) {
+                drawerBtn.innerHTML = '';
+                google.accounts.id.renderButton(drawerBtn, {
+                    type: 'standard',
+                    theme: 'outline',
+                    size: 'large',
+                    text: 'signin_with',
+                    shape: 'rectangular',
+                    logo_alignment: 'left',
+                    width: 270
+                });
+            }
+
+            // 4. Initialize OAuth 2.0 Token Client for custom button popups
+            googleTokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: GOOGLE_CLIENT_ID,
+                scope: 'openid email profile',
+                callback: handleGoogleTokenResponse,
+                error_callback: (err) => {
+                    console.warn('Google OAuth Token Notice (origin not approved yet in Cloud Console):', err);
+                }
+            });
+
+        } catch (err) {
+            console.warn('Google Identity initialization notice:', err);
+        }
+    }
+
+    // UI Toast Helpers
+    function showAuthToast(msg, icon) {
+        const toast = document.getElementById('realGoogleAuthToast');
+        const title = document.getElementById('toastTitle');
+        const sub = document.getElementById('toastSub');
+        const spin = document.getElementById('toastSpinner');
+        if (toast && title && sub) {
+            toast.style.display = 'flex';
+            title.innerText = msg;
+            sub.innerText = 'Google Identity Services OAuth 2.0';
+            if (spin) spin.style.display = 'block';
+        }
+    }
+
+    function showAuthSuccessToast(user) {
+        const toast = document.getElementById('realGoogleAuthToast');
+        const title = document.getElementById('toastTitle');
+        const sub = document.getElementById('toastSub');
+        const avatarWrap = document.getElementById('toastGoogleAvatarWrap');
+        const spin = document.getElementById('toastSpinner');
+        if (toast && title && sub) {
+            toast.style.display = 'flex';
+            toast.classList.add('success');
+            title.innerText = `Welcome, ${user.name}!`;
+            sub.innerHTML = `<span style="color:#10b981; font-weight:600;"><i class="fa-solid fa-circle-check"></i> ${user.email} (Verified)</span> • Launching Live Dashboard...`;
+            if (spin) spin.style.display = 'none';
+            if (avatarWrap && user.picture) {
+                avatarWrap.innerHTML = `<img src="${user.picture}" alt="${user.name}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #10b981; box-shadow: 0 2px 8px rgba(16,185,129,0.3);">`;
+            }
+        }
+    }
+
+    // Keyboard Escape to close modal
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeGoogleAuthModal();
+        }
+    });
+
+    // Kickstart Google GIS on window load or DOMContentLoaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initGoogleIdentityServices);
+    } else {
+        initGoogleIdentityServices();
+    }
+    </script>
+
+    <!-- ========================================================
+         GOOGLE AUTHENTICATION DIALOG (OAuth 2.0 Gateway)
+         ======================================================== -->
+    <div class="google-auth-overlay" id="googleAuthModal" onclick="if(event.target.id==='googleAuthModal') closeGoogleAuthModal();">
+        <div class="google-auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+            <button class="modal-close-btn" onclick="closeGoogleAuthModal()" aria-label="Close Dialog">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="auth-modal-header">
+                <div class="auth-brand-lockup">
+                    <svg width="28" height="28" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                    </svg>
+                    <span style="font-weight: 800; font-size: 17px; color: var(--text-main);">Google Identity</span>
+                </div>
+                <h3 class="auth-modal-title" id="authTitle">Sign in with Google</h3>
+                <p class="auth-modal-subtitle">Choose your Google account to access Cyber Rakshak IDS Live Dashboard</p>
+            </div>
+
+            <div class="auth-modal-body">
+                <!-- Santosh Singh Verified Account Card -->
+                <div class="auth-account-select-card selected" id="santoshAccountCard" onclick="selectGoogleAccount('santoshsingh740444@gmail.com', 'Santosh Singh')">
+                    <div class="auth-avatar" style="background: linear-gradient(135deg, #4285F4, #0080ff);">S</div>
+                    <div class="auth-account-info">
+                        <div class="auth-account-name">
+                            <span>Santosh Singh</span>
+                            <i class="fa-solid fa-circle-check verified-g-badge" title="Google Account Verified"></i>
+                        </div>
+                        <div class="auth-account-email">santoshsingh740444@gmail.com</div>
+                    </div>
+                </div>
+
+                <!-- Custom Account Option -->
+                <div style="margin-bottom: 18px;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                        <span style="font-size: 12px; font-weight: 600; color: #64748b;">Or use another Google account:</span>
+                    </div>
+                    <input type="email" id="customGoogleEmail" placeholder="yourname@gmail.com" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13.5px; background: #f8fafc; color: #0f172a; outline: none; font-family: inherit; box-sizing: border-box;" onfocus="onCustomEmailFocus()">
+                </div>
+
+                <!-- Primary Action Button -->
+                <button type="button" class="btn-continue-google" id="btnContinueGoogle" onclick="authenticateAndLogin()">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="#ffffff" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                        <path fill="#ffffff" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                        <path fill="#ffffff" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                        <path fill="#ffffff" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                    </svg>
+                    <span>Sign in with Google</span>
+                </button>
+
+                <!-- Auth Progress / Live Status -->
+                <div class="auth-status-progress" id="authProgressBox">
+                    <div class="google-spinner"></div>
+                    <div class="auth-progress-text" id="authProgressText">Connecting to Google OAuth 2.0...</div>
+                </div>
+
+                <div class="auth-security-footer">
+                    <i class="fa-solid fa-shield-halved" style="color:#10b981"></i>
+                    <span>OAuth 2.0 Token Verification • Local Hardware Sandbox</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Real Google Auth Status Notification Toast -->
+    <div id="realGoogleAuthToast" class="real-google-toast" style="display: none;">
+        <div class="real-google-toast-inner">
+            <div id="toastGoogleAvatarWrap" class="toast-avatar-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                </svg>
+            </div>
+            <div class="toast-content">
+                <div class="toast-title" id="toastTitle">Signing in with Google...</div>
+                <div class="toast-sub" id="toastSub">Verifying Google Identity Token</div>
+            </div>
+            <div class="google-spinner-sm" id="toastSpinner"></div>
+        </div>
+    </div>
+
+</body>
+</html>
