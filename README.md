@@ -34,31 +34,16 @@
 </p>
 
 <p align="center">
-  <i>"Network ke beech Raspberry Pi ko transparent security gateway ki tarah deploy karke, hum network traffic ko continuously inspect karte hain, hybrid AI/ML se known aur zero-day attacks detect karte hain, aur dynamic firewall rules ke through threat ko sub-second latency mein auto-block karte hain."</i>
-</p>
-
-<p align="center">
-  <a href="#-project-in-a-nutshell-one-line-pitch"><b>💡 Elevator Pitch</b></a> •
   <a href="#-problem-statement--research-gap"><b>🎯 Problem Statement</b></a> •
   <a href="#-core-4-stage-system-architecture"><b>🏗️ 4-Stage Architecture</b></a> •
   <a href="#-hybrid-aiml-detection-engine"><b>🧠 ML Engine</b></a> •
   <a href="#-experimental-results--benchmarks"><b>📊 Results & Benchmarks</b></a> •
   <a href="#-comparative-analysis"><b>⚖️ Comparative Matrix</b></a> •
   <a href="#-quick-start--local-deployment"><b>⚡ Quick Start</b></a> •
-  <a href="#-viva--examiner-defense-guide"><b>🎓 Viva Q&A Guide</b></a>
+  <a href="#-technical-faq--defense-guide"><b>🎓 Technical FAQ</b></a>
 </p>
 
 </div>
-
----
-
-## 💡 Project in a Nutshell (One-Line Pitch)
-
-> **English (Formal Defense):**  
-> *"Cyber Rakshak is a lightweight AI-driven Network Intrusion Detection and Mitigation System (IDS/IPS) designed for resource-constrained edge environments. It captures network traffic, extracts behavioral features, leverages a hybrid machine learning pipeline (Random Forest + Isolation Forest) to detect both known attacks and zero-day anomalies, and autonomously neutralizes malicious actors using dynamic iptables firewall rules with sub-second latency (~400 ms)."*
-
-> **Simple Hindi:**  
-> *"Router aur internal switch ke beech Raspberry Pi 4 ko transparent bridge bana kar lagate hain. System line-rate par packet capture karke 83 behavioral features extract karta hai, ML se malicious traffic detect karta hai aur attack detect hote hi automatically firewall rule generate karke attacker IP ko <400ms mein block kar deta hai."*
 
 ---
 
@@ -302,7 +287,7 @@ python mainapp.py
 
 ---
 
-## 🎓 Viva & Examiner Defense Guide
+## 🎓 Technical FAQ & Defense Guide
 
 ### 1. "What is your project in one sentence?"
 > *"Our project, Cyber Rakshak, is a lightweight AI-driven Network Intrusion Detection and Mitigation System (IDS/IPS) designed for resource-constrained edge environments. It captures network traffic, extracts behavioral flow features, uses a hybrid ML pipeline (Random Forest + Isolation Forest) to detect both known and zero-day attacks, and automatically blocks threats using dynamic iptables firewall rules with sub-second response (~400 ms)."*
