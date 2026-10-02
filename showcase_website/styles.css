@@ -173,16 +173,16 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 }
 
 .brand-full-logo-img {
-    height: 44px;
+    height: 52px;
     width: auto;
-    max-width: 250px;
+    max-width: 280px;
     object-fit: contain;
     display: block;
 }
 
 .brand-full-logo-img.mob-logo {
-    height: 38px;
-    max-width: 200px;
+    height: 42px;
+    max-width: 220px;
 }
 
 [data-theme="dark"] .brand-full-logo-img {
