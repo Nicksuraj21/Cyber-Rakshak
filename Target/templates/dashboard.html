@@ -782,10 +782,6 @@
             <button class="btn-modern btn-sound" id="soundToggleBtn" onclick="toggleAudio()" title="Toggle Threat Intercept Audio Alert">
                 <i class="fa-solid fa-volume-high" id="soundIcon"></i>
             </button>
-            <button class="btn-theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">
-                <i class="fa-solid fa-moon" id="themeIcon"></i>
-                <span id="themeLabel">Dark Mode</span>
-            </button>
         </div>
     </header>
 
@@ -1060,35 +1056,27 @@
 
 <script>
     // State
-    let currentTheme = localStorage.getItem('cyberrakshak_theme') || 'light';
+    try {
+        localStorage.removeItem('cyberrakshak_theme');
+    } catch(e) {}
+    document.documentElement.setAttribute('data-theme', 'light');
+    let currentTheme = 'light';
     let audioEnabled = false;
     let rawActivityLogs = [];
     let rawBlockedLogs = [];
     let searchQuery = '';
     let audioCtx = null;
 
-    // Theme Switcher
     function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        const icon = document.getElementById('themeIcon');
-        const label = document.getElementById('themeLabel');
-        if (theme === 'dark') {
-            icon.className = 'fa-solid fa-sun';
-            label.textContent = 'Light Mode';
-        } else {
-            icon.className = 'fa-solid fa-moon';
-            label.textContent = 'Dark Mode';
+        document.documentElement.setAttribute('data-theme', 'light');
+        if (typeof updateChartTheme === 'function') {
+            try { updateChartTheme(); } catch(e) {}
         }
-        localStorage.setItem('cyberrakshak_theme', theme);
-        updateChartTheme();
     }
 
     function toggleTheme() {
-        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-        applyTheme(currentTheme);
+        applyTheme('light');
     }
-
-    applyTheme(currentTheme);
 
     // Audio Alert Synthesizer
     function toggleAudio() {

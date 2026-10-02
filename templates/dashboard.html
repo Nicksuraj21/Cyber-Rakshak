@@ -1631,18 +1631,12 @@
             <button class="btn-nav-icon" id="soundToggleBtn" onclick="toggleAudio()" title="Sound Alert: ON / OFF">
                 <i class="fa-solid fa-volume-high" id="soundIcon" style="color: #10b981;"></i>
             </button>
-            <button class="btn-nav-icon" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
-                <i class="fa-solid fa-moon" id="themeIcon"></i>
-            </button>
         </div>
 
         <!-- Mobile Navbar Controls (<= 992px) -->
         <div class="nav-actions-mobile">
             <button class="btn-nav-icon" id="mobileSoundBtn" onclick="toggleAudio()" aria-label="Toggle Sound" title="Sound">
                 <i class="fa-solid fa-volume-high" id="mobileSoundIcon" style="color: #10b981;"></i>
-            </button>
-            <button class="btn-nav-icon" id="mobileThemeBtn" onclick="toggleTheme()" aria-label="Toggle Theme" title="Theme">
-                <i class="fa-solid fa-moon" id="mobileThemeIcon"></i>
             </button>
             <button class="hamburger-clean-btn" id="mobileMenuToggle" onclick="toggleMobileDrawer()" aria-label="Menu" title="Menu">
                 <i class="fa-solid fa-bars" id="hamburgerIcon"></i>
@@ -1995,20 +1989,6 @@
             <span class="drawer-toggle-pill" id="drawerSoundPill" style="background: #10b981; color: #fff;">ON</span>
         </button>
 
-        <!-- Dark / Light Mode Switch in Drawer -->
-        <button class="drawer-item-btn" id="drawerThemeBtn" onclick="toggleTheme(); updateDrawerControls();">
-            <div class="drawer-item-left">
-                <div class="drawer-icon-box" id="drawerThemeIconBox" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6;">
-                    <i class="fa-solid fa-moon" id="drawerThemeIcon"></i>
-                </div>
-                <div class="drawer-item-txt">
-                    <span class="drawer-item-label">Theme Mode</span>
-                    <span class="drawer-item-hint" id="drawerThemeHint">Current: Light Mode</span>
-                </div>
-            </div>
-            <span class="drawer-toggle-pill" id="drawerThemePill" style="background: var(--bg-hover); color: var(--text-main); border: 1px solid var(--border);">Switch</span>
-        </button>
-
         <div class="drawer-section-title">SECURITY TOOLS & AUDITS</div>
 
         <!-- Trigger Attack Simulation Modal -->
@@ -2295,27 +2275,22 @@
         }
     }
 
-    // Theme Switcher
+    // Default Clean Light Theme Enforcement
+    try {
+        localStorage.removeItem('cyberrakshak_theme');
+    } catch(e) {}
+    document.documentElement.setAttribute('data-theme', 'light');
+    let currentTheme = 'light';
+
     function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        const icon = document.getElementById('themeIcon');
-        const mobileThemeIcon = document.getElementById('mobileThemeIcon');
-        if (icon) {
-            icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-        }
-        if (mobileThemeIcon) {
-            mobileThemeIcon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-        }
-        localStorage.setItem('cyberrakshak_theme', theme);
+        document.documentElement.setAttribute('data-theme', 'light');
         if (typeof updateChartTheme === 'function') {
             try { updateChartTheme(); } catch(e) {}
         }
-        updateDrawerControls();
     }
 
     function toggleTheme() {
-        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-        applyTheme(currentTheme);
+        applyTheme('light');
     }
 
     // Audio Alert Synthesizer
