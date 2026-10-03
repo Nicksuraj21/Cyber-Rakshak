@@ -42,7 +42,7 @@
                 <a href="#hero" class="nav-pill-link active">Home</a>
                 <a href="#services" class="nav-pill-link">Services</a>
                 <a href="#hardware" class="nav-pill-link">Hardware</a>
-                <a href="#scenarios" class="nav-pill-link">Threat Lab</a>
+                <a href="#interactive-lab" class="nav-pill-link">Threat Lab</a>
                 <a href="#pricing" class="nav-pill-link">Pricing</a>
                 <a href="#faq" class="nav-pill-link">FAQ</a>
             </nav>
@@ -74,7 +74,7 @@
             <a href="#hero" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-house text-blue"></i> Home</a>
             <a href="#services" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-shield-halved text-blue"></i> Services</a>
             <a href="#hardware" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-microchip text-purple"></i> Hardware</a>
-            <a href="#scenarios" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-flask text-green"></i> Threat Lab</a>
+            <a href="#interactive-lab" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-flask text-green"></i> Threat Lab</a>
             <a href="#pricing" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-tag text-amber"></i> Pricing</a>
             <a href="#faq" onclick="toggleMobileMenu(false)"><i class="fa-solid fa-circle-question text-muted"></i> FAQ</a>
 
@@ -399,7 +399,7 @@
                     </div>
                     <h3>Targeted Geofencing</h3>
                     <p>Instantly drop unsolicited ingress from high-risk geopolitical ASN clusters without adding latency to everyday browsing.</p>
-                    <a href="#scenarios" class="service-learn-link">Check Console Matrix &rarr;</a>
+                    <a href="#interactive-lab" class="service-learn-link">Check Threat Lab &rarr;</a>
                 </div>
 
                 <!-- Service 5: Sub-0.12ms IPTables Drop -->
@@ -947,187 +947,6 @@
         </div>
     </section>
 
-    
-
-    <!-- ========================================================
-         84-METRIC SCENARIO EXPLORER TABS
-         ======================================================== -->
-    <section class="hardware-section" id="scenarios">
-        <div class="container">
-            
-            <div class="section-title-wrap">
-                <h2 class="section-title-clean">84-Feature Deep Packet Inspection Engine</h2>
-                <p class="section-desc-clean">
-                    Explore how Cyber Rakshak's local AI categorizes and drops complex multi-vector threats without latency.
-                </p>
-            </div>
-
-            <!-- Tabs Navigation -->
-            <div class="scenario-tabs-nav">
-                <button class="scenario-tab-btn active" onclick="switchScenario('dos', this)">DoS / DDoS Flood</button>
-                <button class="scenario-tab-btn" onclick="switchScenario('brute', this)">SSH/RDP Brute Force</button>
-                <button class="scenario-tab-btn" onclick="switchScenario('botnet', this)">IoT Mirai Botnet</button>
-                <button class="scenario-tab-btn" onclick="switchScenario('recon', this)">Port Scanning Recon</button>
-                <button class="scenario-tab-btn" onclick="switchScenario('dns', this)">DNS Tunnel Exfiltration</button>
-                <button class="scenario-tab-btn" onclick="switchScenario('arp', this)">ARP Cache Poisoning</button>
-            </div>
-
-            <!-- Tab Content Pane -->
-            <div class="scenario-display-card">
-                
-                <!-- DoS Pane -->
-                <div id="pane-dos" class="scenario-content-pane active">
-                    <div class="scenario-header-row">
-                        <h3>SYN / UDP Volumetric Flood Protection</h3>
-                        <span class="quad-tag-pill pill-blue">Mitigation: 0.08ms</span>
-                    </div>
-                    <p>Identifies anomalous SYN packet bursts and incomplete TCP handshake ratios. Automatically triggers SYN proxy validation and drops spoofed source IPs directly in the kernel ring buffer.</p>
-                    <div class="scenario-metrics-grid">
-                        <div class="metric-pill-box"><div class="m-label">Analyzed Metric</div><div class="m-val">SYN-ACK Ratio</div></div>
-                        <div class="metric-pill-box"><div class="m-label">Sampling Window</div><div class="m-val">100ms Burst</div></div>
-                        <div class="metric-pill-box"><div class="m-label">AI Inference</div><div class="m-val">XGBoost &bull; 99.4%</div></div>
-                        <div class="metric-pill-box"><div class="m-label">Action Taken</div><div class="m-val text-green">Kernel Drop</div></div>
-                    </div>
-                </div>
-
-                <!-- Brute Force Pane -->
-                <div id="pane-brute" class="scenario-content-pane">
-                    <div class="scenario-header-row">
-                        <h3>SSH / RDP Credential Stuffing Defense</h3>
-                        <span class="quad-tag-pill pill-green">Mitigation: 0.12ms</span>
-                    </div>
-                    <p>Detects rapid authentication failure handshakes across ports 22, 3389, and custom enterprise VPN tunnels. Applies exponential backoff rate limiting and permanent IP quarantine.</p>
-                    <div class="scenario-metrics-grid">
-                        <div class="metric-pill-box"><div class="m-label">Analyzed Metric</div><div class="m-val">Auth Fail Velocity</div></div>
-                        <div class="metric-pill-box"><div class="m-label">Threshold</div><div class="m-val">&gt; 5 attempts/sec</div></div>
-                        <div class="metric-pill-box"><div class="m-label">AI Inference</div><div class="m-val">XGBoost &bull; 99.8%</div></div>
-                        <div class="metric-pill-box"><div class="m-label">Action Taken</div><div class="m-val text-ruby">Instant Blacklist</div></div>
-                    </div>
-                </div>
-
-                <!-- Botnet Pane -->
-                <div id="pane-botnet" class="scenario-content-pane">
-                    <div class="scenario-header-row">
-                        <h3>IoT Mirai &amp; Command &amp; Control (C2) Isolation</h3>
-                        <span class="quad-tag-pill pill-purple">Mitigation: 0.10ms</span>
-                    </div>
-                    <p>Identifies micro-beaconing intervals and anomalous outbound encrypted DNS tunnels from smart cameras, bulbs, and thermostats. Quarantines compromised devices into an isolated VqLAN segment.</p>
-                    <div class="scenario-metrics-grid">
-                        <div class="metric-pill-box"><div class="m-label">Analyzed Metric</div><div class="m-val">Beacon Entropy</div></div>
-                        <div class="metric-pill-box"><div class="m-label">Egress Flow</div><div class="m-val">C2 Heartbeat</div></div>
-                        <div class="metric-pill-box"><div class="m-label">AI Inference</div><div class="m-val">XGBoost &bull; 98.9%</div></div>
-                        <div class="metric-pill-box"><div class="m-label">Action Taken</div><div class="m-val text-purple">VLAN Isolation</div></div>
-                    </div>
-                </div>
-
-                <!-- Recon Pane -->
-                <div id="pane-recon" class="scenario-content-pane">
-                    <div class="scenario-header-row">
-                        <h3>Stealth Port Scanning &amp; Service Probing</h3>
-                        <span class="quad-tag-pill pill-amber">Mitigation: 0.09ms</span>
-                    </div>
-                    <p>Recognizes FIN, Xmas, and Null stealth port sweeps. Obfuscates active network topology with dynamic honeypot responses while silently logging the attacker's footprint.</p>
-                    <div class="scenario-metrics-grid">
-                        <div class="metric-pill-box"><div class="m-label">Analyzed Metric</div><div class="m-val">Port Sequence Entropy</div></div>
-                        <div class="metric-pill-box"><div class="m-label">Scan Type</div><div class="m-val">SYN/FIN Sweep</div></div>
-                        <div class="metric-pill-box"><div class="m-label">AI Inference</div><div class="m-val">XGBoost &bull; 99.6%</div></div>
-                        <div class="metric-pill-box"><div class="m-label">Action Taken</div><div class="m-val text-amber">Tarpit Response</div></div>
-                    </div>
-                </div>
-
-                <!-- DNS Tunnel Pane -->
-                <div id="pane-dns" class="scenario-content-pane">
-                    <div class="scenario-header-row">
-                        <h3>DNS Tunnel Data Exfiltration Detection</h3>
-                        <span class="quad-tag-pill pill-blue">Mitigation: 0.11ms</span>
-                    </div>
-                    <p>Calculates Shannon entropy on subdomain labels to detect base64 encoded data exfiltration over standard UDP port 53 without decrypting user payloads.</p>
-                    <div class="scenario-metrics-grid">
-                        <div class="metric-pill-box"><div class="m-label">Analyzed Metric</div><div class="m-val">Subdomain Entropy</div></div>
-                        <div class="metric-pill-box"><div class="m-label">Payload Size</div><div class="m-val">High Variance</div></div>
-                        <div class="metric-pill-box"><div class="m-label">AI Inference</div><div class="m-val">XGBoost &bull; 99.1%</div></div>
-                        <div class="metric-pill-box"><div class="m-label">Action Taken</div><div class="m-val text-ruby">DNS Sinkhole</div></div>
-                    </div>
-                </div>
-
-                <!-- ARP Pane -->
-                <div id="pane-arp" class="scenario-content-pane">
-                    <div class="scenario-header-row">
-                        <h3>ARP Cache Poisoning &amp; Man-In-The-Middle (MITM)</h3>
-                        <span class="quad-tag-pill pill-green">Mitigation: 0.07ms</span>
-                    </div>
-                    <p>Monitors gratuitous ARP broadcast traffic to detect spoofed MAC-to-IP bindings. Preserves authentic gateway tables and alerts the network administrator immediately.</p>
-                    <div class="scenario-metrics-grid">
-                        <div class="metric-pill-box"><div class="m-label">Analyzed Metric</div><div class="m-val">MAC-IP Binding Rate</div></div>
-                        <div class="metric-pill-box"><div class="m-label">Attack Type</div><div class="m-val">Gratuitous ARP</div></div>
-                        <div class="metric-pill-box"><div class="m-label">AI Inference</div><div class="m-val">Heuristic &bull; 100%</div></div>
-                        <div class="metric-pill-box"><div class="m-label">Action Taken</div><div class="m-val text-green">Binding Locked</div></div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Technical 84-Feature Processing Pipeline Visualizer -->
-            <div class="interactive-feature-pipeline reveal-on-scroll">
-                <div class="pipeline-flow-header">
-                    <div class="font-mono text-blue" style="font-size: 13px; font-weight: 700;">
-                        <i class="fa-solid fa-microchip"></i> 84-FEATURE DEEP PACKET EXTRACTION &amp; ML INFERENCE PIPELINE
-                    </div>
-                    <span class="font-mono text-muted" style="font-size: 12px;">SUB-0.08ms INFERENCE LATENCY</span>
-                </div>
-
-                <div class="pipeline-flow-steps">
-                    <!-- Step 1: Raw Packet -->
-                    <div class="flow-step-node">
-                        <div class="flow-step-icon"><i class="fa-solid fa-cube"></i></div>
-                        <div class="flow-step-label">1. Raw Packet</div>
-                        <div class="flow-step-sub">Layer 2-7 Capture</div>
-                    </div>
-                    <div class="flow-step-arrow"><i class="fa-solid fa-arrow-right-long"></i></div>
-
-                    <!-- Step 2: Flow Assembly -->
-                    <div class="flow-step-node">
-                        <div class="flow-step-icon"><i class="fa-solid fa-layer-group"></i></div>
-                        <div class="flow-step-label">2. Flow Assembly</div>
-                        <div class="flow-step-sub">5-Tuple Bi-Direction</div>
-                    </div>
-                    <div class="flow-step-arrow"><i class="fa-solid fa-arrow-right-long"></i></div>
-
-                    <!-- Step 3: Feature Extraction -->
-                    <div class="flow-step-node active-step">
-                        <div class="flow-step-icon core-icon"><i class="fa-solid fa-network-wired"></i></div>
-                        <div class="flow-step-label">3. 84 Features</div>
-                        <div class="flow-step-sub">Entropy / IAT / Flags</div>
-                    </div>
-                    <div class="flow-step-arrow"><i class="fa-solid fa-arrow-right-long"></i></div>
-
-                    <!-- Step 4: Normalization -->
-                    <div class="flow-step-node">
-                        <div class="flow-step-icon"><i class="fa-solid fa-chart-line"></i></div>
-                        <div class="flow-step-label">4. Normalization</div>
-                        <div class="flow-step-sub">Standard Scaler Tensor</div>
-                    </div>
-                    <div class="flow-step-arrow"><i class="fa-solid fa-arrow-right-long"></i></div>
-
-                    <!-- Step 5: XGBoost Model -->
-                    <div class="flow-step-node success-step">
-                        <div class="flow-step-icon"><i class="fa-solid fa-bolt"></i></div>
-                        <div class="flow-step-label">5. XGBoost AI</div>
-                        <div class="flow-step-sub text-green font-mono">Kernel Decision: Drop/Pass</div>
-                    </div>
-                </div>
-
-                <div class="feature-metrics-ticker">
-                    <span class="ticker-tag font-mono">EXTRACTED METRICS:</span>
-                    <div class="ticker-scroll-content font-mono">
-                        <span>Flow Duration &bull; Tot Fwd Pkts &bull; Tot Bwd Pkts &bull; Flow Byts/s &bull; Flow Pkts/s &bull; Flow IAT Mean &bull; Flow IAT Std &bull; Fwd PSH Flags &bull; Bwd PSH Flags &bull; FIN Flag Cnt &bull; SYN Flag Cnt &bull; RST Flag Cnt &bull; ACK Flag Cnt &bull; URG Flag Cnt &bull; Down/Up Ratio &bull; Init Win bytes &bull; Active Mean</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
     <!-- ========================================================
          INTERACTIVE SIGNAL OSCILLOSCOPE & THREAT INJECTION LAB
          ======================================================== -->
@@ -1362,7 +1181,7 @@
                     <h4 class="footer-heading">Console &amp; API</h4>
                     <ul class="footer-links">
                         <li><a href="/dashboard" target="_blank">Live Web Console</a></li>
-                        <li><a href="#scenarios">84-Metric Threat Lab</a></li>
+                        <li><a href="#interactive-lab">Interactive Threat Lab</a></li>
                         
                         <li><a href="#faq">FAQ</a></li>
                     </ul>

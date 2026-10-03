@@ -19,7 +19,7 @@
     // ========================================================
     const topNav = document.getElementById('topNav');
     const navLinks = document.querySelectorAll('.nav-menu-center .nav-pill-link');
-    const sections = ['hero', 'services', 'hardware', 'scenarios', 'pricing', 'faq'];
+    const sections = ['hero', 'services', 'hardware', 'interactive-lab', 'pricing', 'faq'];
 
     function handleScroll() {
         const scrollY = window.scrollY;
