@@ -19,7 +19,14 @@ if sys.platform == "win32":
     except Exception:
         pass
 
-app = Flask(__name__, template_folder="templates")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+nested_dir = os.path.join(BASE_DIR, "CyberRakshak-IDS-main")
+model_path = os.path.join(BASE_DIR, "model.pkl")
+if not os.path.exists(model_path) and os.path.exists(os.path.join(nested_dir, "model.pkl")):
+    BASE_DIR = nested_dir
+
+templates_dir = os.path.join(BASE_DIR, "templates")
+app = Flask(__name__, template_folder=templates_dir)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.jinja_env.auto_reload = True
@@ -30,12 +37,6 @@ def add_no_cache_headers(response):
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
     return response
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-nested_dir = os.path.join(BASE_DIR, "CyberRakshak-IDS-main")
-model_path = os.path.join(BASE_DIR, "model.pkl")
-if not os.path.exists(model_path) and os.path.exists(os.path.join(nested_dir, "model.pkl")):
-    BASE_DIR = nested_dir
 
 # 1. Load ML Model
 model = None
@@ -694,38 +695,47 @@ def export_csv_report():
 @app.route('/product')
 @app.route('/product/')
 def product_showcase():
-    showcase_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'showcase_website')
+    showcase_dir = os.path.join(BASE_DIR, 'showcase_website')
     if not os.path.exists(showcase_dir):
-        showcase_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'CyberRakshak-IDS-main', 'showcase_website')
+        showcase_dir = os.path.join(BASE_DIR, 'CyberRakshak-IDS-main', 'showcase_website')
     return send_from_directory(showcase_dir, 'index.html')
 
 @app.route('/showcase/<path:filename>')
 def showcase_static(filename):
-    showcase_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'showcase_website')
+    showcase_dir = os.path.join(BASE_DIR, 'showcase_website')
     if not os.path.exists(showcase_dir):
-        showcase_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'CyberRakshak-IDS-main', 'showcase_website')
+        showcase_dir = os.path.join(BASE_DIR, 'CyberRakshak-IDS-main', 'showcase_website')
     return send_from_directory(showcase_dir, filename)
 
 @app.route('/styles.css')
 def showcase_styles_root():
-    showcase_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'showcase_website')
+    showcase_dir = os.path.join(BASE_DIR, 'showcase_website')
     if not os.path.exists(showcase_dir):
-        showcase_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'CyberRakshak-IDS-main', 'showcase_website')
+        showcase_dir = os.path.join(BASE_DIR, 'CyberRakshak-IDS-main', 'showcase_website')
     return send_from_directory(showcase_dir, 'styles.css')
 
 @app.route('/script.js')
 def showcase_script_root():
-    showcase_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'showcase_website')
+    showcase_dir = os.path.join(BASE_DIR, 'showcase_website')
     if not os.path.exists(showcase_dir):
-        showcase_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'CyberRakshak-IDS-main', 'showcase_website')
+        showcase_dir = os.path.join(BASE_DIR, 'CyberRakshak-IDS-main', 'showcase_website')
     return send_from_directory(showcase_dir, 'script.js')
 
 @app.route('/assets/<path:filename>')
 def showcase_assets_root(filename):
-    assets_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'showcase_website', 'assets')
+    assets_dir = os.path.join(BASE_DIR, 'showcase_website', 'assets')
     if not os.path.exists(assets_dir):
-        assets_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'CyberRakshak-IDS-main', 'showcase_website', 'assets')
+        assets_dir = os.path.join(BASE_DIR, 'CyberRakshak-IDS-main', 'showcase_website', 'assets')
     return send_from_directory(assets_dir, filename)
+
+@app.route('/<path:filename>')
+def root_static_fallback(filename):
+    showcase_dir = os.path.join(BASE_DIR, 'showcase_website')
+    if os.path.exists(os.path.join(showcase_dir, filename)):
+        return send_from_directory(showcase_dir, filename)
+    if os.path.exists(os.path.join(BASE_DIR, filename)):
+        return send_from_directory(BASE_DIR, filename)
+    return ("Not found", 404)
 
 # Start continuous background packet sniffer and system monitor
 try:
