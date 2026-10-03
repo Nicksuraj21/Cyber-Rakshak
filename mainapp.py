@@ -579,6 +579,7 @@ def get_firewall_status():
         "auto_block_enabled": auto_block_enabled,
         "adblock_enabled": adblock_enabled,
         "manual_blocked_ips": sorted(list(blocked_ips)),
+        "blocked_domains": sorted(list(blocked_domains)),
         "blocked_domains_count": len(blocked_domains)
     })
 

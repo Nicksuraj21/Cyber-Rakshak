@@ -2014,11 +2014,12 @@
 
     async function fetchData() {
         try {
-            const [metricsRes, logsRes, blockedRes, summaryRes] = await Promise.all([
+            const [metricsRes, logsRes, blockedRes, summaryRes, firewallRes] = await Promise.all([
                 fetchSafeJSON('/api/metrics'),
                 fetchSafeJSON('/api/logs'),
                 fetchSafeJSON('/api/blocked'),
-                fetchSafeJSON('/api/summary')
+                fetchSafeJSON('/api/summary'),
+                fetchSafeJSON('/api/firewall/status')
             ]);
 
             // 1. Metrics / Chart updates
@@ -2109,9 +2110,33 @@
             if (document.getElementById('blockedCountVal')) document.getElementById('blockedCountVal').textContent = blockedIpsCount;
             if (document.getElementById('healthScoreVal')) document.getElementById('healthScoreVal').textContent = summaryRes?.health_score || '99.8%';
 
+            // Sync firewall status & blocked rules from backend
+            if (firewallRes) {
+                if (Array.isArray(firewallRes.manual_blocked_ips)) {
+                    manualBlockedIPs = new Set(firewallRes.manual_blocked_ips);
+                }
+                if (Array.isArray(firewallRes.blocked_domains)) {
+                    blockedDomainsList = firewallRes.blocked_domains;
+                }
+                if (typeof firewallRes.auto_block_enabled === 'boolean') {
+                    autoBlockState = firewallRes.auto_block_enabled;
+                }
+                if (typeof firewallRes.adblock_enabled === 'boolean') {
+                    adBlockState = firewallRes.adblock_enabled;
+                }
+            }
+            if (Array.isArray(rawBlockedLogs)) {
+                rawBlockedLogs.forEach(b => {
+                    if (b.ip && b.is_blocked !== false) {
+                        manualBlockedIPs.add(b.ip);
+                    }
+                });
+            }
+
             renderActivityTable();
             renderBlockedTable();
             updateThreatStats();
+            crRefreshRules();
 
         } catch (e) {
             console.error('Data sync warning:', e);
@@ -2438,60 +2463,86 @@
     };
 
     window.crBlockIp = async function() {
-        const ip = (document.getElementById('crIpInput')?.value || '').trim();
+        const input = document.getElementById('crIpInput');
+        const ip = (input?.value || '').trim();
         if (!ip) return;
         manualBlockedIPs.add(ip);
-        try {
-            await fetch('/api/block_ip', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ip, direction: 'destination' }) });
-        } catch(e) {}
-        window.showToast(`Blocked IP Destination: ${ip}`, 'fa-ban');
-        if (document.getElementById('crIpInput')) document.getElementById('crIpInput').value = '';
+        if (input) input.value = '';
         crRefreshRules();
+        renderActivityTable();
+        renderBlockedTable();
+        try {
+            await fetch('/api/block_ip', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ip, direction: 'destination' })
+            });
+        } catch(e) {}
+        window.showToast(`Blocked Destination IP: ${ip}`, 'fa-ban');
         fetchData();
     };
 
     window.crBlockDomain = async function() {
-        const domain = (document.getElementById('crDomainInput')?.value || '').trim();
+        const input = document.getElementById('crDomainInput');
+        const domain = (input?.value || '').trim().toLowerCase();
         if (!domain) return;
         if (!blockedDomainsList.includes(domain)) blockedDomainsList.push(domain);
+        if (input) input.value = '';
+        crRefreshRules();
         try {
-            await fetch('/api/block_domain', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ domain }) });
+            await fetch('/api/block_domain', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ domain })
+            });
         } catch(e) {}
         window.showToast(`Blocked Domain: ${domain}`, 'fa-globe');
-        if (document.getElementById('crDomainInput')) document.getElementById('crDomainInput').value = '';
-        crRefreshRules();
         fetchData();
     };
 
     window.crUnblockIp = async function(ip) {
+        if (!ip) return;
         manualBlockedIPs.delete(ip);
+        crRefreshRules();
+        renderActivityTable();
+        renderBlockedTable();
         try {
-            await fetch('/api/unblock_ip', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ip }) });
+            await fetch('/api/unblock_ip', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ip })
+            });
         } catch(e) {}
         window.showToast(`Unblocked IP: ${ip}`, 'fa-circle-check');
-        crRefreshRules();
         fetchData();
     };
 
     window.crUnblockDomain = async function(domain) {
+        if (!domain) return;
         blockedDomainsList = blockedDomainsList.filter(d => d !== domain);
+        crRefreshRules();
         try {
-            await fetch('/api/unblock_domain', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ domain }) });
+            await fetch('/api/unblock_domain', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ domain })
+            });
         } catch(e) {}
         window.showToast(`Unblocked Domain: ${domain}`, 'fa-circle-check');
-        crRefreshRules();
         fetchData();
     };
 
     window.crRecoverAll = async function() {
-        if (!confirm('Recover and unblock all manually blocked destination IPs and domain rules?')) return;
+        if (!confirm('Recover and unblock all blocked destination IPs and domain rules?')) return;
         manualBlockedIPs.clear();
         blockedDomainsList = [];
+        crRefreshRules();
+        renderActivityTable();
+        renderBlockedTable();
         try {
             await fetch('/api/firewall/recover_all', { method: 'POST' });
         } catch(e) {}
         window.showToast('All firewall rules recovered and restored', 'fa-shield-halved');
-        crRefreshRules();
         fetchData();
     };
 
@@ -2530,35 +2581,35 @@
             adBtn.className = adBlockState ? 'btn-switch-pill active' : 'btn-switch-pill';
         }
 
+        const ips = Array.from(manualBlockedIPs);
         let html = `
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.3px;">Blocked Destinations (IPs)</span>
+                <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.3px;">Blocked Destinations (${ips.length})</span>
                 <button onclick="window.crRecoverAll()" style="background: var(--bg-hover); border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; color: var(--text-muted); cursor: pointer;"><i class="fa-solid fa-rotate-left"></i> Unblock All</button>
             </div>
         `;
         
-        const ips = Array.from(manualBlockedIPs);
         if (ips.length === 0) {
             html += `<div style="font-size: 11.5px; color: var(--text-muted); padding: 4px 0 8px 0;">No manually blocked destination IPs.</div>`;
         } else {
             for (const ip of ips) {
                 html += `
                     <div class="ctrl-row-item">
-                        <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #ef4444;">${esc(ip)}</span>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #ef4444;"><i class="fa-solid fa-ban" style="font-size: 10px; margin-right: 5px;"></i>${esc(ip)}</span>
                         <button onclick="window.crUnblockIp('${esc(ip)}')" style="border: 1px solid var(--border); background: var(--bg-surface); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">Unblock</button>
                     </div>
                 `;
             }
         }
         
-        html += `<div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.3px; margin: 12px 0 6px 0;">Blocked Domains & Ad Trackers</div>`;
+        html += `<div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.3px; margin: 12px 0 6px 0;">Blocked Domains &amp; Ad Trackers (${blockedDomainsList.length})</div>`;
         if (blockedDomainsList.length === 0) {
             html += `<div style="font-size: 11.5px; color: var(--text-muted); padding: 4px 0;">No active blocked domains.</div>`;
         } else {
             for (const dom of blockedDomainsList) {
                 html += `
                     <div class="ctrl-row-item">
-                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px;">${esc(dom)}</span>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px;"><i class="fa-solid fa-globe" style="font-size: 10px; margin-right: 5px; color: var(--text-muted);"></i>${esc(dom)}</span>
                         <button onclick="window.crUnblockDomain('${esc(dom)}')" style="border: 1px solid var(--border); background: var(--bg-surface); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">Unblock</button>
                     </div>
                 `;
@@ -2585,16 +2636,21 @@
     window.crToggleDetectedIP = async function(encoded, blocked) {
         const ip = decodeURIComponent(encoded);
         if (blocked) {
-            window.crUnblockIp(ip);
+            await window.crUnblockIp(ip);
         } else {
-            if (!confirm(`Block destination ${ip}? Your local device network path will remain protected.`)) return;
             manualBlockedIPs.add(ip);
+            crRefreshRules();
+            renderActivityTable();
+            renderBlockedTable();
             try {
-                await fetch('/api/block_ip', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ip, direction: 'destination' }) });
+                await fetch('/api/block_ip', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ip, direction: 'destination' })
+                });
             } catch(e) {}
             window.showToast(`Firewall rule updated for ${ip}`, 'fa-shield-halved');
             fetchData();
-            crRefreshRules();
         }
     };
 
