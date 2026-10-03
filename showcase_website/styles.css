@@ -3750,34 +3750,13 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 }
 
 /* ========================================================
-   9. FEATURED PRICING GLOWING BORDER
+   9. FEATURED PRICING CLEAN HIGHLIGHT (SOLID)
    ======================================================== */
 .clean-price-card.featured-plan {
     position: relative;
-    border: 2px solid #0066ff !important;
-    box-shadow: 0 16px 40px -10px rgba(0, 102, 255, 0.3) !important;
+    border: 2px solid var(--primary-blue) !important;
+    box-shadow: 0 12px 32px rgba(0, 102, 255, 0.15) !important;
     transform: translateY(-4px);
-}
-
-.clean-price-card.featured-plan::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    border-radius: inherit;
-    background: linear-gradient(135deg, #0066ff, #00c8ff, #7c3aed, #0066ff);
-    z-index: -1;
-    opacity: 0.4;
-    filter: blur(8px);
-    animation: borderGlowPulse 4s linear infinite;
-}
-
-@keyframes borderGlowPulse {
-    0% { filter: blur(6px) hue-rotate(0deg); }
-    50% { filter: blur(10px) hue-rotate(90deg); }
-    100% { filter: blur(6px) hue-rotate(0deg); }
 }
 
 /* ========================================================
