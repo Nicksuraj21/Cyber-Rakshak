@@ -893,65 +893,7 @@
         </div>
     </section>
 
-    <!-- ========================================================
-         INTERACTIVE SIGNAL OSCILLOSCOPE & THREAT INJECTION LAB
-         ======================================================== -->
-    <section class="quad-grid-section" id="interactive-lab">
-        <div class="container">
-            
-            <div class="section-title-wrap">
-                <h2 class="section-title-clean">Interactive Threat Lab &amp; Oscilloscope</h2>
-                <p class="section-desc-clean">
-                    Simulate real-time multi-vector attacks and observe Cyber Rakshak's sub-millisecond AI packet mitigation waveform.
-                </p>
-            </div>
 
-            <div class="lab-split-grid">
-                
-                <!-- Canvas Waveform -->
-                <div class="lab-canvas-card">
-                    <div class="lab-canvas-head">
-                        <span class="font-mono text-blue" style="font-size: 13px; font-weight: 700;">IN-LINE PACKET SIGNAL OSCILLOSCOPE</span>
-                        <div class="canvas-status-badge">
-                            <span class="status-dot-emerald"></span>
-                            <span>ENGINE ACTIVE</span>
-                        </div>
-                    </div>
-                    <canvas id="shieldOscCanvas" width="550" height="220" style="width: 100%; border-radius: 12px; background: #070a12;"></canvas>
-                </div>
-
-                <!-- Controls -->
-                <div class="lab-controls-card">
-                    <h3 class="lab-control-title">Threat Injection Vector</h3>
-                    
-                    <select id="attackSelect" class="attack-select-clean">
-                        <option value="DDoS Slowloris Flood">DDoS Slowloris Flood (SYN Burst)</option>
-                        <option value="SSH Brute Force Attack">SSH Credential Brute Force</option>
-                        <option value="IoT Mirai C2 Beacon">IoT Mirai C2 Outbound Beacon</option>
-                        <option value="DNS Data Exfiltration Tunnel">DNS Tunnel Data Exfiltration</option>
-                        <option value="Normal Clean Stream">Normal Web Traffic Stream (Baseline)</option>
-                    </select>
-
-                    <button class="btn-trigger-attack" onclick="injectThreatVector()">
-                        <i class="fa-solid fa-play"></i> &nbsp;Simulate Threat Vector
-                    </button>
-
-                    <div class="attack-live-feed" id="attackFeed">
-                        <div class="feed-entry clean">
-                            <span class="font-mono">192.168.1.104 &bull; Normal HTTPS</span>
-                            <strong>PASS (0.04ms)</strong>
-                        </div>
-                        <div class="feed-entry blocked">
-                            <span class="font-mono">203.0.113.45 &bull; SYN Flood</span>
-                            <strong>QUARANTINED (0.11ms)</strong>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
 
     <!-- ========================================================
          LIFETIME PRICING TIERS (ZERO MONTHLY SUBSCRIPTION)
@@ -1193,83 +1135,7 @@
         if (!isActive) item.classList.add('active');
     }
 
-    // Oscilloscope Canvas Lab
-    const canvas = document.getElementById('shieldOscCanvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let width = canvas.width = canvas.parentElement.clientWidth || 550;
-        let height = canvas.height = 220;
-        let offset = 0;
-        let disrupted = false;
 
-        window.addEventListener('resize', () => {
-            width = canvas.width = canvas.parentElement.clientWidth || 550;
-            height = canvas.height = 220;
-        });
-
-        function draw() {
-            ctx.fillStyle = '#070a12';
-            ctx.fillRect(0, 0, width, height);
-
-            // Grid Lines
-            ctx.strokeStyle = 'rgba(30, 41, 59, 0.4)';
-            ctx.lineWidth = 1;
-            const step = 20;
-            for (let x = 0; x < width; x += step) {
-                ctx.beginPath();
-                ctx.moveTo(x, 0);
-                ctx.lineTo(x, height);
-                ctx.stroke();
-            }
-            for (let y = 0; y < height; y += step) {
-                ctx.beginPath();
-                ctx.moveTo(0, y);
-                ctx.lineTo(width, y);
-                ctx.stroke();
-            }
-
-            // Primary Blue Signal Wave
-            ctx.strokeStyle = disrupted ? '#ef4444' : '#0080ff';
-            ctx.lineWidth = 2.5;
-            ctx.beginPath();
-            for (let x = 0; x < width; x += 4) {
-                const amp = disrupted ? 45 + Math.sin(x * 0.1) * 15 : 28;
-                const freq = disrupted ? 0.04 : 0.025;
-                const y = height / 2 + Math.sin((x + offset) * freq) * amp;
-                if (x === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            }
-            ctx.stroke();
-
-            offset += disrupted ? 5 : 2;
-            requestAnimationFrame(draw);
-        }
-
-        draw();
-
-        window.injectThreatVector = function() {
-            const sel = document.getElementById('attackSelect');
-            const val = sel ? sel.value : 'DDoS Slowloris Flood';
-            const feed = document.getElementById('attackFeed');
-
-            disrupted = true;
-            setTimeout(() => { disrupted = false; }, 1500);
-
-            const isClean = val.includes('Clean');
-            const randomIp = '198.51.100.' + Math.floor(Math.random() * 200 + 10);
-            const row = document.createElement('div');
-            row.className = 'feed-entry ' + (isClean ? 'clean' : 'blocked');
-            row.innerHTML = `
-                <span class="font-mono">${randomIp} &bull; ${val}</span>
-                <strong>${isClean ? 'CLEAN (0.04ms)' : 'QUARANTINED (0.11ms)'}</strong>
-            `;
-
-            if (feed) {
-                feed.insertBefore(row, feed.firstChild);
-                if (feed.children.length > 5) feed.removeChild(feed.lastChild);
-            }
-        };
-    }
 
     // ========================================================
     // GOOGLE OAUTH 2.0 IDENTITY CONTROLLER & GIS INTEGRATION
