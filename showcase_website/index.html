@@ -757,61 +757,7 @@
                 </div>
             </div>
 
-            <!-- Dynamic Air-Gap & VLAN Threat Containment Simulator -->
-            <div class="interactive-airgap-visualizer reveal-on-scroll">
-                <div class="airgap-header">
-                    <div class="airgap-title">
-                        <i class="fa-solid fa-shield-virus text-purple"></i>
-                        <span>Dynamic Air-Gap Threat Isolation Simulation</span>
-                    </div>
-                    <div class="airgap-status-badge font-mono">
-                        <span class="airgap-indicator-dot"></span>
-                        <span id="airgapStatusText">MICRO-SEGMENTATION ENFORCED</span>
-                    </div>
-                </div>
 
-                <div class="airgap-zones-grid">
-                    <!-- Zone 1: Trusted Enterprise LAN -->
-                    <div class="airgap-zone trusted-zone">
-                        <div class="zone-badge"><i class="fa-solid fa-lock text-green"></i> Trusted VLAN 10</div>
-                        <div class="zone-devices">
-                            <div class="zone-device-node"><i class="fa-solid fa-laptop-code"></i> <span>Work Laptop</span></div>
-                            <div class="zone-device-node"><i class="fa-solid fa-server"></i> <span>NAS Storage</span></div>
-                        </div>
-                        <div class="zone-label text-green">Zero-Trust Protected</div>
-                    </div>
-
-                    <!-- Cyber Rakshak Dynamic Air-Gap Firewall Barrier -->
-                    <div class="airgap-barrier-node">
-                        <div class="barrier-shield-core">
-                            <i class="fa-solid fa-shield-halved"></i>
-                        </div>
-                        <div class="barrier-beam" id="barrierBeam"></div>
-                        <div class="barrier-label">Dynamic Kernel Barrier</div>
-                        <div class="barrier-action" id="barrierAction">Pass-Through Filtering</div>
-                    </div>
-
-                    <!-- Zone 2: Untrusted IoT & Guest Subnet -->
-                    <div class="airgap-zone untrusted-zone">
-                        <div class="zone-badge"><i class="fa-solid fa-triangle-exclamation text-amber"></i> Untrusted VLAN 30</div>
-                        <div class="zone-devices">
-                            <div class="zone-device-node"><i class="fa-solid fa-video"></i> <span>IP Camera</span></div>
-                            <div class="zone-device-node threat-node" id="threatDeviceNode"><i class="fa-solid fa-microchip"></i> <span>Infected IoT Plug</span></div>
-                        </div>
-                        <div class="zone-label text-amber">Isolated Sandbox</div>
-                    </div>
-                </div>
-
-                <div class="airgap-sim-controls">
-                    <span class="font-mono text-muted" style="font-size: 13px;">Live Defense Cycle:</span>
-                    <button type="button" class="btn-sim-trigger" id="btnSimAirGap" onclick="triggerAirGapSim()">
-                        <i class="fa-solid fa-bolt"></i> Simulate Lateral Attack Attempt
-                    </button>
-                    <div class="airgap-sim-log font-mono" id="airgapSimLog">
-                        <span class="text-green">&bull; Status:</span> All IoT device telemetry contained within isolated VLAN segment.
-                    </div>
-                </div>
-            </div>
 
         </div>
     </section>
